@@ -1,0 +1,9 @@
+{
+	"name": "test",
+	"startDate": "01-01-1970",
+	"github": "www.github.com/name",
+	"hostedAt": "tbermalm.tech/test",
+	"completion": "Not started",
+	"tasks": ["do this", "do that", "don't do that"],
+	"notes": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur scelerisque, quam at iaculis pharetra, ligula ante laoreet risus, vel laoreet leo lacus at neque. Vestibulum aliquam commodo varius. Cras molestie vel diam sed dapibus. In condimentum mollis arcu at pharetra. Etiam faucibus sollicitudin sapien, sed sagittis libero mollis et. Phasellus et faucibus ligula. Maecenas id augue nunc. Nunc ultricies arcu ut dolor rhoncus, mattis tincidunt odio tristique. Aliquam in tristique elit, in blandit eros."
+}
