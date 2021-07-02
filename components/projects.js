@@ -1,28 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { findIndex } from '../util/util'
 
-export function getAllProjectIds() {
-    return projectsList.map(project => {
-        return {
-            params: {
-                id: project.name
-            }
-        }
-    })
+export function getProjectIds() {
+    return projectsList;
 };
 
 export async function getProjectData(id) {
-
-    /*
-    each proj has:
-        *eventually has name too*
-        github link
-        live link
-        completion (not started, started, completed, archived)
-        tasks[]
-        notes (string)
-    */
-
     let req = await fetch('http://localhost:3000/projects.json');
     let data = await req.json();
 
@@ -37,11 +20,10 @@ export async function getProjectData(id) {
 }
 
 let projectData = {};
-
 let projectsList = [];
 
-export function Projects() {
-    const [projects, setProjects] = useState([]);
+export function Projects({ projects, setProjects }) {
+   // const [projects, setProjects] = useState([]);
     const [input, setInput] = useState('');
     const [data, setData] = useState({
         github: 'gh',
@@ -77,13 +59,12 @@ export function Projects() {
         }
     }
 
-
     return (
         <div>
             <ul>
                 {
-                    projects.map(project => (
-                        <li key={project.name}>{project.name}</li>
+                    projects.map((project, index) => (
+                        <li key={index}>{project.name}</li>
                     ))
                 }
             </ul>

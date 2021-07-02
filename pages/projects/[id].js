@@ -1,9 +1,12 @@
+import { useState } from 'react'
+import { useRouter } from 'next/router'
 import Layout from '../../components/layout'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import utilStyles from '../../styles/utils.module.css'
 import { findIndexInStringArray } from '../../util/util'
-import { useState } from 'react'
+
+import EditIcon from '@material-ui/icons/Edit';
+import CheckIcon from '@material-ui/icons/Check';
 
 export async function getStaticPaths() {
   let req = await fetch('http://localhost:3000/projects.json');
@@ -42,10 +45,23 @@ export default function Project({ project }) {
   const [tasks, setTasks] = useState(project.tasks);
   const [notes, setNotes] = useState(project.notes);
 
+  const [edit, setEdit] = useState({
+    name: false,
+    startDate: false,
+    github: false,
+    url: false,
+    hostedAt: false,
+    completion: false,
+    tasks: false,
+    notes: false
+  });
+
   const [tasksInput, setTasksInput] = useState('');
 
   const router = useRouter();
   const { id } = router.query;
+
+
 
   const addTask = (task) => {
     // TODO: validate task
@@ -54,7 +70,6 @@ export default function Project({ project }) {
 
   const removeTask = (task) => {
     const taskIndex = findIndexInStringArray(tasks, task);
-    console.log(taskIndex);
 
     let state = [...tasks];
 
@@ -64,22 +79,57 @@ export default function Project({ project }) {
     }
   }
 
+  const toggleEditState = (property) => {
+    // if null toc confirm prop exists
+    if (edit[property] == null) {
+      return null;
+    } else {
+      if (edit[property] === true) {
+        console.log(edit[property]);
+        edit[property] = false;
+      } else {
+        console.log(edit[property]);
+        edit[property] = true;
+      }
+    }
+  };
+
+
   return (
     <Layout>
       <Head>
-        <title>{project.title}</title>
+        <title>{name}</title>
       </Head>
-      <h1 className={utilStyles.headingXl}>{project.name}</h1>
-      <div>{project.startDate}</div>
-      <div>{project.github}</div>
-      <div>{project.hostedAt}</div>
-      <div>{project.completion}</div>
+      <h1 className={utilStyles.headingXl}>{name}</h1>
+      <div>{startDate}
+        <button onClick={() => {
+          toggleEditState('startDate')
+        }}>{edit.startDate == true ? <EditIcon /> : <CheckIcon />}</button>      </div>
+      <div>
+        {github}
+        <button onClick={() => {
+          toggleEditState('github')
+        }}><EditIcon /></button>
+      </div>
+      <div>
+        {hostedAt}
+        <button onClick={() => {
+          toggleEditState('hostedAt')
+        }}>toggle</button>      </div>
+      <div>
+        {completion}
+        <button onClick={() => {
+          toggleEditState('completion')
+        }}>toggle</button>      </div>
       <ul>
         {
           tasks.map((task, i) => (
-            <li key={i}>{task}</li>
+            <li key={i}>
+              <span>{task}</span>
+            </li>
           ))
         }
+
         <input value={tasksInput} onInput={e => setTasksInput(e.target.value)} />
         <button onClick={() => {
           addTask(tasksInput)
@@ -92,7 +142,7 @@ export default function Project({ project }) {
           Remove
         </button>
       </ul>
-      <div>{project.notes}</div>
-    </Layout >
+      <div>{notes}</div>
+    </Layout>
   )
 }
