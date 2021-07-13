@@ -7,7 +7,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 export function EditableField({ content }) {
     const [editVisibility, setEditVisibility] = useState(false);
-
     const [isEditing, setIsEditing] = useState(false);
 
     const toggleEditState = () => {
@@ -33,9 +32,7 @@ export function EditableField({ content }) {
         let newState = {
             ...editVisibility
         };
-
         newState = bool;
-
         setEditVisibility(newState);
     }
 

@@ -5,27 +5,97 @@ import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-export function EditableListItem({ content, i, isVisible, handleVisibility }) {
+export function EditableListItem({ content, setList, i, updateList }) {
+    const [editVisibility, setEditVisibility] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [input, setInput] = useState(content);
+
+    // toggle the state of editing: true or false
+    const toggleEditState = () => {
+        // shallow copy to properly update state
+        let newState = {
+            ...isEditing
+        };
+
+        // if !null toc confirm prop exists
+        if (isEditing != null) {
+            isEditing ? newState = false : newState = true;
+            setIsEditing(newState);
+        }
+    };
+
+    // handle if the field is currently being edited or not
+    const handleEditVisibility = (bool) => {
+        // this means the property is currently being edited
+        // do nothing
+        if (isEditing) {
+            return null;
+        }
+
+        let newState = {
+            ...editVisibility
+        };
+
+        newState = bool;
+
+        setEditVisibility(newState);
+    }
+
+    // update input
+    const handleChange = (value) => {
+        setInput(value);
+    };
+
+    // confirm edit and call parent function to update state
+    const confirmEdit = () => {
+        // if they differ, update state
+        if (input !== content) {
+            updateList(input, i);
+        }
+
+    };
+
     return (
         <li key={i}
             onMouseEnter={e => {
-                handleVisibility(true, i);
+                handleEditVisibility(true);
             }}
             onMouseLeave={e => {
-                handleVisibility(false, i);
+                handleEditVisibility(false);
             }}
         >
-            <span>{content}</span>
-
-            {/* <EditableListItem content={content[i]} i={i} setIsVisible={setIsVisible} isVisible={isVisible} /> */}
+            <input type="text" placeholder={content} value={input} onBlur={() => {
+                toggleEditState();
+                confirmEdit();
+            }} onChange={(e) => {
+                handleChange(e.target.value);
+            }} onFocus={(e) => {
+                toggleEditState();
+            }}
+            />
 
             <button
+                className={editVisibility ? utilStyles.show : utilStyles.hide}
+            >
+                {
+                    isEditing == true ? <CheckIcon onClick={() => {
+                        toggleEditState();
+                    }} /> : <div> <DeleteIcon onClick={() => {
+                        updateList("", i);
+                    }} /> </div>
+                }
+            </button>
+        </li>
+    )
+}
+
+{/* <button
                 className={isVisible[i] ? utilStyles.show : utilStyles.hide}
                 onClick={() => {
                     removeTask(task, i);
                 }}>
                 <DeleteIcon />
-            </button>
-        </li>
-    )
-}
+            </button> */}
+
+
+                // handleEditVisibility(false);

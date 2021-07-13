@@ -6,6 +6,9 @@ import utilStyles from '../styles/utils.module.css'
 import { EditableField } from '../components/editableField'
 import { EditableList } from '../components/editableList'
 
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+
 import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -102,13 +105,13 @@ export default function Project({ project }) {
       <Head>
         <title>{name}</title>
       </Head>
-      
       <EditableField id="name" content={name}/>
+      <span>{startDate}</span>
       <EditableField id="hostedAt" content={hostedAt}/>
       <EditableField id="github" content={github}/>
       <EditableField id="completion" content={completion}/>
       <EditableField id="notes" content={notes}/>
-      <EditableList content={tasks} setTasks={setTasks}/>
+      <EditableList content={tasks} setContent={setTasks}/>
     </Layout>
   )
 }

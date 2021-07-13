@@ -1,106 +1,55 @@
 import utilStyles from '../styles/utils.module.css'
 import { useState } from 'react';
-import { findIndexInStringArray } from '../util/util'
 import { EditableListItem } from './editableListItem'
 
-import EditIcon from '@material-ui/icons/Edit';
-import CheckIcon from '@material-ui/icons/Check';
-import DeleteIcon from '@material-ui/icons/Delete';
-
-export function EditableList({ content, setTasks }) {
+export function EditableList({ content, setContent }) {
     const [input, setInput] = useState('');
-    const [isVisible, setIsVisible] = useState(() => {
-        const initialState = populateInitialArray();
-        return initialState;
-    });
 
-    function populateInitialArray() {
-        let array = [];
+    // update the list: remove item or update item
+    const updateList = (value, index) => {
+        // if value "", remove at index
+        // if index -1, remove last
+        // if index => 0 && value != "", update at index 
 
-        for (let i = 0; i < content.length; i++) {
-            array.push(false);
-        }
-
-        return array;
-    }
-
-    const handleIsVisibleState = () => {
-        // initate array to bool false, for length of content array
-        if (!isVisible) {
-            return populateInitialArray();
-        }
-        // add bool false to array, to represent another item being added to content list  
-        else {
-            setIsVisible([...isVisible, false]);
+        if (value === "") {
+            removeItem(index);
+            console.log("first");
+        } else if (index === -1) {
+            removeItem(content.length - 1);
+        } else if (index >= 0 && value !== "") {
+            updateItem(value, index);
         }
     };
 
-    const addListItem = (listItem) => {
+    // add item to end of list
+    const addListItem = (value) => {
         // TODO: validate task
-        setTasks(state => [...state, listItem]);
-        handleIsVisibleState();
+        setContent(state => [...state, value]);
+        // handleIsVisibleState();
     }
 
-    const removeTask = (listItem, index) => {
-        const taskIndex = findIndexInStringArray(content, listItem);
-
-        let state = [...content];
-        let visibilityState = [...isVisible];
-        if (taskIndex !== -1) {
-            state.splice(taskIndex, 1);
-            setTasks(state);
-        }
-
-        visibilityState.splice(index, 1);
-        setIsVisible(visibilityState);
+    // remove item at index
+    const removeItem = (index) => {
+        let newState = [...content];
+        newState.splice(index, 1);
+        setContent(newState);
     }
 
-    // const toggleEditState = () => {
-    //     // shallow copy to properly update state
-    //     let newState = {
-    //         ...isEditing
-    //     };
-
-    //     // if !null toc confirm prop exists
-    //     if (isEditing != null) {
-    //         isEditing ? newState = false : newState = true;
-    //         setIsEditing(newState);
-    //     }
-    // };
-
-    const handleVisibility = (bool, i) => {
-        let newState = [...isVisible];
-        newState[i] = bool;
-        setIsVisible(newState);
-    }
+    // update item at index
+    const updateItem = (value, index) => {
+        let newState = [...content];
+        newState[index] = value;
+        setContent(newState);
+    };
 
     return (
         <ul>
             {
                 content.map((task, i) => (
-                    <EditableListItem style={{ margin: "10px" }} content={content[i]} i={i} setIsVisible={setIsVisible} isVisible={isVisible} handleVisibility={handleVisibility} />
-                    // <li key={i}
-                    //     onMouseEnter={e => {
-                    //         handleVisibility(true, i);
-                    //     }}
-                    //     onMouseLeave={e => {
-                    //         handleVisibility(false, i);
-                    //     }}
-                    // >
-                    //     <span>{task}</span>
-
-
-                    //     <button
-                    //         className={isVisible[i] ? utilStyles.show : utilStyles.hide}
-                    //         onClick={() => {
-                    //             removeTask(task, i);
-                    //         }}>
-                    //         <DeleteIcon />
-                    //     </button>
-                    // </li>
+                    <EditableListItem key={i} content={task} setList={setContent} i={i} updateList={updateList} />
                 ))
             }
-            <input value={input} onInput={e => setInput(e.target.value)} />
+            <input value={input} onInput={e => setInput(e.target.value)} className="border-solid border-4 border-black-500" />
             <button onClick={() => {
                 addListItem(input)
             }}>
@@ -109,3 +58,18 @@ export function EditableList({ content, setTasks }) {
         </ul>
     )
 }
+
+    // // const [isVisible, setIsVisible] = useState(() => {
+    // //     const initialState = populateInitialArray();
+    // //     return initialState;
+    // // });
+
+    // function populateInitialArray() {
+    //     let array = [];
+
+    //     for (let i = 0; i < content.length; i++) {
+    //         array.push(false);
+    //     }
+
+    //     return array;
+    // }
