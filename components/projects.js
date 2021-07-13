@@ -1,45 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import { findIndex } from '../util/util'
+import utilStyles from '../styles/utils.module.css'
+import DeleteIcon from '@material-ui/icons/Delete';
+import Link from 'next/link'
 
-export function getProjectIds() {
-    return projectsList;
-};
+// export function getProjectIds() {
+//     return projectsList;
+// };
 
-export async function getProjectData(id) {
-    let req = await fetch('http://localhost:3000/projects.json');
-    let data = await req.json();
+// export async function getProjectData(id) {
+//     let req = await fetch('http://localhost:3000/projects.json');
+//     let data = await req.json();
 
-    const paths = data.map(project => {
-        return { params: { id: project } }
-    });
+//     const paths = data.map(project => {
+//         return { params: { id: project } }
+//     });
 
-    return {
-        id,
-        projectData,
-    }
-}
+//     return {
+//         id,
+//         projectData,
+//     }
+// }
 
-let projectData = {};
-let projectsList = [];
+// let projectData = {};
+// let projectsList = [];
 
 export function Projects({ projects, setProjects }) {
-   // const [projects, setProjects] = useState([]);
+    // const [projects, setProjects] = useState([]);
     const [input, setInput] = useState('');
-    const [data, setData] = useState({
-        github: 'gh',
-        hostedAt: 'ha',
-        completion: 'c',
-        notes: 'a',
-        tasks: {
-            task1: 'do this',
-            task2: 'do that',
-        }
-    });
+    // const [data, setData] = useState({
+    //     github: 'gh',
+    //     hostedAt: 'ha',
+    //     completion: 'c',
+    //     notes: 'a',
+    //     tasks: {
+    //         task1: 'do this',
+    //         task2: 'do that',
+    //     }
+    // });
 
-    useEffect(() => {
-        projectsList = projects;
-        projectData = data;
-    }), projects;
+    // useEffect(() => {
+    //     projectsList = projects;
+    //     projectData = data;
+    // }), projects;
 
     const addProject = (input) => {
         let newProject = {};
@@ -49,13 +52,14 @@ export function Projects({ projects, setProjects }) {
     }
 
     const removeProject = (name) => {
-        const projectIndex = findIndex(projects, 'name', name);
-
-        let newState = [...projects];
-
-        if (projectIndex !== -1) {
-            newState.splice(projectIndex, 1);
-            setProjects(newState);
+        let answer = confirm("Are yoú sure you want to delete project: " + name + "?")
+        if (answer) {
+            const projectIndex = findIndex(projects, 'name', name);
+            let newState = [...projects];
+            if (projectIndex !== -1) {
+                newState.splice(projectIndex, 1);
+                setProjects(newState);
+            }
         }
     }
 
@@ -64,7 +68,16 @@ export function Projects({ projects, setProjects }) {
             <ul>
                 {
                     projects.map((project, index) => (
-                        <li key={index}>{project.name}</li>
+                        <li key={index} className={utilStyles.listItem}>
+                            <Link href={`/${project.name}`}>
+                                <a>{project.name}</a>
+                            </Link>
+                            <button onClick={() => {
+                                removeProject(project.name);
+                            }}>
+                                <DeleteIcon />
+                            </button>
+                        </li>
                     ))
                 }
             </ul>
@@ -73,11 +86,6 @@ export function Projects({ projects, setProjects }) {
                 addProject(input)
             }}>
                 Add
-            </button>
-            <button onClick={() => {
-                removeProject(input);
-            }}>
-                Remove
             </button>
         </div>
     )

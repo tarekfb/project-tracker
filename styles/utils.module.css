@@ -50,3 +50,12 @@
 .lightText {
   color: #666;
 }
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: unset;
+}
+
