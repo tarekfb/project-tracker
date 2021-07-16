@@ -1,4 +1,3 @@
-import utilStyles from '../styles/utils.module.css'
 import { useState } from 'react';
 
 import EditIcon from '@material-ui/icons/Edit';
@@ -46,13 +45,22 @@ export function EditableField({ content }) {
             }}
         >
             {content}
-            <button
-                className={editVisibility ? utilStyles.show : utilStyles.hide}
+            {editVisibility ?  <button
                 onClick={() => {
                     toggleEditState()
                 }}>
                 {isEditing == true ? <CheckIcon /> : <EditIcon />}
-            </button>
+            </button> : null}
         </div>
     )
 }
+
+{/* <input type="text" placeholder={content} value={input} onBlur={() => {
+                    toggleEditState();
+                    confirmEdit();
+                }} onChange={(e) => {
+                    handleChange(e.target.value);
+                }} onFocus={(e) => {
+                    toggleEditState();
+                }}
+                /> */}

@@ -2,7 +2,6 @@ import { useState } from 'react'
 // import { useRouter } from 'next/router'
 import Layout from '../components/layout'
 import Head from 'next/head'
-import utilStyles from '../styles/utils.module.css'
 import { EditableField } from '../components/editableField'
 import { EditableList } from '../components/editableList'
 
@@ -83,20 +82,20 @@ export default function Project({ project }) {
     }
   };
 
-  const handleEditVisibility = (property, bool) => {
-    // this means the property is currently being edited
-    if (isEditing[property]) {
-      return null;
-    }
+  // const handleEditVisibility = (property, bool) => {
+  //   // this means the property is currently being edited
+  //   if (isEditing[property]) {
+  //     return null;
+  //   }
 
-    let newState = {
-      ...editVisibility
-    };
+  //   let newState = {
+  //     ...editVisibility
+  //   };
 
-    newState[property] = bool;
+  //   newState[property] = bool;
 
-    setEditVisibility(newState);
-  }
+  //   setEditVisibility(newState);
+  // }
 
   // TODO: Make component for each field
   // Also pass edit, so the component can render edit/check
@@ -105,10 +104,10 @@ export default function Project({ project }) {
       <Head>
         <title>{name}</title>
       </Head>
-      <EditableField id="name" content={name}/>
+      <EditableField id="name" content={name} className="why isnt this working"/>
       <span>{startDate}</span>
-      <EditableField id="hostedAt" content={hostedAt}/>
-      <EditableField id="github" content={github}/>
+      <EditableField id="hostedAt" content={hostedAt} className="m-8"/>
+      <EditableField id="github" content={github} className="text-purple-600"/>
       <EditableField id="completion" content={completion}/>
       <EditableField id="notes" content={notes}/>
       <EditableList content={tasks} setContent={setTasks}/>

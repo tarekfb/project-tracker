@@ -1,9 +1,11 @@
-import utilStyles from '../styles/utils.module.css'
 import { useState } from 'react';
 import { EditableListItem } from './editableListItem'
+import CheckIcon from '@material-ui/icons/Check';
+
 
 export function EditableList({ content, setContent }) {
     const [input, setInput] = useState('');
+    const [isAdding, setIsAdding] = useState(false);
 
     // update the list: remove item or update item
     const updateList = (value, index) => {
@@ -43,19 +45,27 @@ export function EditableList({ content, setContent }) {
     };
 
     return (
-        <ul>
-            {
-                content.map((task, i) => (
-                    <EditableListItem key={i} content={task} setList={setContent} i={i} updateList={updateList} />
-                ))
-            }
-            <input value={input} onInput={e => setInput(e.target.value)} className="border-solid border-4 border-black-500" />
-            <button onClick={() => {
-                addListItem(input)
-            }}>
-                Add
-            </button>
-        </ul>
+        <div>
+            <ul>
+                {
+                    content.map((task, i) => (
+                        <EditableListItem key={i} content={task} setList={setContent} i={i} updateList={updateList} />
+                    ))
+                }
+            </ul>
+            <div>
+                {
+                    isAdding ? <input value={input} onInput={e => setInput(e.target.value)} className="border-solid border-4 border-black-500" />
+                        : null
+                }
+                <button onClick={() => {
+                    isAdding ? setIsAdding(false) : setIsAdding(true);
+                    isAdding ? addListItem(input) : null;
+                }}>
+                    {isAdding ? <CheckIcon /> : <span>+</span>}
+                </button>
+            </div>
+        </div>
     )
 }
 

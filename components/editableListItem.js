@@ -1,4 +1,3 @@
-import utilStyles from '../styles/utils.module.css'
 import { useState } from 'react';
 
 import EditIcon from '@material-ui/icons/Edit';
@@ -64,27 +63,29 @@ export function EditableListItem({ content, setList, i, updateList }) {
                 handleEditVisibility(false);
             }}
         >
-            <input type="text" placeholder={content} value={input} onBlur={() => {
-                toggleEditState();
-                confirmEdit();
-            }} onChange={(e) => {
-                handleChange(e.target.value);
-            }} onFocus={(e) => {
-                toggleEditState();
-            }}
-            />
-
-            <button
-                className={editVisibility ? utilStyles.show : utilStyles.hide}
-            >
-                {
-                    isEditing == true ? <CheckIcon onClick={() => {
-                        toggleEditState();
-                    }} /> : <div> <DeleteIcon onClick={() => {
-                        updateList("", i);
-                    }} /> </div>
-                }
-            </button>
+            <div>
+                <span>- </span>
+                <input type="text" placeholder={content} value={input} onBlur={() => {
+                    toggleEditState();
+                    confirmEdit();
+                }} onChange={(e) => {
+                    handleChange(e.target.value);
+                }} onFocus={(e) => {
+                    toggleEditState();
+                }}
+                />
+                <button
+                    className={editVisibility ? "inline-block" : "hidden"}
+                >
+                    {
+                        isEditing == true ? <CheckIcon onClick={() => {
+                            toggleEditState();
+                        }} /> : <div> <DeleteIcon onClick={() => {
+                            updateList("", i);
+                        }} /> </div>
+                    }
+                </button>
+            </div>
         </li>
     )
 }

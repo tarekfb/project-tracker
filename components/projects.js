@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { findIndex } from '../util/util'
-import utilStyles from '../styles/utils.module.css'
 import DeleteIcon from '@material-ui/icons/Delete';
 import Link from 'next/link'
 
@@ -26,23 +25,7 @@ import Link from 'next/link'
 // let projectsList = [];
 
 export function Projects({ projects, setProjects }) {
-    // const [projects, setProjects] = useState([]);
     const [input, setInput] = useState('');
-    // const [data, setData] = useState({
-    //     github: 'gh',
-    //     hostedAt: 'ha',
-    //     completion: 'c',
-    //     notes: 'a',
-    //     tasks: {
-    //         task1: 'do this',
-    //         task2: 'do that',
-    //     }
-    // });
-
-    // useEffect(() => {
-    //     projectsList = projects;
-    //     projectData = data;
-    // }), projects;
 
     const addProject = (input) => {
         let newProject = {};
@@ -65,6 +48,15 @@ export function Projects({ projects, setProjects }) {
 
     return (
         <div>
+            {/* remove "test"" later */}
+            <Link href="/test">
+                <a>test</a>
+            </Link>
+            <button onClick={() => {
+                removeProject("test");
+            }}>
+                <DeleteIcon />
+            </button>
             <ul>
                 {
                     projects.map((project, index) => (
