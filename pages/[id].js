@@ -68,13 +68,13 @@ export default function Project({ project }) {
 
   // const router = useRouter();
   // const { id } = router.query;
-  
+
   const toggleEditState = (property) => {
     // shallow copy to properly update state
     let newState = {
       ...isEditing
     };
-    
+
     // if !null toc confirm prop exists
     if (isEditing[property] != null) {
       isEditing[property] ? newState[property] = false : newState[property] = true;
@@ -104,13 +104,19 @@ export default function Project({ project }) {
       <Head>
         <title>{name}</title>
       </Head>
-      <EditableField id="name" content={name} className="why isnt this working"/>
-      <span>{startDate}</span>
-      <EditableField id="hostedAt" content={hostedAt} className="m-8"/>
-      <EditableField id="github" content={github} className="text-purple-600"/>
-      <EditableField id="completion" content={completion}/>
-      <EditableField id="notes" content={notes}/>
-      <EditableList content={tasks} setContent={setTasks}/>
+      <div className="space-y-2">
+        <span className="text-5xl">
+          <EditableField id="name" content={name} />
+        </span>
+        <span className="text-lg">{startDate}</span>
+        <div>
+          <EditableField id="hostedAt" content={hostedAt} className="m-8" />
+          <EditableField id="github" content={github} className="text-purple-600" />
+        </div>
+        <EditableField id="completion" content={completion} />
+        <EditableField id="notes" content={notes} />
+        <EditableList content={tasks} setContent={setTasks} />
+      </div>
     </Layout>
   )
 }

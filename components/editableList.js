@@ -26,7 +26,8 @@ export function EditableList({ content, setContent }) {
     // add item to end of list
     const addListItem = (value) => {
         // TODO: validate task
-        setContent(state => [...state, value]);
+        if (value !== "")
+            setContent(state => [...state, value]);
         // handleIsVisibleState();
     }
 
@@ -58,7 +59,7 @@ export function EditableList({ content, setContent }) {
                     isAdding ? <input value={input} onInput={e => setInput(e.target.value)} className="border-solid border-4 border-black-500" />
                         : null
                 }
-                <button onClick={() => {
+                <button className="hover:text-blue-400" onClick={() => {
                     isAdding ? setIsAdding(false) : setIsAdding(true);
                     isAdding ? addListItem(input) : null;
                 }}>

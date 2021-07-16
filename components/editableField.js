@@ -44,13 +44,14 @@ export function EditableField({ content }) {
                 handleEditVisibility(false);
             }}
         >
-            {content}
-            {editVisibility ?  <button
-                onClick={() => {
-                    toggleEditState()
-                }}>
-                {isEditing == true ? <CheckIcon /> : <EditIcon />}
-            </button> : null}
+            <span className="mr-1">{content}</span>
+            {editVisibility ?
+                <button className="hover:text-blue-400"
+                    onClick={() => {
+                        toggleEditState()
+                    }}>
+                    {isEditing == true ? <CheckIcon /> : <EditIcon />}
+                </button> : null}
         </div>
     )
 }

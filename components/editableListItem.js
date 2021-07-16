@@ -64,18 +64,20 @@ export function EditableListItem({ content, setList, i, updateList }) {
             }}
         >
             <div>
-                <span>- </span>
-                <input type="text" placeholder={content} value={input} onBlur={() => {
-                    toggleEditState();
-                    confirmEdit();
-                }} onChange={(e) => {
-                    handleChange(e.target.value);
-                }} onFocus={(e) => {
-                    toggleEditState();
-                }}
-                />
+                <div className="hover:text-blue-400 inline">
+                    <span>- </span>
+                    <input type="text" placeholder={content} value={input} onBlur={() => {
+                        toggleEditState();
+                        confirmEdit();
+                    }} onChange={(e) => {
+                        handleChange(e.target.value);
+                    }} onFocus={(e) => {
+                        toggleEditState();
+                    }}
+                    />
+                </div>
                 <button
-                    className={editVisibility ? "inline-block" : "hidden"}
+                    className={`hover:text-blue-400 ${editVisibility ? "" : "hidden"}`}
                 >
                     {
                         isEditing == true ? <CheckIcon onClick={() => {

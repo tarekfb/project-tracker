@@ -12,7 +12,7 @@ export default function Home() {
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      <Projects projects={projects} setProjects={setProjects} />
+      <Projects projects={projects} setProjects={setProjects} className="bg-blue-400"/>
     </Layout>
   )
 }
