@@ -2,8 +2,10 @@ import { useState } from 'react'
 // import { useRouter } from 'next/router'
 import Layout from '../components/layout'
 import Head from 'next/head'
+import Link from 'next/link'
 import { EditableField } from '../components/editableField'
 import { EditableList } from '../components/editableList'
+import { TestField } from '../components/testField'
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -97,13 +99,12 @@ export default function Project({ project }) {
   //   setEditVisibility(newState);
   // }
 
-  // TODO: Make component for each field
-  // Also pass edit, so the component can render edit/check
   return (
     <Layout>
       <Head>
         <title>{name}</title>
       </Head>
+      <TestField id="notes" content={notes} setContent={setNotes} />
       <div className="space-y-2">
         <span className="text-5xl">
           <EditableField id="name" content={name} />
