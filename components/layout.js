@@ -24,7 +24,12 @@ export default function Layout({ children, home }) {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <header className={styles.header}>
-      
+        <div className="container flex justify-end">
+          <h1 className="text-4xl mr-auto">Project tracker</h1>
+          <span>home</span>
+          <span>about</span>
+          <span>projects</span>
+        </div>
       </header>
       <main>{children}</main>
       {!home && (

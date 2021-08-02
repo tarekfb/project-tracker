@@ -80,11 +80,19 @@ export function EditableListItem({ content, setList, i, updateList }) {
                     className={`hover:text-blue-400 ${editVisibility ? "" : "hidden"}`}
                 >
                     {
-                        isEditing == true ? <CheckIcon onClick={() => {
-                            toggleEditState();
-                        }} /> : <div> <DeleteIcon onClick={() => {
-                            updateList("", i);
-                        }} /> </div>
+                        isEditing ?
+                            <CheckIcon onClick={() => {
+                                toggleEditState();
+                            }} />
+                            : null
+                    }
+                    {
+                        isEditing ? null :
+                            <div>
+                                <DeleteIcon onClick={() => {
+                                    updateList("", i);
+                                }} />
+                            </div>
                     }
                 </button>
             </div>

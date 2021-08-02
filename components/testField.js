@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
 
@@ -61,33 +60,28 @@ export function TestField({ content, setContent }) {
                 handleEditVisibility(false);
             }}
         >
-            <textarea className="mr-1 p-2 outline-none"
-                onBlur={(e) => {
+            <div className={`${isEditing ? "" : "hover:text-blue-400"} inline`}>
+                <input type="text" placeholder={content} value={input} onBlur={() => {
                     toggleEditState();
-                    confirmEdit(e.target.value);
+                    confirmEdit();
+                }} onChange={(e) => {
+                    handleChange(e.target.value);
                 }} onFocus={(e) => {
                     toggleEditState();
-                }} onChange={e => {
-                    setInput(e.target.value);
                 }}
-                value={input}></textarea>
-            {editVisibility ?
-                <button className="hover:text-blue-400"
-                    onClick={() => {
-                        toggleEditState()
-                    }}>
-                    {isEditing == true ? <CheckIcon /> : <EditIcon />}
-                </button> : null}
+                />
+            </div>
+            <button
+                className={`hover:text-blue-400 ${editVisibility ? "" : "hidden"}`}
+            >
+                {
+                    isEditing == true ? <CheckIcon onClick={() => {
+                        toggleEditState();
+                    }} /> : <div> <DeleteIcon onClick={() => {
+                        updateList("", i);
+                    }} /> </div>
+                }
+            </button>
         </div>
     )
 }
-
-{/* <input type="text" placeholder={content} value={input} onBlur={() => {
-    toggleEditState();
-    confirmEdit();
-}} onChange={(e) => {
-    handleChange(e.target.value);
-}} onFocus={(e) => {
-    toggleEditState();
-}}
-/> */}
