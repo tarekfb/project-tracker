@@ -5,14 +5,14 @@ import { Projects } from '../components/projects'
 import React, { useState, useEffect } from 'react'
 
 export default function Home() {
-  const [projects, setProjects] = useState([]);
+  // const [projects, setProjects] = useState([]);
 
   return (
     <Layout home>
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      <Projects projects={projects} setProjects={setProjects} className="bg-blue-400"/>
+      <Projects className="bg-blue-400"/>
     </Layout>
   )
 }

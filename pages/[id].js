@@ -45,7 +45,6 @@ export default function Project({ project }) {
       <Head>
         <title>{name}</title>
       </Head>
-      <div className="container grid place-content-center p-4 space-y-2">
         <span className="text-3xl">
           <EditableField id="name" content={name} setContent={setName} />
         </span>
@@ -57,7 +56,6 @@ export default function Project({ project }) {
         <EditableField id="completion" content={completion} setContent={setCompletion} />
         <EditableField id="notes" content={notes} setContent={setNotes} />
         <EditableList content={tasks} setContent={setTasks} />
-      </div>
     </Layout>
   )
 }

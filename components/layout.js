@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import styles from './layout.module.css'
 import Link from 'next/link'
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 const name = 'An Actual Name'
 export const siteTitle = 'Project tracker'
@@ -23,22 +24,19 @@ export default function Layout({ children, home }) {
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <header className={styles.header}>
-        <div className="container flex justify-end">
+      <header>
+        {/* navbar */}
+        <div className="container flex justify-end space-x-4 p-2">
           <h1 className="text-4xl mr-auto">Project tracker</h1>
-          <span>home</span>
-          <span>about</span>
-          <span>projects</span>
+          <Link href="/">
+            <a>Home</a>
+          </Link>
+          <div>Projects<ArrowDropDownIcon /></div>
         </div>
       </header>
-      <main>{children}</main>
-      {!home && (
-        <div className={styles.backToHome}>
-          <Link href="/">
-            <a>← Back to home</a>
-          </Link>
-        </div>
-      )}
+      <main className="container p-5 space-y-2">
+        {children}
+      </main>
     </div>
   )
 }

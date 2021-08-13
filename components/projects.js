@@ -3,29 +3,27 @@ import { findIndex } from '../util/util'
 import DeleteIcon from '@material-ui/icons/Delete';
 import Link from 'next/link'
 
-// export function getProjectIds() {
-//     return projectsList;
-// };
-
-// export async function getProjectData(id) {
-//     let req = await fetch('http://localhost:3000/projects.json');
-//     let data = await req.json();
-
-//     const paths = data.map(project => {
-//         return { params: { id: project } }
-//     });
-
-//     return {
-//         id,
-//         projectData,
-//     }
-// }
-
-// let projectData = {};
-// let projectsList = [];
-
-export function Projects({ projects, setProjects }) {
+export function Projects() {
     const [input, setInput] = useState('');
+    const [projects, setProjects] = useState([]);
+
+    useEffect(() => {
+        async function initProjects() {
+            let req = await fetch('http://localhost:3000/projects.json');
+            let data = await req.json();
+
+            let projects = [];
+            data.forEach(element => {
+                let project = {};
+                project.name = element;
+                project.startDate = new Date().toLocaleString('en-GB');
+                projects.push(project);
+            });
+            setProjects(projects);
+        }
+
+        initProjects();
+    }, []);
 
     const addProject = (input) => {
         let newProject = {};
@@ -35,7 +33,7 @@ export function Projects({ projects, setProjects }) {
     }
 
     const removeProject = (name) => {
-        let answer = confirm("Are yoú sure you want to delete project: " + name + "?")
+        let answer = confirm("Are you sure you want to delete project: " + name + "?")
         if (answer) {
             const projectIndex = findIndex(projects, 'name', name);
             let newState = [...projects];
@@ -48,25 +46,22 @@ export function Projects({ projects, setProjects }) {
 
     return (
         <div>
-            {/* remove "test"" later */}
-            <Link href="/test">
-                <a>test</a>
-            </Link>
-            <button onClick={() => {
-                removeProject("test");
-            }}>
-                <DeleteIcon />
-            </button>
             <ul>
                 {
                     projects.map((project, index) => (
-                        <li key={index} className={utilStyles.listItem}>
+                        <li key={index}>
                             <Link href={`/${project.name}`}>
                                 <a>{project.name}</a>
                             </Link>
                             <button onClick={() => {
                                 removeProject(project.name);
                             }}>
+                                {/* <Link href={`/${project}`}>
+                                <a>{project}</a>
+                            </Link>
+                            <button onClick={() => {
+                                removeProject(project);
+                            }}> */}
                                 <DeleteIcon />
                             </button>
                         </li>
