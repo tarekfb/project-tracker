@@ -3,9 +3,9 @@ import { Navbar } from './navbar/navbar';
 
 export const siteTitle = 'Project tracker'
 
-export default function Layout({ children, home }) {
+export default function Layout({ children }) {
   return (
-    <div>
+    <>
       <Head>
         <link rel="icon" href="/favicon.ico" />
         <meta
@@ -27,6 +27,6 @@ export default function Layout({ children, home }) {
       <main className="container p-5">
         {children}
       </main>
-    </div>
+    </>
   )
 }

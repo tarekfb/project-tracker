@@ -1,9 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link'
 import { DropDownMenu } from './dropDownMenu';
 
 export function Navbar({ }) {
-  const [isOpen, setIsOpen] = useState(false);
   const [projects, setProjects] = useState([]);
 
   // This is a temporary solution
@@ -11,7 +10,7 @@ export function Navbar({ }) {
   // Currently no db, but local file system.
   // When db, use db instead.
   // Or context?
-  
+
   useEffect(() => {
     async function initProjects() {
       let req = await fetch('http://localhost:3000/projects.json');
@@ -30,18 +29,16 @@ export function Navbar({ }) {
   }, []);
 
   return (
-    <div className="container flex justify-end space-x-4">
+    <div className="container flex justify-end space-x-4 items-center">
       <h1 className="text-4xl mr-auto">
         <Link href="/">
           <a>Project tracker</a>
         </Link>
       </h1>
-      <Link href="/">
+      {/* <Link href="/">
         <a>Home</a>
-      </Link>
-      <DropDownMenu projects={projects} isOpen={isOpen}>
-
-      </DropDownMenu>
+      </Link> */}
+      <DropDownMenu projects={projects} />
     </div>
   )
 }
