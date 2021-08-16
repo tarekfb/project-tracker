@@ -27,7 +27,11 @@ export default function Layout({ children, home }) {
       <header>
         {/* navbar */}
         <div className="container flex justify-end space-x-4 p-2">
-          <h1 className="text-4xl mr-auto">Project tracker</h1>
+          <h1 className="text-4xl mr-auto">
+            <Link href="/">
+              <a>Project tracker</a>
+            </Link>
+          </h1>
           <Link href="/">
             <a>Home</a>
           </Link>
