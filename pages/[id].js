@@ -60,7 +60,7 @@ export default function Project({ project }) {
               <CalendarToday /><span className="text-sm">{" " + startDate}</span>
             </div>
             <div className="flex flex-row space-x-1">
-              <span>Completion:</span><EditableField id="completion" content={completion} setContent={setCompletion} />
+              Completion:<EditableField id="completion" content={completion} setContent={setCompletion} />
             </div>
           </div>
           <div className="flex flex-col space-y-1">
