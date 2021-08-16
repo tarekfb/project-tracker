@@ -1,9 +1,13 @@
-import { useState } from 'react'
 // import { useRouter } from 'next/router'
-import Layout from '../components/layout'
+import { useState } from 'react'
 import Head from 'next/head'
+import Layout from '../components/layout'
 import { EditableField } from '../components/editableField'
 import { EditableList } from '../components/editableList'
+
+import TextareaAutosize from 'react-textarea-autosize';
+
+import { GitHub, Link as UrlLink, CalendarToday } from '@material-ui/icons'
 
 export async function getStaticPaths() {
   let req = await fetch('http://localhost:3000/projects.json');
@@ -45,17 +49,38 @@ export default function Project({ project }) {
       <Head>
         <title>{name}</title>
       </Head>
-        <span className="text-3xl">
-          <EditableField id="name" content={name} setContent={setName} />
-        </span>
-        <span className="text-lg">{startDate}</span>
-        <div>
-          <EditableField id="hostedAt" content={hostedAt} setContent={setHostedAt} className="m-8" />
-          <EditableField id="github" content={github} setContent={setGithub} className="text-purple-600" />
+      <div className="container flex flex-col justify-start space-y-5">
+
+        <div className="flex flex-row justify-between">
+          <div className="flex flex-col space-y-1">
+            <span className="text-3xl">
+              <EditableField id="name" content={name} setContent={setName} />
+            </span>
+            <div className="flex flex-row space-x-1 items-center">
+              <CalendarToday /><span className="text-sm">{" " + startDate}</span>
+            </div>
+            <div className="flex flex-row space-x-1">
+              <span>Completion:</span><EditableField id="completion" content={completion} setContent={setCompletion} />
+            </div>
+          </div>
+          <div className="flex flex-col space-y-1">
+            <span className="flex space-x-2"><GitHub /><EditableField id="hostedAt" content={hostedAt} setContent={setHostedAt} className="m-8" /></span>
+            <span className="flex space-x-2"><UrlLink /><EditableField id="github" content={github} setContent={setGithub} className="text-purple-600"/></span>
+          </div>
         </div>
-        <EditableField id="completion" content={completion} setContent={setCompletion} />
-        <EditableField id="notes" content={notes} setContent={setNotes} />
-        <EditableList content={tasks} setContent={setTasks} />
+
+        <div className="flex flex-row justify-start space-x-10 w-full">
+          <TextareaAutosize
+            className="w-6/12"
+            maxRows={15}
+            minRows={3}
+            placeholder="Write some notes pls"
+            value={notes}
+            onChange={ev => setNotes(ev.target.value)} />
+          <EditableList className="w-6/12" content={tasks} setContent={setTasks} />
+        </div>
+
+      </div>
     </Layout>
   )
 }
