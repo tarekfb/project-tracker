@@ -29,16 +29,13 @@ export function Navbar({ }) {
   }, []);
 
   return (
-    <div className="container flex justify-end space-x-4 items-center">
-      <h1 className="text-4xl mr-auto">
+    <div className="flex justify-between space-x-4 items-center bg-prussianBlue text-white p-4 pr-12">
+      <h1 className="text-4xl hover:bg-celadonBlue">
         <Link href="/">
           <a>Project tracker</a>
         </Link>
       </h1>
-      {/* <Link href="/">
-        <a>Home</a>
-      </Link> */}
       <DropDownMenu projects={projects} />
     </div>
-  )
+  );
 }

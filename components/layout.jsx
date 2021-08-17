@@ -1,17 +1,14 @@
-import Head from 'next/head'
+import Head from 'next/head';
 import { Navbar } from './navbar/navbar';
 
-export const siteTitle = 'Project tracker'
+export const siteTitle = 'Project tracker';
 
 export default function Layout({ children }) {
   return (
     <>
       <Head>
         <link rel="icon" href="/favicon.ico" />
-        <meta
-          name="description"
-          content="Track your projects"
-        />
+        <meta name="description" content="Track your projects" />
         <meta
           property="og:image"
           content={`https://og-image.vercel.app/${encodeURI(
@@ -21,12 +18,10 @@ export default function Layout({ children }) {
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <header className="p-2">
+      <header>
         <Navbar />
       </header>
-      <main className="container p-5">
-        {children}
-      </main>
+      <main className="p-5">{children}</main>
     </>
-  )
+  );
 }

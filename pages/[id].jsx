@@ -45,7 +45,7 @@ export default function Project({ project }) {
       <Head>
         <title>{name}</title>
       </Head>
-      <div className="container flex flex-col justify-start space-y-5">
+      <div className="flex flex-col justify-start space-y-5">
 
         {/* Meta information */}
         <div className="flex flex-row justify-start space-x-5">
