@@ -1,6 +1,9 @@
 import { useState } from 'react';
-
 import CheckIcon from '@material-ui/icons/Check';
+
+// TODO: Make checkbox next to links appear on same row 
+// TODO: Make links take not go outside of window
+// TODO: Make length of input match length of characters
 
 export function EditableField({ content, setContent }) {
     const [editVisibility, setEditVisibility] = useState(false);

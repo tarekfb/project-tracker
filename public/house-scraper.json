@@ -4,9 +4,6 @@
 	"github": "www.github.com/anotehrname",
 	"hostedAt": "tbermalm.tech/house-scraper",
 	"completion": "Completed",
-	"tasks": {
-		"task1": "asd this",
-		"task2": "do fds"
-	},
+	"tasks": ["go there", "look here", "don't eat that"],
 	"notes": "Lorem ipsum dolor sit amipsum dolor sit ametipsum dolor sit ametipsum dolor sit ametipsum dolor sit ametipsum dolor sit ametipsum dolor sit ametet, consectetur adipiscing elit. Curabitur scelerisque, quam at iaculis pharetra, ligula ante laoreet risus, vel laoreet leo lacus at neque. Vestibulum aliquam commodo varius. Cras molestie vel diam sed dapibus. In condimentum mollis arcu at pharetra. Etiam faucibus sollicitudin sapien, sed sagittis libero mollis et. Phasellus et faucibus ligula. Maecenas id augue nunc. Nunc ultricies arcu ut dolor rhoncus, mattis tincidunt odio tristique. Aliquam in tristique elit, in blandit eros."
 }

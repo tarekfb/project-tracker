@@ -1,10 +1,9 @@
 import { useState } from 'react';
 
-import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-export function EditableListItem({ content, setList, i, updateList }) {
+export default function EditableListItem({ content, i, updateList }) {
     const [editVisibility, setEditVisibility] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [input, setInput] = useState(content);
@@ -87,8 +86,8 @@ export function EditableListItem({ content, setList, i, updateList }) {
                             : null
                     }
                     {
-                        isEditing ? null :
-                            <div>
+                        isEditing ? null
+                            : <div>
                                 <DeleteIcon onClick={() => {
                                     updateList("", i);
                                 }} />

@@ -1,0 +1,16 @@
+{
+  "jsx-max-props-per-line": [
+    1,
+    {
+      "maximum": "1",
+      "when": "always"
+    }
+  ],
+  "trailingComma": "es5",
+  "tabWidth": 2,
+  "semi": true,
+  "singleQuote": true,
+  "printWidth": 80,
+  "requireConfig": true,
+  "jsxBracketSameLine": true
+}
