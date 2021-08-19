@@ -13,13 +13,22 @@ module.exports = {
   },
   plugins: ['react', 'prettier'],
   rules: {
-    'react/jsx-max-props-per-line': [
-      1,
-      {
-        maximum: '1',
-        when: 'always',
-      },
-    ],
+    // 'react/jsx-max-props-per-line': [
+    //   1,
+    //   {
+    //     maximum: '1',
+    //     when: 'always',
+    //   },
+    // ],
+
+    //prettier version:
+    // "jsx-max-props-per-line": [
+    //   1,
+    //   {
+    //     "maximum": "1",
+    //     "when": "always"
+    //   }
+    // ],
     'react/prop-types': 0,
     'prettier/prettier': 'error',
     'no-unused-vars': [
