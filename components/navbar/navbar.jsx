@@ -1,32 +1,38 @@
-import { useState, useEffect } from 'react';
-import Link from 'next/link'
-import { DropDownMenu } from './dropDownMenu';
+import { useState, useEffect, useContext } from 'react';
+import Link from 'next/link';
+import { DropDownMenu } from './DropDownMenu';
+import { useProjectContextValue } from '../contexts/ProjectContext';
 
-export function Navbar({ }) {
-  const [projects, setProjects] = useState([]);
+export function Navbar({}) {
+  // const [ projects, handleProjects ] = useProjectContextValue();
+  // const projectContextValue = useProjectContextValue();
+  const { projects, setProjects } = useProjectContextValue();
 
-  // This is a temporary solution
-  // This function has been done in other places. Primarily in projects.js.
-  // Currently no db, but local file system.
-  // When db, use db instead.
-  // Or context?
+  
+  // const [projects, setProjects] = useState([]);
 
-  useEffect(() => {
-    async function initProjects() {
-      let req = await fetch('http://localhost:3000/projects.json');
-      let data = await req.json();
+  // // This is a temporary solution
+  // // This function has been done in other places. Primarily in projects.js.
+  // // Currently no db, but local file system.
+  // // When db, use db instead.
+  // // Or context?
 
-      let projects = [];
-      data.forEach(element => {
-        let project = {};
-        project.name = element;
-        projects.push(project);
-      });
-      setProjects(projects);
-    }
+  // useEffect(() => {
+  //   async function initProjects() {
+  //     let req = await fetch('http://localhost:3000/projects.json');
+  //     let data = await req.json();
 
-    initProjects();
-  }, []);
+  //     let projects = [];
+  //     data.forEach(element => {
+  //       let project = {};
+  //       project.name = element;
+  //       projects.push(project);
+  //     });
+  //     setProjects(projects);
+  //   }
+
+  //   initProjects();
+  // }, []);
 
   return (
     <div className="flex justify-between space-x-4 items-center bg-prussianBlue text-white p-4 pr-12">

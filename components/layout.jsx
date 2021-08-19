@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { Navbar } from './navbar/navbar';
+import { Navbar } from './navbar/Navbar';
 
 export const siteTitle = 'Project tracker';
 
