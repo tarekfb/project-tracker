@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import EditableListItem from './editableListItem';
+import EditableListItem from './EditableListItem';
 import CheckIcon from '@material-ui/icons/Check';
 
 export function EditableList({ content, setContent }) {

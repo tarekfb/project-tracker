@@ -1,24 +1,25 @@
-import { useState } from 'react'
-import Head from 'next/head'
-import Layout from '../components/layout'
-import { EditableField } from '../components/editableField'
-import { EditableList } from '../components/editableList'
+import { useState } from 'react';
+import Head from 'next/head';
+import Layout from '../components/Layout';
+import { EditableField } from '../components/EditableField';
+import { EditableList } from '../components/EditableList';
 
 import TextareaAutosize from 'react-textarea-autosize';
 
-import { GitHub, Link as UrlLink, CalendarToday } from '@material-ui/icons'
+import { GitHub, Link as UrlLink, CalendarToday } from '@material-ui/icons';
+import { Divider } from '@material-ui/core';
 
 export async function getStaticPaths() {
   let req = await fetch('http://localhost:3000/projects.json');
   let data = await req.json();
 
-  const paths = data.map(project => {
-    return { params: { id: project } }
+  const paths = data.map((project) => {
+    return { params: { id: project } };
   });
 
   return {
     paths,
-    fallback: false
+    fallback: false,
   };
 }
 
@@ -28,7 +29,7 @@ export async function getStaticProps({ params }) {
 
   return {
     props: { project: data },
-  }
+  };
 }
 
 export default function Project({ project }) {
@@ -46,25 +47,47 @@ export default function Project({ project }) {
         <title>{name}</title>
       </Head>
       <div className="flex flex-col justify-start space-y-5">
-
         {/* Meta information */}
+        <span className="text-3xl">
+          <EditableField id="name" content={name} setContent={setName} />
+        </span>
         <div className="flex flex-row justify-start space-x-5">
           <div className="flex flex-col space-y-1">
-            <span className="text-3xl">
-              <EditableField id="name" content={name} setContent={setName} />
-            </span>
             <div className="flex flex-row space-x-1 items-center">
-              <CalendarToday /><span className="text-sm">{" " + startDate}</span>
+              <CalendarToday />
+              <span className="text-sm">{' ' + startDate}</span>
             </div>
             <div className="flex flex-row space-x-1">
-              <span>Completion:</span><EditableField id="completion" content={completion} setContent={setCompletion} />
+              <span>Completion:</span>
+              <EditableField
+                id="completion"
+                content={completion}
+                setContent={setCompletion}
+              />
             </div>
           </div>
           <div className="flex flex-col space-y-1 text-m">
-            <span className="flex space-x-2"><GitHub /><EditableField id="hostedAt" content={hostedAt} setContent={setHostedAt} className="m-8" /></span>
-            <span className="flex space-x-2"><UrlLink /><EditableField id="github" content={github} setContent={setGithub} className="text-purple-600" /></span>
+            <span className="flex space-x-2">
+              <GitHub />
+              <EditableField
+                id="hostedAt"
+                content={hostedAt}
+                setContent={setHostedAt}
+                className="m-8"
+              />
+            </span>
+            <span className="flex space-x-2">
+              <UrlLink />
+              <EditableField
+                id="github"
+                content={github}
+                setContent={setGithub}
+                className="text-purple-600"
+              />
+            </span>
           </div>
         </div>
+        <Divider />
 
         {/* Project content */}
         <div className="flex flex-row justify-start space-x-10 w-full">
@@ -74,11 +97,15 @@ export default function Project({ project }) {
             minRows={3}
             placeholder="Write some notes pls"
             value={notes}
-            onChange={ev => setNotes(ev.target.value)} />
-          <EditableList className="w-6/12" content={tasks} setContent={setTasks} />
+            onChange={(ev) => setNotes(ev.target.value)}
+          />
+          <EditableList
+            className="w-6/12"
+            content={tasks}
+            setContent={setTasks}
+          />
         </div>
-
       </div>
     </Layout>
-  )
+  );
 }

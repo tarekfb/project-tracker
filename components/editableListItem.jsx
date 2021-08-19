@@ -1,42 +1,71 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 export default function EditableListItem({ content, i, updateList }) {
-  const [editVisibility, setEditVisibility] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
+  const [iconVisibility, setIconVisibility] = useState([false, false, false]);
+  const [isEditing, setIsEditing] = useState([false, false, false]);
   const [input, setInput] = useState(content);
 
   // toggle the state of editing: true or false
-  const toggleEditState = () => {
-    // shallow copy to properly update state
-    let newState = {
-      ...isEditing,
-    };
+  const handleIsEditing = (bool, i) => {
+    let newState = [...isEditing];
+    newState[i] = bool;
+    setIsEditing(newState);
 
-    // if !null toc confirm prop exists
-    if (isEditing != null) {
-      isEditing ? (newState = false) : (newState = true);
-      setIsEditing(newState);
-    }
+    // setIsEditing(state => [...state])
+
+    // setIsEditing(newState);
+    // console.log(isEditing);
+
+    // // if bool, directly set isEditing and break
+    // if (bool) {
+    //   setIsEditing(bool);
+    //   console.log(isEditing);
+    //   return;
+    // }
+
+    // // shallow copy to properly update state
+    // let newState = {
+    //   ...isEditing,
+    // };
+
+    // // if !null toc confirm prop exists
+    // if (isEditing != null) {
+    //   isEditing ? (newState = false) : (newState = true);
+    //   setIsEditing(newState);
+    // }
+    // console.log(isEditing);
+
+    // let newState = {
+    //   ...editVisibility,
+    // };
+
+    // newState = bool;
+
+    // setEditVisibility(newState);
   };
 
   // handle if the field is currently being edited or not
-  const handleEditVisibility = (bool) => {
+  const handleIconVisibility = (bool, i, forceable) => {
     // this means the property is currently being edited
     // do nothing
-    if (isEditing) {
+    if (isEditing[i] && forceable !== 'force') {
       return null;
     }
 
-    let newState = {
-      ...editVisibility,
-    };
+    // let newState = {
+    //   ...editVisibility,
+    // };
 
-    newState = bool;
+    let newState = [...iconVisibility];
+    newState[i] = bool;
+    setIconVisibility(newState);
 
-    setEditVisibility(newState);
+    // let newState = bool;
+
+    // setEditVisibility(newState);
   };
 
   // update input
@@ -50,54 +79,67 @@ export default function EditableListItem({ content, i, updateList }) {
     if (input !== content) {
       updateList(input, i);
     }
+    handleIsEditing(false, i);
+    handleIconVisibility(false, i, 'force');
+    // force to override setIsEditing async issue
+    // setState hook is async
+    // handleIconVisibility() executes when setState in handleIsEditing() hasnt finished setting state
+    // meaning flow gets caught in the if (isEditing[i]) check
+    // this check is neccessary because if user is editing item, but clicks elsewhere, should keep editing
   };
+
+    useEffect(() => {
+      if (isEditing.every((bool) => bool === false))
+        console.log('re-render because x changed:', isEditing);
+      confirmEdit(2);
+    }, []);
 
   return (
     <li
+      className="hover:text-blue-400 inline"
       key={i}
       onMouseEnter={(e) => {
-        handleEditVisibility(true);
+        handleIconVisibility(true, i);
       }}
       onMouseLeave={(e) => {
-        handleEditVisibility(false);
+        handleIconVisibility(false, i);
       }}>
-      <div>
-        <div className="hover:text-blue-400 inline">
-          <span>- </span>
-          <input
-            type="text"
-            placeholder={content}
-            value={input}
-            onBlur={() => {
-              toggleEditState();
-              confirmEdit();
-            }}
-            onChange={(e) => {
-              handleChange(e.target.value);
-            }}
-            onFocus={(e) => {
-              toggleEditState();
-            }}
-          />
-        </div>
+      <div className="flex flex-row space-x-1">
+        <span>- </span>
+        <input
+          type="text"
+          placeholder={content}
+          value={input}
+          onBlur={() => {
+            confirmEdit(i);
+          }}
+          onChange={(e) => {
+            handleChange(e.target.value);
+          }}
+          onFocus={(e) => {
+            console.log('onfocus inpuit');
+            handleIsEditing(true, i);
+          }}
+        />
         <button
-          className={`hover:text-blue-400 ${editVisibility ? '' : 'hidden'}`}>
-          {isEditing ? (
+          className={`hover:text-blue-400 ${
+            iconVisibility[i] ? '' : 'hidden'
+          }`}>
+          {isEditing[i] ? (
             <CheckIcon
               onClick={() => {
-                toggleEditState();
+                handleIsEditing(false, i);
               }}
             />
-          ) : null}
-          {isEditing ? null : (
-            <div>
-              <DeleteIcon
-                onClick={() => {
-                  updateList('', i);
-                }}
-              />
-            </div>
+          ) : (
+            <DeleteIcon
+              onClick={() => {
+                handleIsEditing(false, i, 'force');
+                updateList('', i);
+              }}
+            />
           )}
+          {/* {isEditing ? null : null} */}
         </button>
       </div>
     </li>
