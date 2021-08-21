@@ -8,46 +8,14 @@ export default function EditableListItem({ content, i, updateList }) {
   const [isEditing, setIsEditing] = useState([false, false, false]);
   const [input, setInput] = useState(content);
 
-  // toggle the state of editing: true or false
+  // handle if the field is currently being edited or not
   const handleIsEditing = (bool, i) => {
     let newState = [...isEditing];
     newState[i] = bool;
     setIsEditing(newState);
-
-    // setIsEditing(state => [...state])
-
-    // setIsEditing(newState);
-    // console.log(isEditing);
-
-    // // if bool, directly set isEditing and break
-    // if (bool) {
-    //   setIsEditing(bool);
-    //   console.log(isEditing);
-    //   return;
-    // }
-
-    // // shallow copy to properly update state
-    // let newState = {
-    //   ...isEditing,
-    // };
-
-    // // if !null toc confirm prop exists
-    // if (isEditing != null) {
-    //   isEditing ? (newState = false) : (newState = true);
-    //   setIsEditing(newState);
-    // }
-    // console.log(isEditing);
-
-    // let newState = {
-    //   ...editVisibility,
-    // };
-
-    // newState = bool;
-
-    // setEditVisibility(newState);
   };
 
-  // handle if the field is currently being edited or not
+  // handle visiblity of icons: trashcan or checkbox
   const handleIconVisibility = (bool, i, forceable) => {
     // this means the property is currently being edited
     // do nothing
@@ -55,17 +23,9 @@ export default function EditableListItem({ content, i, updateList }) {
       return null;
     }
 
-    // let newState = {
-    //   ...editVisibility,
-    // };
-
     let newState = [...iconVisibility];
     newState[i] = bool;
     setIconVisibility(newState);
-
-    // let newState = bool;
-
-    // setEditVisibility(newState);
   };
 
   // update input
@@ -74,7 +34,7 @@ export default function EditableListItem({ content, i, updateList }) {
   };
 
   // confirm edit and call parent function to update state
-  const confirmEdit = () => {
+  const confirmEdit = (i) => {
     // if they differ, update state
     if (input !== content) {
       updateList(input, i);
@@ -88,20 +48,20 @@ export default function EditableListItem({ content, i, updateList }) {
     // this check is neccessary because if user is editing item, but clicks elsewhere, should keep editing
   };
 
-    useEffect(() => {
-      if (isEditing.every((bool) => bool === false))
-        console.log('re-render because x changed:', isEditing);
-      confirmEdit(2);
-    }, []);
+  // useEffect(() => {
+  //   if (isEditing.every((bool) => bool === false))
+  //     console.log('re-render because x changed:', isEditing);
+  //   confirmEdit(2);
+  // }, []);
 
   return (
     <li
       className="hover:text-blue-400 inline"
       key={i}
-      onMouseEnter={(e) => {
+      onMouseEnter={() => {
         handleIconVisibility(true, i);
       }}
-      onMouseLeave={(e) => {
+      onMouseLeave={() => {
         handleIconVisibility(false, i);
       }}>
       <div className="flex flex-row space-x-1">
@@ -110,27 +70,13 @@ export default function EditableListItem({ content, i, updateList }) {
           type="text"
           placeholder={content}
           value={input}
-          onBlur={() => {
-            confirmEdit(i);
-          }}
-          onChange={(e) => {
-            handleChange(e.target.value);
-          }}
-          onFocus={(e) => {
-            console.log('onfocus inpuit');
-            handleIsEditing(true, i);
-          }}
+          onBlur={() => confirmEdit(i)}
+          onChange={(e) => handleChange(e.target.value)}
+          onFocus={() => handleIsEditing(true, i)}
         />
-        <button
-          className={`hover:text-blue-400 ${
-            iconVisibility[i] ? '' : 'hidden'
-          }`}>
+        <button className={`hover:text-blue-400 ${iconVisibility[i] ? '' : 'hidden'}`}>
           {isEditing[i] ? (
-            <CheckIcon
-              onClick={() => {
-                handleIsEditing(false, i);
-              }}
-            />
+            <CheckIcon onClick={() => handleIsEditing(false, i)} />
           ) : (
             <DeleteIcon
               onClick={() => {
@@ -139,7 +85,6 @@ export default function EditableListItem({ content, i, updateList }) {
               }}
             />
           )}
-          {/* {isEditing ? null : null} */}
         </button>
       </div>
     </li>

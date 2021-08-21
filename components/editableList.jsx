@@ -1,20 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import EditableListItem from './EditableListItem';
-import CheckIcon from '@material-ui/icons/Check';
+import { Check, Add } from '@material-ui/icons';
+
+const newListItemFieldStyle =
+  'border-solid border-black border-b focus:outline-none focus:border focus:ring focus:border-blue-400';
+const newListItemButtonStyle = 'hover:text-blue-400';
+const newListItemContainerStyle = 'flex flex-row';
 
 export function EditableList({ content, setContent }) {
   const [input, setInput] = useState('');
   const [isAdding, setIsAdding] = useState(false);
+
+  const inputRef = useRef(null);
+  const buttonRef = useRef(null);
+
+  useEffect(() => {
+    if (isAdding) {
+      inputRef.current.focus();
+    }
+  }, [isAdding]);
 
   // update the list: remove item or update item
   const updateList = (value, index) => {
     // if value "", remove at index
     // if index -1, remove last
     // if index => 0 && value != "", update at index
-
     if (value === '') {
       removeItem(index);
-      console.log('first');
     } else if (index === -1) {
       removeItem(content.length - 1);
     } else if (index >= 0 && value !== '') {
@@ -25,8 +37,9 @@ export function EditableList({ content, setContent }) {
   // add item to end of list
   const addListItem = (value) => {
     // TODO: validate task
-    if (value !== '') setContent((state) => [...state, value]);
-    // handleIsVisibleState();
+    if (value !== '') {
+      setContent((state) => [...state, value]);
+    }
   };
 
   // remove item at index
@@ -43,34 +56,40 @@ export function EditableList({ content, setContent }) {
     setContent(newState);
   };
 
+  const enterPressed = (event) => {
+    let code = event.keyCode || event.which;
+    if (code === 13) {
+      //13 is the enter keycode
+      buttonRef.current.click();
+    }
+  };
+
   return (
     <div>
       <ul>
         {content.map((task, i) => (
-          <EditableListItem
-            key={i}
-            content={task}
-            setList={setContent}
-            i={i}
-            updateList={updateList}
-          />
+          <EditableListItem key={i} content={task} setList={setContent} i={i} updateList={updateList} />
         ))}
       </ul>
-      <div>
+      <div className={newListItemContainerStyle}>
         {isAdding ? (
           <input
+            ref={inputRef}
+            className={newListItemFieldStyle}
             value={input}
+            onBlur={() => setIsAdding(false)}
             onInput={(e) => setInput(e.target.value)}
-            className="border-solid border-4 border-black-500"
+            onKeyPress={enterPressed.bind(this)}
           />
         ) : null}
         <button
-          className="hover:text-blue-400"
+          ref={buttonRef}
+          className={newListItemButtonStyle}
           onClick={() => {
             isAdding ? setIsAdding(false) : setIsAdding(true);
             isAdding ? addListItem(input) : null;
           }}>
-          {isAdding ? <CheckIcon /> : <span>+</span>}
+          {isAdding ? <Check /> : <Add />}
         </button>
       </div>
     </div>

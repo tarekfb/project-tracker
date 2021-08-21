@@ -59,31 +59,17 @@ export default function Project({ project }) {
             </div>
             <div className="flex flex-row space-x-1">
               <span>Completion:</span>
-              <EditableField
-                id="completion"
-                content={completion}
-                setContent={setCompletion}
-              />
+              <EditableField id="completion" content={completion} setContent={setCompletion} />
             </div>
           </div>
           <div className="flex flex-col space-y-1 text-m">
             <span className="flex space-x-2">
               <GitHub />
-              <EditableField
-                id="hostedAt"
-                content={hostedAt}
-                setContent={setHostedAt}
-                className="m-8"
-              />
+              <EditableField id="hostedAt" content={hostedAt} setContent={setHostedAt} className="m-8" />
             </span>
             <span className="flex space-x-2">
               <UrlLink />
-              <EditableField
-                id="github"
-                content={github}
-                setContent={setGithub}
-                className="text-purple-600"
-              />
+              <EditableField id="github" content={github} setContent={setGithub} className="text-purple-600" />
             </span>
           </div>
         </div>
@@ -99,11 +85,7 @@ export default function Project({ project }) {
             value={notes}
             onChange={(ev) => setNotes(ev.target.value)}
           />
-          <EditableList
-            className="w-6/12"
-            content={tasks}
-            setContent={setTasks}
-          />
+          <EditableList className="w-6/12" content={tasks} setContent={setTasks} />
         </div>
       </div>
     </Layout>
