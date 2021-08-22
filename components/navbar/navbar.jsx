@@ -3,11 +3,10 @@ import Link from 'next/link';
 import { DropDownMenu } from './DropDownMenu';
 import { useProjectContextValue } from '../contexts/ProjectContext';
 
-export function Navbar({}) {
+export function Navbar() {
   // const [ projects, handleProjects ] = useProjectContextValue();
   // const projectContextValue = useProjectContextValue();
   const { projects } = useProjectContextValue();
-
   
   // const [projects, setProjects] = useState([]);
 

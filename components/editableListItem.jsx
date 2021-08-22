@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -7,6 +7,8 @@ export default function EditableListItem({ content, i, updateList }) {
   const [iconVisibility, setIconVisibility] = useState([false, false, false]);
   const [isEditing, setIsEditing] = useState([false, false, false]);
   const [input, setInput] = useState(content);
+
+  const inputRef = useRef(null);
 
   // handle if the field is currently being edited or not
   const handleIsEditing = (bool, i) => {
@@ -48,11 +50,15 @@ export default function EditableListItem({ content, i, updateList }) {
     // this check is neccessary because if user is editing item, but clicks elsewhere, should keep editing
   };
 
-  // useEffect(() => {
-  //   if (isEditing.every((bool) => bool === false))
-  //     console.log('re-render because x changed:', isEditing);
-  //   confirmEdit(2);
-  // }, []);
+  // confirm edit on pressing enter
+  const enterPressed = (event, i) => {
+    let code = event.keyCode || event.which;
+    if (code === 13) {
+      inputRef.current.blur();
+      //13 is the enter keycode
+      confirmEdit(i);
+    }
+  };
 
   return (
     <li
@@ -64,15 +70,19 @@ export default function EditableListItem({ content, i, updateList }) {
       onMouseLeave={() => {
         handleIconVisibility(false, i);
       }}>
-      <div className="flex flex-row space-x-1">
+      <div className="flex flex-row space-x-1 focus:border-b focus:border-blue-400">
         <span>- </span>
         <input
+          ref={inputRef}
+          className="focus:outline-none"
           type="text"
           placeholder={content}
           value={input}
+          onKeyPress={(e) => enterPressed(e, i)}
           onBlur={() => confirmEdit(i)}
           onChange={(e) => handleChange(e.target.value)}
           onFocus={() => handleIsEditing(true, i)}
+          placeholder="implement x"
         />
         <button className={`hover:text-blue-400 ${iconVisibility[i] ? '' : 'hidden'}`}>
           {isEditing[i] ? (

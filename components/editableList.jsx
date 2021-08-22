@@ -3,7 +3,7 @@ import EditableListItem from './EditableListItem';
 import { Check, Add } from '@material-ui/icons';
 
 const newListItemFieldStyle =
-  'border-solid border-black border-b focus:outline-none focus:border focus:ring focus:border-blue-400';
+  'border-solid border-black border-b focus:outline-none focus:border-b focus:border-blue-400';
 const newListItemButtonStyle = 'hover:text-blue-400';
 const newListItemContainerStyle = 'flex flex-row';
 
@@ -35,10 +35,10 @@ export function EditableList({ content, setContent }) {
   };
 
   // add item to end of list
-  const addListItem = (value) => {
+  const addListItem = () => {
     // TODO: validate task
-    if (value !== '') {
-      setContent((state) => [...state, value]);
+    if (input) {
+      setContent((state) => [...state, input]);
     }
   };
 
@@ -82,16 +82,33 @@ export function EditableList({ content, setContent }) {
             onKeyPress={enterPressed.bind(this)}
           />
         ) : null}
-        <button
-          ref={buttonRef}
-          className={newListItemButtonStyle}
-          onClick={() => {
-            isAdding ? setIsAdding(false) : setIsAdding(true);
-            isAdding ? addListItem(input) : null;
-          }}>
-          {isAdding ? <Check /> : <Add />}
-        </button>
+        {isAdding ? (
+          <button
+            ref={buttonRef}
+            className={newListItemButtonStyle}
+            onClick={() => {
+              addListItem();
+              setIsAdding(false);
+            }}>
+            <Check />
+          </button>
+        ) : (
+          <button className={newListItemButtonStyle} onClick={() => setIsAdding(true)}>
+            <Add />
+          </button>
+        )}
       </div>
     </div>
   );
 }
+
+//  <button
+//     ref={buttonRef}
+//     className={newListItemButtonStyle}
+//     onClick={() => {
+//       isAdding ? setIsAdding(false) : setIsAdding(true);
+//       isAdding ? addListItem(input) : null;
+//     }}>
+//     {isAdding ? <Check /> : <Add />}
+
+// <button className={newListItemButtonStyle} onClick={() => setIsAdding(true)}>

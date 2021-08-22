@@ -14,15 +14,13 @@ export function DropDownMenu({ projects }) {
       onMouseLeave={() => {
         setIsOpen(false);
       }}>
-      <span>
+      <span className="hover:text-blue-400">
         Projects
         <ArrowDropDownIcon />
       </span>
       <ul className={`absolute pt-3 ${isOpen ? '' : 'hidden'}`}>
         {projects.map((project, i) => (
-          <li
-            key={i}
-            className="pr-4 pl-4 pb-2 bg-prussianBlue hover:text-blue-400 whitespace-nowrap">
+          <li key={i} className="pr-4 pl-4 pb-2 bg-prussianBlue hover:text-blue-400 whitespace-nowrap">
             <Link href={'/' + project.name}>
               <a>- {project.name}</a>
             </Link>

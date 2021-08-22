@@ -49,7 +49,7 @@ export default function Project({ project }) {
       <div className="flex flex-col justify-start space-y-5">
         {/* Meta information */}
         <span className="text-3xl">
-          <EditableField id="name" content={name} setContent={setName} />
+          <EditableField placeholder="Example Project Name" content={name} setContent={setName} />
         </span>
         <div className="flex flex-row justify-start space-x-5">
           <div className="flex flex-col space-y-1">
@@ -59,17 +59,22 @@ export default function Project({ project }) {
             </div>
             <div className="flex flex-row space-x-1">
               <span>Completion:</span>
-              <EditableField id="completion" content={completion} setContent={setCompletion} />
+              <EditableField placeholder="completed?" content={completion} setContent={setCompletion} />
             </div>
           </div>
           <div className="flex flex-col space-y-1 text-m">
             <span className="flex space-x-2">
               <GitHub />
-              <EditableField id="hostedAt" content={hostedAt} setContent={setHostedAt} className="m-8" />
+              <EditableField
+                placeholder="www.example.com"
+                content={hostedAt}
+                setContent={setHostedAt}
+                className="m-8"
+              />
             </span>
             <span className="flex space-x-2">
               <UrlLink />
-              <EditableField id="github" content={github} setContent={setGithub} className="text-purple-600" />
+              <EditableField placeholder="github" content={github} setContent={setGithub} className="text-purple-600" />
             </span>
           </div>
         </div>
