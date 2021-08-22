@@ -3,11 +3,10 @@ import Link from 'next/link';
 import { DropDownMenu } from './DropDownMenu';
 import { useProjectContextValue } from '../contexts/ProjectContext';
 
-export function Navbar({}) {
+export function Navbar() {
   // const [ projects, handleProjects ] = useProjectContextValue();
   // const projectContextValue = useProjectContextValue();
-  const { projects, setProjects } = useProjectContextValue();
-
+  const { projects } = useProjectContextValue();
   
   // const [projects, setProjects] = useState([]);
 
@@ -36,7 +35,7 @@ export function Navbar({}) {
 
   return (
     <div className="flex justify-between space-x-4 items-center bg-prussianBlue text-white p-4 pr-12">
-      <h1 className="text-4xl hover:bg-celadonBlue">
+      <h1 className="text-4xl">
         <Link href="/">
           <a>Project tracker</a>
         </Link>

@@ -18,10 +18,12 @@ export default function Layout({ children }) {
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <header>
-        <Navbar />
-      </header>
-      <main className="p-5">{children}</main>
+      <div className="h-screen w-screen">
+        <header>
+          <Navbar />
+        </header>
+        <main className="p-5">{children}</main>
+      </div>
     </>
   );
 }

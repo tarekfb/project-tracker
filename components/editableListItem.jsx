@@ -1,42 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 export default function EditableListItem({ content, i, updateList }) {
-  const [editVisibility, setEditVisibility] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
+  const [iconVisibility, setIconVisibility] = useState([false, false, false]);
+  const [isEditing, setIsEditing] = useState([false, false, false]);
   const [input, setInput] = useState(content);
 
-  // toggle the state of editing: true or false
-  const toggleEditState = () => {
-    // shallow copy to properly update state
-    let newState = {
-      ...isEditing,
-    };
-
-    // if !null toc confirm prop exists
-    if (isEditing != null) {
-      isEditing ? (newState = false) : (newState = true);
-      setIsEditing(newState);
-    }
-  };
+  const inputRef = useRef(null);
 
   // handle if the field is currently being edited or not
-  const handleEditVisibility = (bool) => {
+  const handleIsEditing = (bool, i) => {
+    let newState = [...isEditing];
+    newState[i] = bool;
+    setIsEditing(newState);
+  };
+
+  // handle visiblity of icons: trashcan or checkbox
+  const handleIconVisibility = (bool, i, forceable) => {
     // this means the property is currently being edited
     // do nothing
-    if (isEditing) {
+    if (isEditing[i] && forceable !== 'force') {
       return null;
     }
 
-    let newState = {
-      ...editVisibility,
-    };
-
-    newState = bool;
-
-    setEditVisibility(newState);
+    let newState = [...iconVisibility];
+    newState[i] = bool;
+    setIconVisibility(newState);
   };
 
   // update input
@@ -45,58 +36,64 @@ export default function EditableListItem({ content, i, updateList }) {
   };
 
   // confirm edit and call parent function to update state
-  const confirmEdit = () => {
+  const confirmEdit = (i) => {
     // if they differ, update state
     if (input !== content) {
       updateList(input, i);
+    }
+    handleIsEditing(false, i);
+    handleIconVisibility(false, i, 'force');
+    // force to override setIsEditing async issue
+    // setState hook is async
+    // handleIconVisibility() executes when setState in handleIsEditing() hasnt finished setting state
+    // meaning flow gets caught in the if (isEditing[i]) check
+    // this check is neccessary because if user is editing item, but clicks elsewhere, should keep editing
+  };
+
+  // confirm edit on pressing enter
+  const enterPressed = (event, i) => {
+    let code = event.keyCode || event.which;
+    if (code === 13) {
+      inputRef.current.blur();
+      //13 is the enter keycode
+      confirmEdit(i);
     }
   };
 
   return (
     <li
+      className="hover:text-blue-400 inline"
       key={i}
-      onMouseEnter={(e) => {
-        handleEditVisibility(true);
+      onMouseEnter={() => {
+        handleIconVisibility(true, i);
       }}
-      onMouseLeave={(e) => {
-        handleEditVisibility(false);
+      onMouseLeave={() => {
+        handleIconVisibility(false, i);
       }}>
-      <div>
-        <div className="hover:text-blue-400 inline">
-          <span>- </span>
-          <input
-            type="text"
-            placeholder={content}
-            value={input}
-            onBlur={() => {
-              toggleEditState();
-              confirmEdit();
-            }}
-            onChange={(e) => {
-              handleChange(e.target.value);
-            }}
-            onFocus={(e) => {
-              toggleEditState();
-            }}
-          />
-        </div>
-        <button
-          className={`hover:text-blue-400 ${editVisibility ? '' : 'hidden'}`}>
-          {isEditing ? (
-            <CheckIcon
+      <div className="flex flex-row space-x-1 focus:border-b focus:border-blue-400">
+        <span>- </span>
+        <input
+          ref={inputRef}
+          className="focus:outline-none"
+          type="text"
+          placeholder={content}
+          value={input}
+          onKeyPress={(e) => enterPressed(e, i)}
+          onBlur={() => confirmEdit(i)}
+          onChange={(e) => handleChange(e.target.value)}
+          onFocus={() => handleIsEditing(true, i)}
+          placeholder="implement x"
+        />
+        <button className={`hover:text-blue-400 ${iconVisibility[i] ? '' : 'hidden'}`}>
+          {isEditing[i] ? (
+            <CheckIcon onClick={() => handleIsEditing(false, i)} />
+          ) : (
+            <DeleteIcon
               onClick={() => {
-                toggleEditState();
+                handleIsEditing(false, i, 'force');
+                updateList('', i);
               }}
             />
-          ) : null}
-          {isEditing ? null : (
-            <div>
-              <DeleteIcon
-                onClick={() => {
-                  updateList('', i);
-                }}
-              />
-            </div>
           )}
         </button>
       </div>
