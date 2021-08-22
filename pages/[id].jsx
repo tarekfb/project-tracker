@@ -74,16 +74,16 @@ export default function Project({ project }) {
             </span>
             <span className="flex space-x-2">
               <UrlLink />
-              <EditableField placeholder="github" content={github} setContent={setGithub} className="text-purple-600" />
+              <EditableField placeholder="github" content={github} setContent={setGithub} />
             </span>
           </div>
         </div>
         <Divider />
 
         {/* Project content */}
-        <div className="flex flex-row justify-start space-x-10 w-full">
+        <div className="flex flex-col justify-start space-y-10 space-x-0 w-full sm:flex-row sm:space-y-0 sm:space-x-10">
           <TextareaAutosize
-            className="w-6/12"
+            className="sm:w-7/12 p-3"
             maxRows={15}
             minRows={3}
             placeholder="Write some notes pls"
