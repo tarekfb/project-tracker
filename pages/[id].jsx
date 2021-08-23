@@ -3,8 +3,7 @@ import Head from 'next/head';
 import Layout from '../components/Layout';
 import { EditableField } from '../components/EditableField';
 import { EditableList } from '../components/EditableList';
-
-import TextareaAutosize from 'react-textarea-autosize';
+import { Notes } from '../components/Notes';
 
 import { GitHub, Link as UrlLink, CalendarToday } from '@material-ui/icons';
 import { Divider } from '@material-ui/core';
@@ -49,7 +48,7 @@ export default function Project({ project }) {
       <div className="flex flex-col justify-start space-y-5">
         {/* Meta information */}
         <span className="text-3xl">
-          <EditableField placeholder="Example Project Name" content={name} setContent={setName} />
+          <EditableField placeholder="Example Project Name" id="name" />
         </span>
         <div className="flex flex-row justify-start space-x-5">
           <div className="flex flex-col space-y-1">
@@ -59,22 +58,17 @@ export default function Project({ project }) {
             </div>
             <div className="flex flex-row space-x-1">
               <span>Completion:</span>
-              <EditableField placeholder="completed?" content={completion} setContent={setCompletion} />
+              <EditableField placeholder="completed?" id="completion" />
             </div>
           </div>
           <div className="flex flex-col space-y-1 text-m">
             <span className="flex space-x-2">
               <GitHub />
-              <EditableField
-                placeholder="www.example.com"
-                content={hostedAt}
-                setContent={setHostedAt}
-                className="m-8"
-              />
+              <EditableField placeholder="github" id="github" className="m-8" />
             </span>
             <span className="flex space-x-2">
               <UrlLink />
-              <EditableField placeholder="github" content={github} setContent={setGithub} />
+              <EditableField placeholder="www.example.com" id="hostedAt" />
             </span>
           </div>
         </div>
@@ -82,15 +76,9 @@ export default function Project({ project }) {
 
         {/* Project content */}
         <div className="flex flex-col justify-start space-y-10 space-x-0 w-full sm:flex-row sm:space-y-0 sm:space-x-10">
-          <TextareaAutosize
-            className="sm:w-7/12 p-3"
-            maxRows={15}
-            minRows={3}
-            placeholder="Write some notes pls"
-            value={notes}
-            onChange={(ev) => setNotes(ev.target.value)}
-          />
-          <EditableList className="w-6/12" content={tasks} setContent={setTasks} />
+          <Notes className="w-6/12" />
+          <EditableList className="w-6/12" />
+          {/*   */}
         </div>
       </div>
     </Layout>
