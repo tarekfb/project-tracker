@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import EditableListItem from './EditableListItem';
 import { Check, Add } from '@material-ui/icons';
 
-import firebase from 'firebase/app';
+import firebase from '../firebase/clientApp';
 import 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 
@@ -14,39 +14,32 @@ const newListItemContainerStyle = 'flex flex-row';
 export function EditableList({ content, setContent }) {
   const [input, setInput] = useState('');
   const [isAdding, setIsAdding] = useState(false);
+  const [tasks, setTasks] = useState([]);
 
   const inputRef = useRef(null);
   const buttonRef = useRef(null);
 
-  const firebaseConfig = {
-    apiKey: process.env.FIREBASE_API_KEY,
-    authDomain: process.env.AUTH_DOMAIN,
-    projectId: process.env.PROJECT_ID,
-    storageBucket: process.env.STORAGE_BUCKET,
-    messagingSenderId: process.env.MESSAGE_SENDER_ID,
-    appId: process.env.APP_ID,
-  };
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-  } else {
-    firebase.app(); // if already initialized, use that one
-  }
-  const firestore = firebase.firestore();
-  const tasksRef = firestore.collection('tasks');
+  const ref = firebase.firestore().collection('tasks');
   const query = tasksRef.orderBy('createdAt').limit(25);
   const [tasks] = useCollectionData(query, { idField: 'id' });
 
-  const createProject = async () => {
-    await tasksRef.add({
-      task: input,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    });
+  const getTasks = () => {
+    // get info
   };
 
+  // const createProject = async () => {
+  //   await tasksRef.add({
+  //     task: input,
+  //     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+  //   });
+  // };
+
   useEffect(() => {
+    // When pressing adding a new list item, immediately focus the input.
     if (isAdding) {
       inputRef.current.focus();
     }
+    getTasks();
   }, [isAdding]);
 
   // update the list: remove item or update item
@@ -69,7 +62,7 @@ export function EditableList({ content, setContent }) {
     if (input) {
       setContent((state) => [...state, input]);
     }
-    createProject();
+    // createProject();
   };
 
   // remove item at index

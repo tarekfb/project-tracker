@@ -2,12 +2,15 @@ import { useState, useEffect, useContext } from 'react';
 import Link from 'next/link';
 import { DropDownMenu } from './DropDownMenu';
 import { useProjectContextValue } from '../contexts/ProjectContext';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import firebase from '../../firebase/clientApp';
 
 export function Navbar() {
   // const [ projects, handleProjects ] = useProjectContextValue();
   // const projectContextValue = useProjectContextValue();
   const { projects } = useProjectContextValue();
-  
+  // const [user, loading, error] = useAuthState(firebase.useAuthState());
+
   // const [projects, setProjects] = useState([]);
 
   // // This is a temporary solution
@@ -41,6 +44,7 @@ export function Navbar() {
         </Link>
       </h1>
       <DropDownMenu projects={projects} />
+      {/* <div>{user ? <span>logged in</span> : <span>logged out</span>}</div> */}
     </div>
   );
 }
