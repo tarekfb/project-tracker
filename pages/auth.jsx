@@ -4,7 +4,7 @@ import Layout from '../components/Layout';
 // import { StyledFirebaseAuth } from 'react-firebaseui';
 // import { FirebaseAuth } from '../components/FirebaseAuth';
 // import FirebaseAuth from '../components/FirebaseAuth';
-import firebase from '../firebase/clientApp';
+import firebase from '../firebase/FirebaseApp';
 import '../node_modules/firebaseui/dist/firebaseui.css';
 
 const uiConfig = {

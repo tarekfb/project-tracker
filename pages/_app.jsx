@@ -1,8 +1,6 @@
 // import '../styles/global.css'
 import 'tailwindcss/tailwind.css';
-import {
-  useProjectContextValue, ProjectContext
-} from '../components/contexts/ProjectContext';
+import { useProjectContextValue, ProjectContext } from '../components/contexts/ProjectContext';
 
 // import App from 'next/app'
 

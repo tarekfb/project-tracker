@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import firebase from '../firebase/clientApp';
+import firebase from '../firebase/FirebaseApp';
 import 'firebase/firestore';
 import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
@@ -18,19 +18,21 @@ export function Notes() {
   }, []);
 
   const updateNotesInDb = async () => {
-    setLoadingToDb(true);
+    if (!notes) {
+      setLoadingToDb(true);
 
-    let docRef = ref.doc('note');
-    let doc = await docRef.get();
+      let docRef = ref.doc('note');
+      let doc = await docRef.get();
 
-    if (doc.exists) {
-      await docRef.update({ text: notes });
-    } else {
-      // doc.data() will be undefined in this case
-      console.log('No such document!');
+      if (doc.exists) {
+        await docRef.update({ text: notes });
+      } else {
+        // doc.data() will be undefined in this case
+        console.log('No such document!');
+      }
+
+      setLoadingToDb(false);
     }
-
-    setLoadingToDb(false);
   };
 
   // Get content from db
@@ -49,13 +51,13 @@ export function Notes() {
   };
 
   return (
-    <div className="w-6/12">
+    <div>
       {loadingFromDb ? (
         <Loader type="TailSpin" color="#000000" height={100} width={100} />
       ) : (
         <div>
           <TextareaAutosize
-            className="sm:w-7/12 p-3"
+            className="w-full p-3"
             maxRows={15}
             minRows={3}
             placeholder="Write some notes pls"

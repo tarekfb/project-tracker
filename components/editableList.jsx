@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import EditableListItem from './EditableListItem';
 import { Check, Add } from '@material-ui/icons';
-import firebase from '../firebase/clientApp';
+import firebase from '../firebase/FirebaseApp';
 import 'firebase/firestore';
 import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';

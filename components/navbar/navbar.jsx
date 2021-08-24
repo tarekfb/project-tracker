@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { DropDownMenu } from './DropDownMenu';
 import { useProjectContextValue } from '../contexts/ProjectContext';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import firebase from '../../firebase/clientApp';
+import firebase from '../../firebase/FirebaseApp';
 
 export function Navbar() {
   // const [ projects, handleProjects ] = useProjectContextValue();

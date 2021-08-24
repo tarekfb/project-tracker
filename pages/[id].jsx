@@ -76,9 +76,12 @@ export default function Project({ project }) {
 
         {/* Project content */}
         <div className="flex flex-col justify-start space-y-10 space-x-0 w-full sm:flex-row sm:space-y-0 sm:space-x-10">
-          <Notes className="w-6/12" />
-          <EditableList className="w-6/12" />
-          {/*   */}
+          <div className="w-7/12">
+            <Notes />
+          </div>
+          <div className="w-5/12">
+            <EditableList />
+          </div>
         </div>
       </div>
     </Layout>
