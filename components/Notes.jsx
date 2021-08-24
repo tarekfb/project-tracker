@@ -6,7 +6,7 @@ import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import TextareaAutosize from 'react-textarea-autosize';
 
 export function Notes() {
-  const [notes, setNotes] = useState(false);
+  const [notes, setNotes] = useState('');
   const [loadingFromDb, setLoadingFromDb] = useState(false);
   const [loadingToDb, setLoadingToDb] = useState(false);
 
@@ -17,25 +17,35 @@ export function Notes() {
     getNotes();
   }, []);
 
-  useEffect(() => {
-    updateNotesInDb();
-  }, [notes]);
-
   const updateNotesInDb = async () => {
-    // TO DO update and put in editablefield same method okbye
+    setLoadingToDb(true);
+
+    let docRef = ref.doc('note');
+    let doc = await docRef.get();
+
+    if (doc.exists) {
+      await docRef.update({ text: notes });
+    } else {
+      // doc.data() will be undefined in this case
+      console.log('No such document!');
+    }
+
+    setLoadingToDb(false);
   };
 
   // Get content from db
-  const getNotes = () => {
+  const getNotes = async () => {
     setLoadingFromDb(true);
-    ref.onSnapshot((querySnapshot) => {
-      let data;
-      if (!querySnapshot.empty) {
-        data = querySnapshot.docs[0].data().text;
-      }
-      setNotes(data);
-      setLoadingFromDb(false);
-    });
+
+    let doc = await ref.doc('note').get();
+    if (doc.exists) {
+      setNotes(doc.data().text);
+    } else {
+      // doc.data() will be undefined in this case
+      console.log('No such document!');
+    }
+
+    setLoadingFromDb(false);
   };
 
   return (
@@ -51,9 +61,11 @@ export function Notes() {
             placeholder="Write some notes pls"
             value={notes}
             onChange={(ev) => setNotes(ev.target.value)}
+            onBlur={updateNotesInDb}
           />
         </div>
       )}
+      {loadingToDb && <div>Loading to db...</div>}
     </div>
   );
 }

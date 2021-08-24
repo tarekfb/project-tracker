@@ -9,8 +9,8 @@ import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 export function EditableField({ id, placeholder }) {
   const [editVisibility, setEditVisibility] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [input, setInput] = useState("");
-  const [content, setContent] = useState("");
+  const [input, setInput] = useState('');
+  const [content, setContent] = useState('');
   const [loadingFromDb, setLoadingFromDb] = useState(false);
   const [loadingToDb, setLoadingToDb] = useState(false);
 
@@ -35,6 +35,22 @@ export function EditableField({ id, placeholder }) {
       setInput(data);
       setLoadingFromDb(false);
     });
+  };
+
+  const updateContentInDb = async () => {
+    setLoadingToDb(true);
+
+    let docRef = ref.doc(id);
+    let doc = await docRef.get();
+
+    if (doc.exists) {
+      await docRef.update({ text: content });
+    } else {
+      // doc.data() will be undefined in this case
+      console.log('No such document!');
+    }
+
+    setLoadingToDb(false);
   };
 
   // handle if the field is currently being edited or not
@@ -71,6 +87,7 @@ export function EditableField({ id, placeholder }) {
     if (input !== content) {
       let obj = { text: input };
       setContent(obj);
+      updateContentInDb();
     }
   };
 
