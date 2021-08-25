@@ -5,6 +5,7 @@ import firebase from '../firebase/FirebaseApp';
 import 'firebase/firestore';
 import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import { useSavingContextValue } from './contexts/SavingContext';
 
 const newListItemFieldStyle =
   'border-solid border-black border-b focus:outline-none focus:border-b focus:border-blue-400';
@@ -16,12 +17,25 @@ export function EditableList() {
   const [isAdding, setIsAdding] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [loadingFromDb, setLoadingFromDb] = useState(false);
-  const [loadingToDb, setLoadingToDb] = useState(false);
+  // const [loadingToDb, setLoadingToDb] = useState(false);
 
   const inputRef = useRef(null);
   const buttonRef = useRef(null);
 
   const ref = firebase.firestore().collection('tasks');
+  const { setIsSaving } = useSavingContextValue();
+
+  // When pressing adding a new list item, immediately focus the input.
+  useEffect(() => {
+    if (isAdding) {
+      inputRef.current.focus();
+    }
+  }, [isAdding]);
+
+  // on init, load tasks from db
+  useEffect(() => {
+    getTasks();
+  }, []);
 
   // Get tasks from db
   const getTasks = () => {
@@ -37,22 +51,10 @@ export function EditableList() {
   };
 
   const addTaskToDb = async (obj) => {
-    setLoadingToDb(true);
+    setIsSaving(true);
     await ref.add(obj);
-    setLoadingToDb(false);
+    setIsSaving(false);
   };
-
-  // When pressing adding a new list item, immediately focus the input.
-  useEffect(() => {
-    if (isAdding) {
-      inputRef.current.focus();
-    }
-  }, [isAdding]);
-
-  // on init, load tasks from db
-  useEffect(() => {
-    getTasks();
-  }, []);
 
   // update the list: remove item or update item
   const updateList = (value, index) => {

@@ -5,18 +5,18 @@ import firebase from '../firebase/FirebaseApp';
 import 'firebase/firestore';
 import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import { useSavingContextValue } from './contexts/SavingContext';
 
 export function EditableField({ placeholder, id }) {
   const [content, setContent] = useState('');
-
   const [editVisibility, setEditVisibility] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [input, setInput] = useState('');
   const inputRef = useRef(null);
 
   const [loadingFromDb, setLoadingFromDb] = useState(false);
-  const [loadingToDb, setLoadingToDb] = useState(false);
-  const ref = firebase.firestore().collection(id);
+  const ref = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects/qlvfoYjqp0IYI9o30xOn/' + id);
+  const { setIsSaving } = useSavingContextValue();
 
   useEffect(async () => {
     await getContent();
@@ -39,7 +39,7 @@ export function EditableField({ placeholder, id }) {
   };
 
   const updateContentInDb = async () => {
-    setLoadingToDb(true);
+    setIsSaving(true);
 
     let docRef = ref.doc(id);
     let doc = await docRef.get();
@@ -51,7 +51,7 @@ export function EditableField({ placeholder, id }) {
       console.log('No such document!');
     }
 
-    setLoadingToDb(false);
+    setIsSaving(false);
   };
 
   // handle if the field is currently being edited or not
@@ -90,6 +90,8 @@ export function EditableField({ placeholder, id }) {
       setContent(input);
       updateContentInDb();
     }
+
+    console.log('confirm edit');
   };
 
   const toggleEditState = () => {
@@ -149,145 +151,6 @@ export function EditableField({ placeholder, id }) {
           </button>
         </div>
       )}
-      {loadingToDb && <div>Loading to db...</div>}
     </div>
   );
 }
-
-//     const [editVisibility, setEditVisibility] = useState(false);
-//     const [isEditing, setIsEditing] = useState(false);
-//     const [input, setInput] = useState(content);
-
-//     // toggle the state of editing: true or false
-//     const toggleEditState = () => {
-//         // shallow copy to properly update state
-//         let newState = {
-//             ...isEditing
-//         };
-
-//         // if !null toc confirm prop exists
-//         if (isEditing != null) {
-//             isEditing ? newState = false : newState = true;
-//             setIsEditing(newState);
-//         }
-//     };
-
-//     // handle if the field is currently being edited or not
-//     const handleEditVisibility = (bool) => {
-//         // this means the property is currently being edited
-//         // do nothing
-//         if (isEditing) {
-//             return null;
-//         }
-
-//         let newState = {
-//             ...editVisibility
-//         };
-
-//         newState = bool;
-
-//         setEditVisibility(newState);
-//     }
-
-//     // update input
-//     const handleChange = (value) => {
-//         setInput(value);
-//     };
-
-//     // confirm edit and call parent function to update state
-//     const confirmEdit = () => {
-//         // if they differ, update state
-//         if (input !== content) {
-//             updateList(input, i);
-//         }
-
-//     };
-
-//     return (
-//         <li key={i}
-//             onMouseEnter={e => {
-//                 handleEditVisibility(true);
-//             }}
-//             onMouseLeave={e => {
-//                 handleEditVisibility(false);
-//             }}
-//         >
-//             <div>
-//                 <div className="hover:text-blue-400 inline">
-//                     <span>- </span>
-//                     <input type="text" placeholder={content} value={input} onBlur={() => {
-//                         toggleEditState();
-//                         confirmEdit();
-//                     }} onChange={(e) => {
-//                         handleChange(e.target.value);
-//                     }} onFocus={(e) => {
-//                         toggleEditState();
-//                     }}
-//                     />
-//                 </div>
-//                 <button
-//                     className={`hover:text-blue-400 ${editVisibility ? "" : "hidden"}`}
-//                 >
-//                     {
-//                         isEditing == true ? <CheckIcon onClick={() => {
-//                             toggleEditState();
-//                         }} /> : <div> <DeleteIcon onClick={() => {
-//                             updateList("", i);
-//                         }} /> </div>
-//                     }
-//                 </button>
-//             </div>
-//         </li>
-//     )
-// }
-
-//     const [editVisibility, setEditVisibility] = useState(false);
-//     const [isEditing, setIsEditing] = useState(false);
-
-//     const toggleEditState = () => {
-//         // shallow copy to properly update state
-//         let newState = {
-//             ...isEditing
-//         };
-
-//         // if !null toc confirm prop exists
-//         if (isEditing != null) {
-//             isEditing ? newState = false : newState = true;
-//             setIsEditing(newState);
-//         }
-//     };
-
-//     const handleEditVisibility = (bool) => {
-//         // this means the property is currently being edited
-//         // do nothing
-//         if (isEditing) {
-//             return null;
-//         }
-
-//         let newState = {
-//             ...editVisibility
-//         };
-//         newState = bool;
-//         setEditVisibility(newState);
-//     }
-
-//     return (
-//         <div
-//             onMouseEnter={e => {
-//                 handleEditVisibility(true);
-//             }}
-//             onMouseLeave={e => {
-//                 handleEditVisibility(false);
-//             }}
-//         >
-//             <span className="mr-1">{content}</span>
-//             {editVisibility ?
-//                 <button className="hover:text-blue-400"
-//                     onClick={() => {
-//                         toggleEditState()
-//                     }}>
-//                     {isEditing == true ? <CheckIcon /> : <EditIcon />}
-//                 </button> : null}
-//         </div>
-//     )
-// }

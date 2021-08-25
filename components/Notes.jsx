@@ -3,12 +3,13 @@ import firebase from '../firebase/FirebaseApp';
 import 'firebase/firestore';
 import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
-import TextareaAutosize from 'react-textarea-autosize';
+import { useSavingContextValue } from './contexts/SavingContext';
+import { TextareaAutosize } from '@material-ui/core';
 
 export function Notes() {
   const [notes, setNotes] = useState('');
   const [loadingFromDb, setLoadingFromDb] = useState(false);
-  const [loadingToDb, setLoadingToDb] = useState(false);
+  const { setIsSaving } = useSavingContextValue();
 
   const ref = firebase.firestore().collection('notes');
 
@@ -18,21 +19,21 @@ export function Notes() {
   }, []);
 
   const updateNotesInDb = async () => {
-    if (!notes) {
-      setLoadingToDb(true);
+    // if (notes) {
+    setIsSaving(true);
 
-      let docRef = ref.doc('note');
-      let doc = await docRef.get();
+    let docRef = ref.doc('note');
+    let doc = await docRef.get();
 
-      if (doc.exists) {
-        await docRef.update({ text: notes });
-      } else {
-        // doc.data() will be undefined in this case
-        console.log('No such document!');
-      }
-
-      setLoadingToDb(false);
+    if (doc.exists) {
+      await docRef.update({ text: notes });
+    } else {
+      // doc.data() will be undefined in this case
+      console.log('No such document!');
     }
+
+    setIsSaving(false);
+    // }
   };
 
   // Get content from db
@@ -43,7 +44,6 @@ export function Notes() {
     if (doc.exists) {
       setNotes(doc.data().text);
     } else {
-      // doc.data() will be undefined in this case
       console.log('No such document!');
     }
 
@@ -67,7 +67,6 @@ export function Notes() {
           />
         </div>
       )}
-      {loadingToDb && <div>Loading to db...</div>}
     </div>
   );
 }
