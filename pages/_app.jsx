@@ -1,18 +1,16 @@
 // import '../styles/global.css'
 import 'tailwindcss/tailwind.css';
-import {
-  useProjectContextValue, ProjectContext
-} from '../components/contexts/ProjectContext';
 
-// import App from 'next/app'
+import { ProjectContextProvider } from '../components/contexts/ProjectContext';
+import { SavingContextProvider } from '../components/contexts/SavingContext';
 
 function MyApp({ Component, pageProps }) {
-  const projectContextValue = useProjectContextValue();
-
   return (
-    <ProjectContext.Provider value={projectContextValue}>
-      <Component {...pageProps} />
-    </ProjectContext.Provider>
+    <ProjectContextProvider>
+      <SavingContextProvider>
+        <Component {...pageProps} />
+      </SavingContextProvider>
+    </ProjectContextProvider>
   );
 }
 

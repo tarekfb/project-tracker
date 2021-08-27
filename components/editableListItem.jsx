@@ -82,7 +82,7 @@ export default function EditableListItem({ content, i, updateList }) {
           onBlur={() => confirmEdit(i)}
           onChange={(e) => handleChange(e.target.value)}
           onFocus={() => handleIsEditing(true, i)}
-          placeholder="implement x"
+          placeholder="implement this feature"
         />
         <button className={`hover:text-blue-400 ${iconVisibility[i] ? '' : 'hidden'}`}>
           {isEditing[i] ? (

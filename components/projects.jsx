@@ -2,30 +2,33 @@ import React, { useState, useEffect } from 'react';
 import { findIndex } from '../util/util';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Link from 'next/link';
-import { useProjectContextValue } from './contexts/ProjectContext';
+import { useProjectContext } from './contexts/ProjectContext';
+import { useSavingContext } from './contexts/SavingContext';
+
+import firebase from '../firebase/FirebaseApp';
+import 'firebase/firestore';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 export function Projects() {
   const [input, setInput] = useState('');
-  // const [projects, setProjects] = useState([]);
-  const { projects, handleProjects } = useProjectContextValue();
+  const { projects, handleProjects } = useProjectContext();
+  const { toggleIsSaving } = useSavingContext();
 
-  // useEffect(() => {
-  //     async function initProjects() {
-  //         let req = await fetch('http://localhost:3000/projects.json');
-  //         let data = await req.json();
+  const ref = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects/qlvfoYjqp0IYI9o30xOn/notes');
 
-  //         let projects = [];
-  //         data.forEach(element => {
-  //             let project = {};
-  //             project.name = element;
-  //             project.startDate = new Date().toLocaleString('en-GB');
-  //             projects.push(project);
-  //         });
-  //         setProjects(projects);
-  //     }
+  const log = () => {
+    console.log(
+      firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects/qlvfoYjqp0IYI9o30xOn/completion')
+    );
+  };
 
-  //     initProjects();
-  // }, []);
+  useEffect(() => {
+    getProjects();
+  }, []);
+
+  const getProjects = async () => {
+    let snapshot = await ref.get();
+  };
 
   const addProject = (input) => {
     let newProject = {};
@@ -35,9 +38,7 @@ export function Projects() {
   };
 
   const removeProject = (name) => {
-    let answer = confirm(
-      'Are you sure you want to delete project: ' + name + '?'
-    );
+    let answer = confirm('Are you sure you want to delete project: ' + name + '?');
     if (answer) {
       const projectIndex = findIndex(projects, 'name', name);
       let newState = [...projects];

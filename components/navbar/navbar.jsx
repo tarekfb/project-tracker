@@ -1,46 +1,28 @@
-import { useState, useEffect, useContext } from 'react';
 import Link from 'next/link';
 import { DropDownMenu } from './DropDownMenu';
-import { useProjectContextValue } from '../contexts/ProjectContext';
+import { useProjectContext } from '../contexts/ProjectContext';
+import { useSavingContext } from '../contexts/SavingContext';
+import { CloudDone } from '@material-ui/icons';
+// import { useAuthState } from 'react-firebase-hooks/auth';
+// import firebase from '../../firebase/FirebaseApp';
+
+import SyncLoader from 'react-spinners/SyncLoader';
 
 export function Navbar() {
-  // const [ projects, handleProjects ] = useProjectContextValue();
-  // const projectContextValue = useProjectContextValue();
-  const { projects } = useProjectContextValue();
-  
-  // const [projects, setProjects] = useState([]);
-
-  // // This is a temporary solution
-  // // This function has been done in other places. Primarily in projects.js.
-  // // Currently no db, but local file system.
-  // // When db, use db instead.
-  // // Or context?
-
-  // useEffect(() => {
-  //   async function initProjects() {
-  //     let req = await fetch('http://localhost:3000/projects.json');
-  //     let data = await req.json();
-
-  //     let projects = [];
-  //     data.forEach(element => {
-  //       let project = {};
-  //       project.name = element;
-  //       projects.push(project);
-  //     });
-  //     setProjects(projects);
-  //   }
-
-  //   initProjects();
-  // }, []);
+  const { projects } = useProjectContext();
+  const { isSaving } = useSavingContext();
 
   return (
-    <div className="flex justify-between space-x-4 items-center bg-prussianBlue text-white p-4 pr-12">
-      <h1 className="text-4xl">
+    <div className="flex justify-end space-x-4 items-center bg-prussianBlue text-white p-4 pr-4">
+      <h1 className="text-4xl mr-auto">
         <Link href="/">
           <a>Project tracker</a>
         </Link>
       </h1>
       <DropDownMenu projects={projects} />
+      <div className="w-1/12 flex-initial flex flex-row justify-center">
+        {isSaving ? <SyncLoader color="#000000" size={100} /> : <CloudDone fontSize="large" />}
+      </div>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { Navbar } from './navbar/Navbar';
 export const siteTitle = 'Project tracker';
 
 export default function Layout({ children }) {
+
   return (
     <>
       <Head>
