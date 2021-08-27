@@ -119,7 +119,7 @@ export function EditableField({ placeholder, id }) {
   return (
     <div>
       {loadingFromDb ? (
-        <SyncLoader color="#000000" size={100} />
+        <SyncLoader color="#000000" size={10} />
       ) : (
         <div onMouseEnter={() => handleEditVisibility(true)} onMouseLeave={() => handleEditVisibility(false)}>
           <div className={`${isEditing ? '' : 'hover:text-blue-400'} inline`}>

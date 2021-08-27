@@ -100,7 +100,7 @@ export function EditableList() {
   return (
     <div>
       {loadingFromDb ? (
-        <SyncLoader color="#000000" size={100} />
+        <SyncLoader color="#000000" size={25} />
       ) : (
         <div>
           {/* Task list section */}

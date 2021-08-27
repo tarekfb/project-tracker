@@ -52,7 +52,7 @@ export function Notes() {
   return (
     <div>
       {loadingFromDb ? (
-        <SyncLoader color="#000000" size={150} />
+        <SyncLoader color="#000000" size={25} />
       ) : (
         <div>
           <TextareaAutosize
