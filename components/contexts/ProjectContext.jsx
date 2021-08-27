@@ -1,6 +1,6 @@
-import { useState, useEffect, createContext } from 'react';
+import { useState, useEffect, createContext, useContext } from 'react';
 
-function getProjects() {
+async function getProjects() {
   let data = ['test', 'house-scraper'];
 
   let projects = [];
@@ -14,13 +14,13 @@ function getProjects() {
 }
 
 //default values
-export const projectContextDefaultValue = getProjects();
+const projectContextDefaultValue = getProjects();
 
 //provider
-export const ProjectContext = createContext(projectContextDefaultValue);
+const ProjectContext = createContext(projectContextDefaultValue);
 
 //hooks that components can use to change the values
-export function useProjectContextValue() {
+export function ProjectContextProvider({ children }) {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
@@ -41,31 +41,12 @@ export function useProjectContextValue() {
   }, []);
 
   const handleProjects = (projects) => {
-    console.log('handle wascalle');
     setProjects(projects);
   };
 
-  return {
-    projects,
-    setProjects,
-    handleProjects,
-  };
+  return <ProjectContext.Provider value={{ projects, handleProjects }}>{children}</ProjectContext.Provider>;
 }
 
-// const projects = getProjects();
-
-// export const ProjectContext = createContext(projects);
-
-// export function AppWrapper({ children }) {
-//   const [projects, setProjects] = useState([]);
-
-//   return (
-//     <ProjectContext.Provider value={{ projects, setProjects }}>
-//       {children}
-//     </ProjectContext.Provider>
-//   );
-// }
-
-// export function useProjectContext() {
-//   return useContext(ProjectContext);
-// }
+export function useProjectContext() {
+  return useContext(ProjectContext);
+}

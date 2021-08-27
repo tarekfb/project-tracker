@@ -3,9 +3,8 @@ import EditableListItem from './EditableListItem';
 import { Check, Add } from '@material-ui/icons';
 import firebase from '../firebase/FirebaseApp';
 import 'firebase/firestore';
-import Loader from 'react-loader-spinner';
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
-import { useSavingContextValue } from './contexts/SavingContext';
+import { useSavingContext } from './contexts/SavingContext';
+import SyncLoader from 'react-spinners/SyncLoader'
 
 const newListItemFieldStyle =
   'border-solid border-black border-b focus:outline-none focus:border-b focus:border-blue-400';
@@ -17,13 +16,12 @@ export function EditableList() {
   const [isAdding, setIsAdding] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [loadingFromDb, setLoadingFromDb] = useState(false);
-  // const [loadingToDb, setLoadingToDb] = useState(false);
 
   const inputRef = useRef(null);
   const buttonRef = useRef(null);
 
   const ref = firebase.firestore().collection('tasks');
-  const { setIsSaving } = useSavingContextValue();
+  const { toggleIsSaving } = useSavingContext();
 
   // When pressing adding a new list item, immediately focus the input.
   useEffect(() => {
@@ -51,9 +49,9 @@ export function EditableList() {
   };
 
   const addTaskToDb = async (obj) => {
-    setIsSaving(true);
+    toggleIsSaving(true);
     await ref.add(obj);
-    setIsSaving(false);
+    toggleIsSaving(false);
   };
 
   // update the list: remove item or update item
@@ -102,7 +100,7 @@ export function EditableList() {
   return (
     <div>
       {loadingFromDb ? (
-        <Loader type="TailSpin" color="#000000" height={80} width={80} />
+        <SyncLoader color="#000000" size={100} />
       ) : (
         <div>
           {/* Task list section */}
@@ -145,14 +143,3 @@ export function EditableList() {
     </div>
   );
 }
-
-//  <button
-//     ref={buttonRef}
-//     className={newListItemButtonStyle}
-//     onClick={() => {
-//       isAdding ? setIsAdding(false) : setIsAdding(true);
-//       isAdding ? addListItem(input) : null;
-//     }}>
-//     {isAdding ? <Check /> : <Add />}
-
-// <button className={newListItemButtonStyle} onClick={() => setIsAdding(true)}>

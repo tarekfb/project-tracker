@@ -3,9 +3,10 @@ import CheckIcon from '@material-ui/icons/Check';
 
 import firebase from '../firebase/FirebaseApp';
 import 'firebase/firestore';
-import Loader from 'react-loader-spinner';
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
-import { useSavingContextValue } from './contexts/SavingContext';
+import { useSavingContext } from './contexts/SavingContext';
+
+import SyncLoader from 'react-spinners/SyncLoader';
+
 
 export function EditableField({ placeholder, id }) {
   const [content, setContent] = useState('');
@@ -16,7 +17,7 @@ export function EditableField({ placeholder, id }) {
 
   const [loadingFromDb, setLoadingFromDb] = useState(false);
   const ref = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects/qlvfoYjqp0IYI9o30xOn/' + id);
-  const { setIsSaving } = useSavingContextValue();
+  const { toggleIsSaving } = useSavingContext();
 
   useEffect(async () => {
     await getContent();
@@ -39,7 +40,7 @@ export function EditableField({ placeholder, id }) {
   };
 
   const updateContentInDb = async () => {
-    setIsSaving(true);
+    toggleIsSaving(true);
 
     let docRef = ref.doc(id);
     let doc = await docRef.get();
@@ -51,7 +52,7 @@ export function EditableField({ placeholder, id }) {
       console.log('No such document!');
     }
 
-    setIsSaving(false);
+    toggleIsSaving(false);
   };
 
   // handle if the field is currently being edited or not
@@ -118,7 +119,7 @@ export function EditableField({ placeholder, id }) {
   return (
     <div>
       {loadingFromDb ? (
-        <Loader type="ThreeDots" color="#000000" height={50} width={50} />
+        <SyncLoader color="#000000" size={100} />
       ) : (
         <div onMouseEnter={() => handleEditVisibility(true)} onMouseLeave={() => handleEditVisibility(false)}>
           <div className={`${isEditing ? '' : 'hover:text-blue-400'} inline`}>

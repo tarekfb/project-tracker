@@ -2,18 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { findIndex } from '../util/util';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Link from 'next/link';
-import { useProjectContextValue } from './contexts/ProjectContext';
-import { useSavingContextValue } from './contexts/SavingContext';
+import { useProjectContext } from './contexts/ProjectContext';
+import { useSavingContext } from './contexts/SavingContext';
 
 import firebase from '../firebase/FirebaseApp';
 import 'firebase/firestore';
-import Loader from 'react-loader-spinner';
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 export function Projects() {
   const [input, setInput] = useState('');
-  const { projects, handleProjects } = useProjectContextValue();
-  const { isSaving, handleSaving } = useSavingContextValue();
+  const { projects, handleProjects } = useProjectContext();
+  const { toggleIsSaving } = useSavingContext();
 
   const ref = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects/qlvfoYjqp0IYI9o30xOn/notes');
 
@@ -21,7 +20,6 @@ export function Projects() {
     console.log(
       firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects/qlvfoYjqp0IYI9o30xOn/completion')
     );
-    console.log(isSaving);
   };
 
   useEffect(() => {
@@ -81,12 +79,6 @@ export function Projects() {
         }}>
         Add
       </button>
-      <div className="flex flex-col">
-
-      <div>Saving value: {isSaving ? <span>true</span> : <span>false</span>}</div>
-      <button onClick={() => handleSaving(false)}>false</button>
-      <button onClick={() => handleSaving(true)}>true</button>
-      </div>
     </div>
   );
 }

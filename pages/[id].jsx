@@ -7,7 +7,7 @@ import { Notes } from '../components/Notes';
 
 import { GitHub, Link as UrlLink, CalendarToday } from '@material-ui/icons';
 import { Divider } from '@material-ui/core';
-import { useSavingContextValue } from '../components/contexts/SavingContext';
+import { useSavingContext } from '../components/contexts/SavingContext';
 
 export async function getStaticPaths() {
   let req = await fetch('http://localhost:3000/projects.json');
@@ -35,7 +35,7 @@ export async function getStaticProps({ params }) {
 export default function Project({ project }) {
   const [name, setName] = useState(project.name);
   const [startDate, setStartDate] = useState(project.startDate);
-  const { setIsSaving } = useSavingContextValue();
+  const { isSaving, toggleIsSaving } = useSavingContext();
 
   // const [github, setGithub] = useState(project.github);
   // const [hostedAt, setHostedAt] = useState(project.hostedAt);
@@ -51,7 +51,7 @@ export default function Project({ project }) {
       <div className="flex flex-col justify-start space-y-5">
         {/* Meta information */}
         <span className="text-3xl">
-          <EditableField placeholder="Example Project Name" id="name" setIsSaving={setIsSaving} />
+          <EditableField placeholder="Example Project Name" id="name" />
         </span>
         <div className="flex flex-row justify-start space-x-5">
           <div className="flex flex-col space-y-1">
@@ -61,17 +61,17 @@ export default function Project({ project }) {
             </div>
             <div className="flex flex-row space-x-1">
               <span>Completion:</span>
-              <EditableField placeholder="completed?" id="completion" setIsSaving={setIsSaving} />
+              <EditableField placeholder="completed?" id="completion" />
             </div>
           </div>
           <div className="flex flex-col space-y-1 text-m">
             <span className="flex space-x-2">
               <GitHub />
-              <EditableField placeholder="github" id="github" className="m-8" setIsSaving={setIsSaving} />
+              <EditableField placeholder="github" id="github" className="m-8" />
             </span>
             <span className="flex space-x-2">
               <UrlLink />
-              <EditableField placeholder="www.example.com" id="hostedAt" setIsSaving={setIsSaving} />
+              <EditableField placeholder="www.example.com" id="hostedAt" />
             </span>
           </div>
         </div>
@@ -80,10 +80,10 @@ export default function Project({ project }) {
         {/* Project content */}
         <div className="flex flex-col justify-start space-y-10 space-x-0 w-full sm:flex-row sm:space-y-0 sm:space-x-10">
           <div className="w-full">
-            <Notes setIsSaving={setIsSaving} />
+            <Notes />
           </div>
           <div className="w-full">
-            <EditableList setIsSaving={setIsSaving} />
+            <EditableList/>
           </div>
         </div>
       </div>

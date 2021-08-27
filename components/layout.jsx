@@ -1,12 +1,9 @@
 import Head from 'next/head';
 import { Navbar } from './navbar/Navbar';
-import { useState } from 'react';
-import { useSavingContextValue } from './contexts/SavingContext';
 
 export const siteTitle = 'Project tracker';
 
 export default function Layout({ children }) {
-  // const [loadingToDb, setLoadingToDb] = useState(false);
 
   return (
     <>

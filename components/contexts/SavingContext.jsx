@@ -1,21 +1,17 @@
-import { useState, createContext } from 'react';
+import { useState, createContext, useContext } from 'react';
 
-//provider
-export const SavingContext = createContext(false);
+const SavingContext = createContext(false);
 
-//hooks that components can use to change the values
-export function useSavingContextValue() {
+export function SavingContextProvider({ children }) {
   const [isSaving, setIsSaving] = useState(false);
 
-  const handleSaving = (bool) => {
-    if (isSaving !== bool) {
-      setIsSaving(bool);
-    }
+  const toggleIsSaving = () => {
+    setIsSaving((prevState) => !prevState);
   };
 
-  return {
-    isSaving,
-    setIsSaving,
-    handleSaving,
-  };
+  return <SavingContext.Provider value={{ isSaving, toggleIsSaving }}>{children}</SavingContext.Provider>;
+}
+
+export function useSavingContext() {
+  return useContext(SavingContext);
 }

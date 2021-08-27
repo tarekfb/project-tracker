@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react';
 import firebase from '../firebase/FirebaseApp';
 import 'firebase/firestore';
-import Loader from 'react-loader-spinner';
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
-import { useSavingContextValue } from './contexts/SavingContext';
+import SyncLoader from 'react-spinners/SyncLoader';
+import { useSavingContext } from './contexts/SavingContext';
 import { TextareaAutosize } from '@material-ui/core';
 
 export function Notes() {
   const [notes, setNotes] = useState('');
   const [loadingFromDb, setLoadingFromDb] = useState(false);
-  const { setIsSaving } = useSavingContextValue();
+  const { toggleIsSaving } = useSavingContext();
 
   const ref = firebase.firestore().collection('notes');
 
@@ -20,7 +19,7 @@ export function Notes() {
 
   const updateNotesInDb = async () => {
     // if (notes) {
-    setIsSaving(true);
+    toggleIsSaving(true);
 
     let docRef = ref.doc('note');
     let doc = await docRef.get();
@@ -32,7 +31,7 @@ export function Notes() {
       console.log('No such document!');
     }
 
-    setIsSaving(false);
+    toggleIsSaving(false);
     // }
   };
 
@@ -53,7 +52,7 @@ export function Notes() {
   return (
     <div>
       {loadingFromDb ? (
-        <Loader type="TailSpin" color="#000000" height={100} width={100} />
+        <SyncLoader color="#000000" size={150} />
       ) : (
         <div>
           <TextareaAutosize

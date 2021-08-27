@@ -1,32 +1,16 @@
 // import '../styles/global.css'
 import 'tailwindcss/tailwind.css';
-import { useState, createContext } from 'react';
 
-import { useProjectContextValue, ProjectContext } from '../components/contexts/ProjectContext';
-// import { useSavingContextValue, SavingContext } from '../components/contexts/SavingContext';
-
-// import App from 'next/app'
+import { ProjectContextProvider } from '../components/contexts/ProjectContext';
+import { SavingContextProvider } from '../components/contexts/SavingContext';
 
 function MyApp({ Component, pageProps }) {
-  const projectContextValue = useProjectContextValue();
-  // const { isSaving, handleSaving } = useSavingContextValue();
-
-  const SavingContext = createContext(false);
-  const [isSaving, setIsSaving] = useState(false);
-
-  const handleSaving = (bool) => {
-    console.log('CALLED HANDLESAVING BOOL IS', bool);
-    if (isSaving !== bool) {
-      setIsSaving(bool);
-    }
-  };
-
   return (
-    <SavingContext.Provider value={{ isSaving, handleSaving }}>
-      <ProjectContext.Provider value={projectContextValue}>
+    <ProjectContextProvider>
+      <SavingContextProvider>
         <Component {...pageProps} />
-      </ProjectContext.Provider>
-    </SavingContext.Provider>
+      </SavingContextProvider>
+    </ProjectContextProvider>
   );
 }
 
