@@ -13,7 +13,6 @@ const ref = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/project
 
 export async function getAllProjectIds() {
   const collection = await ref.get();
-  // get all
   const ids = [];
   collection.docs.map((doc) => {
     let idObj = {
@@ -32,6 +31,11 @@ async function getAllProjects() {
   const projects = [];
   collection.docs.map((doc) => projects.push(doc.data()));
   return projects;
+}
+
+async function getProject(id) {
+  const project = await ref.doc(id).get();
+  return project;
 }
 
 export function Projects() {
