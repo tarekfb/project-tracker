@@ -1,16 +1,47 @@
 import { useState, useEffect, createContext, useContext } from 'react';
+import firebase from '../../firebase/FirebaseApp';
+import 'firebase/firestore';
+
+const ref = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects/');
 
 async function getProjects() {
-  let data = ['test', 'house-scraper'];
-
-  let projects = [];
-  data.forEach((element) => {
-    let project = {};
-    project.name = element;
-    project.startDate = new Date().toLocaleString('en-GB');
-    projects.push(project);
+  const projectsRef = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects');
+  projectsRef.get().then((project) => {
+    const projectsList = project.docs.map((doc) => {
+      let obj = doc.data();
+      obj.id = doc.id;
+      return obj;
+    });
+    return projectsList;
   });
-  return projects;
+}
+
+export async function getProjectIdFromName(name) {
+  const projectsRef = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects');
+  let id;
+  projectsRef.get().then((project) => {
+    const projectsList = project.docs.map((doc) => {
+      if (doc.data().name == name) {
+        id = doc.id;
+      }
+    });
+    console.log('returning id: ', id);
+    return id;
+  });
+}
+
+export async function getAllProjectIds() {
+  const collection = await ref.get();
+  const ids = [];
+  collection.docs.map((doc) => {
+    let idObj = {
+      params: {
+        id: doc.id,
+      },
+    };
+    ids.push(idObj);
+  });
+  return ids;
 }
 
 //default values
@@ -25,26 +56,25 @@ export function ProjectContextProvider({ children }) {
 
   useEffect(() => {
     async function initProjects() {
-      let req = await fetch('http://localhost:3000/projects.json');
-      let data = await req.json();
-
-      let projects = [];
-      data.forEach((element) => {
-        let project = {};
-        project.name = element;
-        project.startDate = new Date().toLocaleString('en-GB');
-        projects.push(project);
+      // get all
+      const projectsRef = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects');
+      projectsRef.get().then((project) => {
+        const projectsList = project.docs.map((doc) => {
+          let obj = doc.data();
+          obj.id = doc.id;
+          return obj;
+        });
+        setProjects(projectsList);
       });
-      setProjects(projects);
     }
     initProjects();
   }, []);
 
-  const handleProjects = (projects) => {
+  const setProjectsWrapper = (projects) => {
     setProjects(projects);
   };
 
-  return <ProjectContext.Provider value={{ projects, handleProjects }}>{children}</ProjectContext.Provider>;
+  return <ProjectContext.Provider value={{ projects, setProjectsWrapper }}>{children}</ProjectContext.Provider>;
 }
 
 export function useProjectContext() {

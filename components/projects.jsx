@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { findIndex } from '../util/util';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Link from 'next/link';
@@ -11,64 +11,29 @@ import ClipLoader from 'react-spinners/ClipLoader';
 
 const ref = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects/');
 
-export async function getAllProjectIds() {
-  const collection = await ref.get();
-  const ids = [];
-  collection.docs.map((doc) => {
-    let idObj = {
-      params: {
-        id: doc.id,
-      },
-    };
-    ids.push(idObj);
-  });
-  console.log(ids);
-  return ids;
-}
-
-async function getAllProjects() {
-  const collection = await ref.get();
-  const projects = [];
-  collection.docs.map((doc) => projects.push(doc.data()));
-  return projects;
-}
-
-async function getProject(id) {
-  const project = await ref.doc(id).get();
-  return project;
-}
-
 export function Projects() {
   const [input, setInput] = useState('');
-  const { projects, handleProjects } = useProjectContext();
+  const { projects, setProjectsWrapper } = useProjectContext();
   const { toggleIsSaving } = useSavingContext();
 
   const log = async () => {
     // const collection = await projectsRef.get();
-
     // // get all
     // collection.docs.map((doc) => console.log(doc.data()));
-
     // // get first
     // console.log(collection.docs[0].data());
-
-    // get specific
-    const projectsRef = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects');
-    let id = 'qlvfoYjqp0IYI9o30xOn';
-    let specificProject = await projectsRef.doc(id).get();
-    console.log('GET SPECIFIC');
-    console.log(specificProject.data());
-
+    // // get specific
+    // const projectsRef = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects');
+    // let id = 'qlvfoYjqp0IYI9o30xOn';
+    // let specificProject = await projectsRef.doc(id).get();
+    // console.log('GET SPECIFIC');
+    // console.log(specificProject.data());
     // // get all
     // projectsRef.get().then((project) => {
     //   const projectsList = project.docs.map((doc) => doc.data());
     //   console.log(projectsList);
     // });
   };
-
-  useEffect(() => {
-    getProjects();
-  }, []);
 
   const addProjectToDb = async (obj) => {
     toggleIsSaving(true);
@@ -77,15 +42,11 @@ export function Projects() {
     toggleIsSaving(false);
   };
 
-  const getProjects = async () => {
-    let snapshot = await ref.get();
-  };
-
   const addProject = (input) => {
     let newProject = {};
     newProject.name = input;
     newProject.startDate = new Date().toLocaleString('en-GB');
-    handleProjects([...projects, newProject]);
+    setProjectsWrapper([...projects, newProject]);
   };
 
   const removeProject = (name) => {
@@ -95,7 +56,7 @@ export function Projects() {
       let newState = [...projects];
       if (projectIndex !== -1) {
         newState.splice(projectIndex, 1);
-        handleProjects(newState);
+        setProjectsWrapper(newState);
       }
     }
   };
@@ -105,21 +66,14 @@ export function Projects() {
       <ul>
         {projects.map((project, index) => (
           <li key={index}>
-            <Link
-              href={`/${project.name}`}
-              as={{ pathname: `/${project.name}`, query: { id: 'qlvfoYjqp0IYI9o30xOn' } }}>
+            <Link href={`/${project.id}`}>
+              {/* as={{ pathname: `/${project.name}`, query: { id: project.id } }}> */}
               <a>{project.name}</a>
             </Link>
             <button
               onClick={() => {
                 removeProject(project.name);
               }}>
-              {/* <Link href={`/${project}`}>
-                                <a>{project}</a>
-                            </Link>
-                            <button onClick={() => {
-                                removeProject(project);
-                            }}> */}
               <DeleteIcon />
             </button>
           </li>

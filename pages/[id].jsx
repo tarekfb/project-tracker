@@ -5,8 +5,8 @@ import Layout from '../components/Layout';
 import { EditableField } from '../components/EditableField';
 import { EditableList } from '../components/EditableList';
 import { useSavingContext } from '../components/contexts/SavingContext';
+import { getAllProjectIds } from '../components/contexts/ProjectContext';
 import { Notes } from '../components/Notes';
-import { getAllProjectIds } from '../components/Projects';
 
 import { GitHub, Link as UrlLink, CalendarToday } from '@material-ui/icons';
 import { Divider } from '@material-ui/core';
@@ -22,30 +22,15 @@ export async function getStaticPaths() {
     paths,
     fallback: false,
   };
-
-  // let req = await fetch('http://localhost:3000/projects.json');
-  // let data = await req.json();
-
-  // const paths = data.map((project) => {
-  //   return { params: { id: project } };
-  // });
-
-  // return {
-  //   paths,
-  //   fallback: false,
-  // };
 }
 
 export async function getStaticProps({ params }) {
-  const req = await fetch(`http://localhost:3000/${params.id}.json`);
-  const data = await req.json();
-
+  let project = await ref.doc(params.id).get();
+  let data = project.data();
   return {
     props: { project: data },
   };
 }
-
-// const ref = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects');
 
 export default function Project({ project }) {
   const [name, setName] = useState('');
@@ -53,10 +38,7 @@ export default function Project({ project }) {
   const [loadingFromDb, setLoadingFromDb] = useState(false);
   const { toggleIsSaving } = useSavingContext();
 
-  // const { toggleIsSaving } = useSavingContext();
-
   const router = useRouter();
-
   const { id } = router.query;
 
   // const [github, setGithub] = useState(project.github);
@@ -72,20 +54,18 @@ export default function Project({ project }) {
     // name = project.name;
     // startDate = project.startDate;
     // setLoadingFromDb(false);
-
     // let id = 'qlvfoYjqp0IYI9o30xOn';
-    console.log(id);
-    let project = await ref.doc(id).get();
-    console.log('GET SPECIFIC');
-    console.log(project.data());
-
-    console.log('router ', router);
-    console.log('routerquery ', router.query);
-    console.log('queryid ', router.query.id);
+    // console.log(id);
+    // let project = await ref.doc(id).get();
+    // console.log('GET SPECIFIC');
+    // console.log(project.data());
+    // console.log('router ', router);
+    // console.log('routerquery ', router.query);
+    // console.log('queryid ', router.query.id);
   };
 
   useEffect(() => {
-    getProject();
+    // getProject();
   }),
     [];
 
