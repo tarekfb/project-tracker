@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useState } from 'react';
 import Head from 'next/head';
 import Layout from '../components/Layout';
 import { EditableField } from '../components/EditableField';
@@ -38,36 +37,11 @@ export default function Project({ project }) {
   const [loadingFromDb, setLoadingFromDb] = useState(false);
   const { toggleIsSaving } = useSavingContext();
 
-  const router = useRouter();
-  const { id } = router.query;
-
   // const [github, setGithub] = useState(project.github);
   // const [hostedAt, setHostedAt] = useState(project.hostedAt);
   // const [completion, setCompletion] = useState(project.completion);
   // const [notes, setNotes] = useState(project.notes);
   // const [tasks, setTasks] = useState(project.tasks);
-
-  const getProject = async () => {
-    // const ref = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects');
-    // setLoadingFromDb(true);
-    // const project = await ref.doc(id).get().data();
-    // name = project.name;
-    // startDate = project.startDate;
-    // setLoadingFromDb(false);
-    // let id = 'qlvfoYjqp0IYI9o30xOn';
-    // console.log(id);
-    // let project = await ref.doc(id).get();
-    // console.log('GET SPECIFIC');
-    // console.log(project.data());
-    // console.log('router ', router);
-    // console.log('routerquery ', router.query);
-    // console.log('queryid ', router.query.id);
-  };
-
-  useEffect(() => {
-    // getProject();
-  }),
-    [];
 
   return (
     <Layout>

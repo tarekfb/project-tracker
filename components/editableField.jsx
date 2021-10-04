@@ -7,7 +7,6 @@ import { useSavingContext } from './contexts/SavingContext';
 
 import SyncLoader from 'react-spinners/SyncLoader';
 
-
 export function EditableField({ placeholder, id }) {
   const [content, setContent] = useState('');
   const [editVisibility, setEditVisibility] = useState(false);
