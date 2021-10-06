@@ -16,37 +16,22 @@ export function Projects() {
   const { projects, setProjectsWrapper } = useProjectContext();
   const { toggleIsSaving } = useSavingContext();
 
-  const log = async () => {
-    // const collection = await projectsRef.get();
-    // // get all
-    // collection.docs.map((doc) => console.log(doc.data()));
-    // // get first
-    // console.log(collection.docs[0].data());
-    // // get specific
-    // const projectsRef = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects');
-    // let id = 'qlvfoYjqp0IYI9o30xOn';
-    // let specificProject = await projectsRef.doc(id).get();
-    // console.log('GET SPECIFIC');
-    // console.log(specificProject.data());
-    // // get all
-    // projectsRef.get().then((project) => {
-    //   const projectsList = project.docs.map((doc) => doc.data());
-    //   console.log(projectsList);
-    // });
-  };
-
   const addProjectToDb = async (obj) => {
     toggleIsSaving(true);
-    const projectsRef = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects');
     await ref.add(obj);
     toggleIsSaving(false);
   };
 
   const addProject = (input) => {
+    toggleIsSaving(true);
+
     let newProject = {};
     newProject.name = input;
     newProject.startDate = new Date().toLocaleString('en-GB');
     setProjectsWrapper([...projects, newProject]);
+    await ref.add(newProject);
+
+    toggleIsSaving(false);
   };
 
   const removeProject = (name) => {
