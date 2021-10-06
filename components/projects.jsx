@@ -16,12 +16,6 @@ export function Projects() {
   const { projects, setProjectsWrapper } = useProjectContext();
   const { toggleIsSaving } = useSavingContext();
 
-  const addProjectToDb = async (obj) => {
-    toggleIsSaving(true);
-    await ref.add(obj);
-    toggleIsSaving(false);
-  };
-
   const addProject = async (input) => {
     toggleIsSaving(true);
 
@@ -31,6 +25,7 @@ export function Projects() {
     setProjectsWrapper([...projects, newProject]);
     await ref.add(newProject);
 
+    setInput('');
     toggleIsSaving(false);
   };
 
