@@ -8,6 +8,8 @@ export function Notes({ content, setContent }) {
 
   // confirm edit and update state
   const confirmEdit = () => {
+    toggleIsSaving(true);
+
     // If empty value, revert back to prev content
     if (!input) {
       setInput(content);
@@ -18,6 +20,8 @@ export function Notes({ content, setContent }) {
     if (input !== content) {
       setContent('notes', content);
     }
+
+    toggleIsSaving(false);
   };
 
   return (
