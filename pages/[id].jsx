@@ -63,6 +63,7 @@ export default function Project({ project }) {
         <title>{project.name}</title>
       </Head>
       <div className="flex flex-col justify-start space-y-5">
+        
         {/* Meta information */}
         <span className="text-3xl">
           <EditableField
