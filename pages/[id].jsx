@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Head from 'next/head';
 import Layout from '../components/Layout';
 import { useRouter } from 'next/router';
@@ -16,6 +15,7 @@ import 'firebase/firestore';
 
 const ref = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects');
 
+// gets all paths, based on project ids
 export async function getStaticPaths() {
   const paths = await getAllProjectIds();
   return {
@@ -24,6 +24,7 @@ export async function getStaticPaths() {
   };
 }
 
+// fetches the project data, using a project id
 export async function getStaticProps({ params }) {
   let project = await ref.doc(params.id).get();
   let data = project.data();
@@ -33,19 +34,10 @@ export async function getStaticProps({ params }) {
 }
 
 export default function Project({ project }) {
-  const [name, setName] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [github, setGithub] = useState(project.github);
-  const [hostedAt, setHostedAt] = useState(project.hostedAt);
-  const [completion, setCompletion] = useState(project.completion);
-  const [notes, setNotes] = useState(project.notes);
-  const [tasks, setTasks] = useState(project.tasks);
-
-  const [loadingFromDb, setLoadingFromDb] = useState(false);
   const { toggleIsSaving } = useSavingContext();
-
   const router = useRouter();
 
+  // updates content in db
   const updateContent = async (contentID, content) => {
     toggleIsSaving(true);
 
@@ -68,22 +60,32 @@ export default function Project({ project }) {
   return (
     <Layout>
       <Head>
-        <title>{name}</title>
+        <title>{project.name}</title>
       </Head>
       <div className="flex flex-col justify-start space-y-5">
         {/* Meta information */}
         <span className="text-3xl">
-          <EditableField placeholder="Example Project Name" id="name" content={name} setContent={updateContent} />
+          <EditableField
+            placeholder="Example Project Name"
+            id="name"
+            content={project.name}
+            setContent={updateContent}
+          />
         </span>
         <div className="flex flex-row justify-start space-x-5">
           <div className="flex flex-col space-y-1">
             <div className="flex flex-row space-x-1 items-center">
               <CalendarToday />
-              <span className="text-sm">{' ' + startDate}</span>
+              <span className="text-sm">{' ' + project.startDate}</span>
             </div>
             <div className="flex flex-row space-x-1">
               <span>Completion:</span>
-              <EditableField placeholder="completed?" id="completion" content={completion} setContent={updateContent} />
+              <EditableField
+                placeholder="completed?"
+                id="completion"
+                content={project.completion}
+                setContent={updateContent}
+              />
             </div>
           </div>
           <div className="flex flex-col space-y-1 text-m">
@@ -92,7 +94,7 @@ export default function Project({ project }) {
               <EditableField
                 placeholder="github"
                 id="github"
-                content={github}
+                content={project.github}
                 setContent={updateContent}
                 className="m-8"
               />
@@ -102,7 +104,7 @@ export default function Project({ project }) {
               <EditableField
                 placeholder="www.example.com"
                 id="hostedAt"
-                content={hostedAt}
+                content={project.hostedAt}
                 setContent={updateContent}
               />
             </span>
@@ -113,7 +115,7 @@ export default function Project({ project }) {
         {/* Project content */}
         <div className="flex flex-col justify-start space-y-10 space-x-0 w-full sm:flex-row sm:space-y-0 sm:space-x-10">
           <div className="w-full">
-            <Notes content={notes} setContent={updateContent} />
+            <Notes content={project.notes} setContent={updateContent} />
           </div>
           <div className="w-full">
             <EditableList />
