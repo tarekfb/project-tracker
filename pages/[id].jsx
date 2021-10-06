@@ -45,13 +45,15 @@ export default function Project({ project }) {
 
     let projectsRef = ref.doc(id);
     let collection = await projectsRef.get();
-    let field = collection.get(contentID);
+    // let field = collection.get(contentID);
 
-    if (collection.exists && field != null) {
+    if (collection.exists) {
+      // if (field != null) {
       await projectsRef.update({ [contentID]: content });
     } else {
       // doc.data() will be undefined in this case
       console.log('No such document!');
+      // }
     }
 
     toggleIsSaving(false);
@@ -63,7 +65,6 @@ export default function Project({ project }) {
         <title>{project.name}</title>
       </Head>
       <div className="flex flex-col justify-start space-y-5">
-        
         {/* Meta information */}
         <span className="text-3xl">
           <EditableField

@@ -22,7 +22,7 @@ export function Projects() {
     toggleIsSaving(false);
   };
 
-  const addProject = (input) => {
+  const addProject = async (input) => {
     toggleIsSaving(true);
 
     let newProject = {};
@@ -71,7 +71,6 @@ export function Projects() {
         }}>
         Add
       </button>
-      <button onClick={log}>log me</button>
     </div>
   );
 }
