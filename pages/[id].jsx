@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import Layout from '../components/Layout';
+import { useRouter } from 'next/router';
 import { EditableField } from '../components/EditableField';
 import { EditableList } from '../components/EditableList';
 import { useSavingContext } from '../components/contexts/SavingContext';
@@ -34,14 +35,35 @@ export async function getStaticProps({ params }) {
 export default function Project({ project }) {
   const [name, setName] = useState('');
   const [startDate, setStartDate] = useState('');
+  const [github, setGithub] = useState(project.github);
+  const [hostedAt, setHostedAt] = useState(project.hostedAt);
+  const [completion, setCompletion] = useState(project.completion);
+  const [notes, setNotes] = useState(project.notes);
+  const [tasks, setTasks] = useState(project.tasks);
+
   const [loadingFromDb, setLoadingFromDb] = useState(false);
   const { toggleIsSaving } = useSavingContext();
 
-  // const [github, setGithub] = useState(project.github);
-  // const [hostedAt, setHostedAt] = useState(project.hostedAt);
-  // const [completion, setCompletion] = useState(project.completion);
-  // const [notes, setNotes] = useState(project.notes);
-  // const [tasks, setTasks] = useState(project.tasks);
+  const router = useRouter();
+
+  const updateContent = async (contentID, content) => {
+    toggleIsSaving(true);
+
+    const { id } = router.query;
+
+    let projectsRef = ref.doc(id);
+    let collection = await projectsRef.get();
+    let field = collection.get(contentID);
+
+    if (collection.exists && field != null) {
+      await projectsRef.update({ [contentID]: content });
+    } else {
+      // doc.data() will be undefined in this case
+      console.log('No such document!');
+    }
+
+    toggleIsSaving(false);
+  };
 
   return (
     <Layout>
@@ -51,7 +73,7 @@ export default function Project({ project }) {
       <div className="flex flex-col justify-start space-y-5">
         {/* Meta information */}
         <span className="text-3xl">
-          <EditableField placeholder="Example Project Name" id="name" />
+          <EditableField placeholder="Example Project Name" id="name" content={name} setContent={updateContent} />
         </span>
         <div className="flex flex-row justify-start space-x-5">
           <div className="flex flex-col space-y-1">
@@ -61,17 +83,28 @@ export default function Project({ project }) {
             </div>
             <div className="flex flex-row space-x-1">
               <span>Completion:</span>
-              <EditableField placeholder="completed?" id="completion" />
+              <EditableField placeholder="completed?" id="completion" content={completion} setContent={updateContent} />
             </div>
           </div>
           <div className="flex flex-col space-y-1 text-m">
             <span className="flex space-x-2">
               <GitHub />
-              <EditableField placeholder="github" id="github" className="m-8" />
+              <EditableField
+                placeholder="github"
+                id="github"
+                content={github}
+                setContent={updateContent}
+                className="m-8"
+              />
             </span>
             <span className="flex space-x-2">
               <UrlLink />
-              <EditableField placeholder="www.example.com" id="hostedAt" />
+              <EditableField
+                placeholder="www.example.com"
+                id="hostedAt"
+                content={hostedAt}
+                setContent={updateContent}
+              />
             </span>
           </div>
         </div>
@@ -80,7 +113,7 @@ export default function Project({ project }) {
         {/* Project content */}
         <div className="flex flex-col justify-start space-y-10 space-x-0 w-full sm:flex-row sm:space-y-0 sm:space-x-10">
           <div className="w-full">
-            <Notes />
+            <Notes content={notes} setContent={updateContent} />
           </div>
           <div className="w-full">
             <EditableList />

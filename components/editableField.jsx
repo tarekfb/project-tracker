@@ -7,16 +7,17 @@ import { useSavingContext } from './contexts/SavingContext';
 
 import SyncLoader from 'react-spinners/SyncLoader';
 
-export function EditableField({ placeholder, id }) {
-  const [content, setContent] = useState('');
+export function EditableField({ placeholder, id, content, setContent }) {
+  // const [content, setContent] = useState('');
   const [editVisibility, setEditVisibility] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [input, setInput] = useState('');
   const inputRef = useRef(null);
 
   const [loadingFromDb, setLoadingFromDb] = useState(false);
-  const ref = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects/qlvfoYjqp0IYI9o30xOn/' + id);
   const { toggleIsSaving } = useSavingContext();
+
+  const ref = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects/qlvfoYjqp0IYI9o30xOn/' + id);
 
   useEffect(async () => {
     await getContent();
@@ -26,14 +27,14 @@ export function EditableField({ placeholder, id }) {
   const getContent = async () => {
     setLoadingFromDb(true);
 
-    let doc = await ref.doc(id).get();
-    if (doc.exists) {
-      setContent(doc.data().text);
-    } else {
-      // doc.data() will be undefined in this case
-      console.log('No such document!');
-      setContent('');
-    }
+    // let doc = await ref.doc(id).get();
+    // if (doc.exists) {
+    //   setContent(doc.data().text);
+    // } else {
+    //   // doc.data() will be undefined in this case
+    //   console.log('No such document!');
+    //   setContent('');
+    // }
 
     setLoadingFromDb(false);
   };
@@ -87,11 +88,8 @@ export function EditableField({ placeholder, id }) {
 
     // if they differ, update state
     if (input !== content) {
-      setContent(input);
-      updateContentInDb();
+      setContent(id, input);
     }
-
-    console.log('confirm edit');
   };
 
   const toggleEditState = () => {
