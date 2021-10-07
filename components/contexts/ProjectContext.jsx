@@ -16,19 +16,18 @@ async function getProjects() {
   });
 }
 
-export async function getProjectIdFromName(name) {
-  const projectsRef = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects');
-  let id;
-  projectsRef.get().then((project) => {
-    const projectsList = project.docs.map((doc) => {
-      if (doc.data().name == name) {
-        id = doc.id;
-      }
-    });
-    console.log('returning id: ', id);
-    return id;
-  });
-}
+// export async function getProjectIdFromName(name) {
+//   const projectsRef = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects');
+//   let id;
+//   projectsRef.get().then((project) => {
+//     const projectsList = project.docs.map((doc) => {
+//       if (doc.data().name == name) {
+//         id = doc.id;
+//       }
+//     });
+//     return id;
+//   });
+// }
 
 export async function getAllProjectIds() {
   const collection = await ref.get();
@@ -70,8 +69,18 @@ export function ProjectContextProvider({ children }) {
     initProjects();
   }, []);
 
-  const setProjectsWrapper = (projects) => {
+  const setProjectsWrapper = async (projects, operation, project) => {
     setProjects(projects);
+
+    switch (operation) {
+      case 'create':
+        await ref.add(project);
+        break;
+      case 'delete':
+        ref.doc(project.id).delete();
+      default:
+        break;
+    }
   };
 
   return <ProjectContext.Provider value={{ projects, setProjectsWrapper }}>{children}</ProjectContext.Provider>;

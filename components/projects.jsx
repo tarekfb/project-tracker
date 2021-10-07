@@ -33,10 +33,12 @@ export function Projects() {
     let answer = confirm('Are you sure you want to delete project: ' + name + '?');
     if (answer) {
       const projectIndex = findIndex(projects, 'name', name);
-      let newState = [...projects];
+      let projects = [...projects];
       if (projectIndex !== -1) {
-        newState.splice(projectIndex, 1);
-        setProjectsWrapper(newState);
+        setProjectsWrapper(projects, 'delete', projects[1]);
+        projects.splice(projectIndex, 1);
+      } else {
+        console.log("Couldn't find project: ", name);
       }
     }
   };

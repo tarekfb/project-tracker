@@ -48,12 +48,10 @@ export default function Project({ project }) {
     // let field = collection.get(contentID);
 
     if (collection.exists) {
-      // if (field != null) {
       await projectsRef.update({ [contentID]: content });
     } else {
       // doc.data() will be undefined in this case
       console.log('No such document!');
-      // }
     }
 
     toggleIsSaving(false);
@@ -120,7 +118,7 @@ export default function Project({ project }) {
             <Notes content={project.notes} setContent={updateContent} />
           </div>
           <div className="w-full">
-            <EditableList />
+            <EditableList content={project.tasks} setContent={updateContent} />
           </div>
         </div>
       </div>
