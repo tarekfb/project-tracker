@@ -48,7 +48,8 @@ export default function Project({ project }) {
     // let field = collection.get(contentID);
 
     if (collection.exists) {
-      await projectsRef.update({ [contentID]: content });
+      if (content) await projectsRef.update({ [contentID]: content });
+      else console.log('content null');
     } else {
       // doc.data() will be undefined in this case
       console.log('No such document!');

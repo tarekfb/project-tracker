@@ -11,7 +11,7 @@ const newListItemContainerStyle = 'flex flex-row';
 export function EditableList({ content, setContent }) {
   const [input, setInput] = useState('');
   const [isAdding, setIsAdding] = useState(false);
-  const [tasks, setTasks] = useState(content);
+  const [tasks, setTasks] = useState(content ? content : []);
 
   const inputRef = useRef(null);
   const buttonRef = useRef(null);
@@ -23,6 +23,7 @@ export function EditableList({ content, setContent }) {
     }
   }, [isAdding]);
 
+  // Whenever tasks is changed, update in db
   useEffect(() => {
     setContent('tasks', tasks);
   }, [tasks]);
@@ -30,9 +31,14 @@ export function EditableList({ content, setContent }) {
   // update the list: remove item or update item
   const updateList = (value, index) => {
     const removeItem = (index) => {
+      console.log(index);
+      console.log(tasks[index]);
       let newState = [...tasks];
       newState.splice(index, 1);
       setTasks(newState);
+      setTimeout(function () {
+        console.log(tasks);
+      }, 4000);
     };
 
     const updateItem = (value, index) => {
@@ -45,21 +51,22 @@ export function EditableList({ content, setContent }) {
     // if index -1, remove last
     // if index => 0 && value != "", update at index
     if (value === '') {
+      console.log(index);
       removeItem(index);
-    } else if (index === -1) {
-      removeItem(tasks.length - 1);
+      // } else if (index === -1) {
+      //   // does this ever happen
+      //   removeItem(tasks.length - 1);
+      //   console.log('I WAS CALLED DONT DELETE ME');
     } else if (index >= 0 && value !== '') {
       updateItem(value, index);
     }
-    // setContent('tasks', tasks);
   };
 
   const addListItem = async () => {
     // TODO: validate input
-    console.log(input);
     if (input) {
-      setTasks((state) => [...state, input]), setContent('tasks', tasks);
-      // setContent('tasks', tasks);
+      // state ? setTasks((state) => [...state, input]) : setTasks([input]);
+      setTasks((state) => [...state, input]);
       setInput('');
     }
   };
@@ -76,8 +83,8 @@ export function EditableList({ content, setContent }) {
     <div>
       {/* Task list section */}
       <ul>
-        {tasks.map((task, i) => (
-          <EditableListItem key={i} content={task} setList={setTasks} i={i} updateList={updateList} />
+        {tasks?.map((task, i) => (
+          <EditableListItem key={task + i} content={task} setList={setTasks} i={i} updateList={updateList} />
         ))}
       </ul>
 
@@ -88,7 +95,7 @@ export function EditableList({ content, setContent }) {
             ref={inputRef}
             className={newListItemFieldStyle}
             value={input}
-            onBlur={() => setIsAdding(false)}
+            onBlur={() => (input ? null : setIsAdding(false))}
             onInput={(e) => setInput(e.target.value)}
             onKeyPress={(e) => triggerClickForButtonRef(e)}
           />
@@ -102,12 +109,13 @@ export function EditableList({ content, setContent }) {
               addListItem();
               setIsAdding(false);
             }}
-            onMouseDownw={() => {
+            onMouseDown={() => {
               // onMouseDown instead of onclick because onBlur of inputRef triggers before onclick
               // https://stackoverflow.com/questions/17769005/onclick-and-onblur-ordering-issue
               buttonRef.current.blur();
               addListItem();
               setIsAdding(false);
+              console.log(tasks);
             }}>
             <Check />
           </button>
