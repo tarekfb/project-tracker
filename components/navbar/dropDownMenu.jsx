@@ -21,7 +21,7 @@ export function DropDownMenu({ projects }) {
       <ul className={`absolute pt-3 ${isOpen ? '' : 'hidden'}`}>
         {projects.map((project, i) => (
           <li key={i} className="pr-4 pl-4 pb-2 bg-prussianBlue hover:text-blue-400 whitespace-nowrap">
-            <Link href={'/' + project.name}>
+            <Link href={'/' + project.id}>
               <a>- {project.name}</a>
             </Link>
           </li>

@@ -1,27 +1,20 @@
 import { useState, useEffect, useRef } from 'react';
 import EditableListItem from './EditableListItem';
 import { Check, Add } from '@material-ui/icons';
-import firebase from '../firebase/FirebaseApp';
-import 'firebase/firestore';
-import { useSavingContext } from './contexts/SavingContext';
-import SyncLoader from 'react-spinners/SyncLoader'
+import { CircularProgress } from '@material-ui/core';
 
 const newListItemFieldStyle =
   'border-solid border-black border-b focus:outline-none focus:border-b focus:border-blue-400';
 const newListItemButtonStyle = 'hover:text-blue-400';
 const newListItemContainerStyle = 'flex flex-row';
 
-export function EditableList() {
+export function EditableList({ content, setContent }) {
   const [input, setInput] = useState('');
   const [isAdding, setIsAdding] = useState(false);
-  const [tasks, setTasks] = useState([]);
-  const [loadingFromDb, setLoadingFromDb] = useState(false);
+  const [tasks, setTasks] = useState(content ? content : []);
 
   const inputRef = useRef(null);
   const buttonRef = useRef(null);
-
-  const ref = firebase.firestore().collection('tasks');
-  const { toggleIsSaving } = useSavingContext();
 
   // When pressing adding a new list item, immediately focus the input.
   useEffect(() => {
@@ -30,63 +23,52 @@ export function EditableList() {
     }
   }, [isAdding]);
 
-  // on init, load tasks from db
+  // Whenever tasks is changed, update in db
   useEffect(() => {
-    getTasks();
-  }, []);
-
-  // Get tasks from db
-  const getTasks = () => {
-    setLoadingFromDb(true);
-    ref.onSnapshot((querySnapshot) => {
-      const items = [];
-      querySnapshot.forEach((doc) => {
-        items.push(doc.data());
-      });
-      setTasks(items);
-      setLoadingFromDb(false);
-    });
-  };
-
-  const addTaskToDb = async (obj) => {
-    toggleIsSaving(true);
-    await ref.add(obj);
-    toggleIsSaving(false);
-  };
+    setContent('tasks', tasks);
+  }, [tasks]);
 
   // update the list: remove item or update item
   const updateList = (value, index) => {
+    const removeItem = (index) => {
+      console.log(index);
+      console.log(tasks[index]);
+      let newState = [...tasks];
+      newState.splice(index, 1);
+      setTasks(newState);
+      setTimeout(function () {
+        console.log(tasks);
+      }, 4000);
+    };
+
+    const updateItem = (value, index) => {
+      let newState = [...tasks];
+      newState[index] = value;
+      setTasks(newState);
+    };
+
     // if value "", remove at index
     // if index -1, remove last
     // if index => 0 && value != "", update at index
     if (value === '') {
+      console.log(index);
       removeItem(index);
-    } else if (index === -1) {
-      removeItem(tasks.length - 1);
+      // } else if (index === -1) {
+      //   // does this ever happen
+      //   removeItem(tasks.length - 1);
+      //   console.log('I WAS CALLED DONT DELETE ME');
     } else if (index >= 0 && value !== '') {
       updateItem(value, index);
     }
   };
 
-  const addListItem = () => {
-    // TODO: validate task
-    let obj = { text: input };
+  const addListItem = async () => {
+    // TODO: validate input
     if (input) {
-      setTasks((state) => [...state, obj]);
-      addTaskToDb(obj);
+      // state ? setTasks((state) => [...state, input]) : setTasks([input]);
+      setTasks((state) => [...state, input]);
+      setInput('');
     }
-  };
-
-  const removeItem = (index) => {
-    let newState = [...tasks];
-    newState.splice(index, 1);
-    setTasks(newState);
-  };
-
-  const updateItem = (value, index) => {
-    let newState = [...tasks];
-    newState[index] = value;
-    setTasks(newState);
   };
 
   const triggerClickForButtonRef = (event) => {
@@ -99,47 +81,50 @@ export function EditableList() {
 
   return (
     <div>
-      {loadingFromDb ? (
-        <SyncLoader color="#000000" size={100} />
-      ) : (
-        <div>
-          {/* Task list section */}
-          <ul>
-            {tasks.map((task, i) => (
-              <EditableListItem key={i} content={task.text} setList={setTasks} i={i} updateList={updateList} />
-            ))}
-          </ul>
+      {/* Task list section */}
+      <ul>
+        {tasks?.map((task, i) => (
+          <EditableListItem key={task + i} content={task} setList={setTasks} i={i} updateList={updateList} />
+        ))}
+      </ul>
 
-          {/* Add task section */}
-          <div className={newListItemContainerStyle}>
-            {isAdding ? (
-              <input
-                ref={inputRef}
-                className={newListItemFieldStyle}
-                value={input}
-                onBlur={() => setIsAdding(false)}
-                onInput={(e) => setInput(e.target.value)}
-                onKeyPress={(e) => triggerClickForButtonRef(e)}
-              />
-            ) : null}
-            {isAdding ? (
-              <button
-                ref={buttonRef}
-                className={newListItemButtonStyle}
-                onClick={() => {
-                  addListItem();
-                  setIsAdding(false);
-                }}>
-                <Check />
-              </button>
-            ) : (
-              <button className={newListItemButtonStyle} onClick={() => setIsAdding(true)}>
-                <Add />
-              </button>
-            )}
-          </div>
-        </div>
-      )}
+      {/* Add task section */}
+      <div className={newListItemContainerStyle}>
+        {isAdding ? (
+          <input
+            ref={inputRef}
+            className={newListItemFieldStyle}
+            value={input}
+            onBlur={() => (input ? null : setIsAdding(false))}
+            onInput={(e) => setInput(e.target.value)}
+            onKeyPress={(e) => triggerClickForButtonRef(e)}
+          />
+        ) : null}
+        {isAdding ? (
+          <button
+            ref={buttonRef}
+            className={newListItemButtonStyle}
+            onClick={() => {
+              // used by triggerClickForButtonRef: clicking enter
+              addListItem();
+              setIsAdding(false);
+            }}
+            onMouseDown={() => {
+              // onMouseDown instead of onclick because onBlur of inputRef triggers before onclick
+              // https://stackoverflow.com/questions/17769005/onclick-and-onblur-ordering-issue
+              buttonRef.current.blur();
+              addListItem();
+              setIsAdding(false);
+              console.log(tasks);
+            }}>
+            <Check />
+          </button>
+        ) : (
+          <button className={newListItemButtonStyle} onClick={() => setIsAdding(true)}>
+            <Add />
+          </button>
+        )}
+      </div>
     </div>
   );
 }
