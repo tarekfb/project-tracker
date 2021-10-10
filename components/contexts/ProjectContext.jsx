@@ -51,7 +51,7 @@ const ProjectContext = createContext(projectContextDefaultValue);
 
 //hooks that components can use to change the values
 export function ProjectContextProvider({ children }) {
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState();
 
   useEffect(() => {
     async function initProjects() {
@@ -66,21 +66,38 @@ export function ProjectContextProvider({ children }) {
         setProjects(projectsList);
       });
     }
+
     initProjects();
   }, []);
 
   const setProjectsWrapper = async (projects, operation, project) => {
-    setProjects(projects);
-
-    switch (operation) {
-      case 'create':
-        await ref.add(project);
-        break;
-      case 'delete':
-        ref.doc(project.id).delete();
-      default:
-        break;
+    // let promise = new Promise((resolve, reject) => {});
+    let response;
+    try {
+      switch (operation) {
+        case 'create':
+          // add to dbs
+          // attach id from db to proj
+          // set updated state
+          response = await ref.add(project);
+          project.id = response.id;
+          projects.push(project);
+          setProjects(projects);
+          break;
+        case 'delete':
+          // remove from db
+          // set updated state
+          response = await ref.doc(project.id).delete();
+          setProjects(projects);
+          break;
+        default:
+          break;
+      }
+    } catch (error) {
+      console.log(error);
+      response = error;
     }
+    return response;
   };
 
   return <ProjectContext.Provider value={{ projects, setProjectsWrapper }}>{children}</ProjectContext.Provider>;
