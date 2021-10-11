@@ -89,6 +89,7 @@ export default function EditableListItem({ content, i, updateList }) {
             <CheckIcon onClick={() => handleIsEditing(false, i)} />
           ) : (
             <DeleteIcon
+              aria-label="delete"
               onClick={() => {
                 handleIsEditing(false, i, 'force');
                 updateList('', i);

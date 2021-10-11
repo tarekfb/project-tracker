@@ -7,10 +7,10 @@ import Layout from '../components/Layout';
 import firebase from '../firebase/FirebaseApp';
 import '../node_modules/firebaseui/dist/firebaseui.css';
 
-const uiConfig = {
-  signInSuccessUrl: '/',
-  signInOptions: [firebase.auth.EmailAuthProvider],
-};
+// const uiConfig = {
+//   signInSuccessUrl: '/',
+//   signInOptions: [firebase.auth.EmailAuthProvider],
+// };
 
 export default function SignInScreen() {
   return (

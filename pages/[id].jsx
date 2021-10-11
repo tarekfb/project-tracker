@@ -30,6 +30,7 @@ export async function getStaticProps({ params }) {
   let data = project.data();
   return {
     props: { project: data },
+    revalidate: 10,
   };
 }
 

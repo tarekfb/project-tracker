@@ -14,17 +14,17 @@ export default function ProjectListItem({ project, removeProject }) {
       onMouseLeave={() => {
         setIsHovering(false);
       }}>
-      <Link href={`/${project.id}`}>
+      <Link href={`/${encodeURIComponent(project.id)}`}>
         {/* as={{ pathname: `/${project.name}`, query: { id: project.id } }}> */}
         <a>{project.name}</a>
       </Link>
-      <button
+      <DeleteIcon
+        aria-label="delete"
         className={`hover:text-blue-300 ${isHovering ? '' : 'hidden'}`}
         onClick={() => {
           removeProject(project.name);
-        }}>
-        <DeleteIcon />
-      </button>
+        }}
+      />
     </li>
   );
 }
