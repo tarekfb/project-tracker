@@ -61,10 +61,10 @@ export function EditableField({ placeholder, id, content, setContent }) {
 
   return (
     <div onMouseEnter={() => handleEditVisibility(true)} onMouseLeave={() => handleEditVisibility(false)}>
-      <div className={`${isEditing ? '' : 'hover:text-blue-400'} inline`}>
+      <div className={`${isEditing ? '' : 'hover:text-blue-300'} inline`}>
         <input
           ref={inputRef}
-          className="focus:outline-none focus:border-b focus:border-blue-400 "
+          className="focus:outline-none focus:border-b focus:border-blue-300 "
           type="text"
           value={input}
           placeholder={placeholder ? placeholder : ''}
@@ -80,7 +80,7 @@ export function EditableField({ placeholder, id, content, setContent }) {
           }}
         />
       </div>
-      <button className={`inline-block hover:text-blue-400 ${editVisibility ? '' : 'hidden'}`}>
+      <button className={`inline-block hover:text-blue-300 ${editVisibility ? '' : 'hidden'}`}>
         {isEditing ? (
           <CheckIcon
             onClick={() => {

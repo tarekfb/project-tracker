@@ -55,14 +55,14 @@ export default function EditableListItem({ content, i, updateList }) {
     let code = event.keyCode || event.which;
     if (code === 13) {
       inputRef.current.blur();
-      //13 is the enter keycode
+      // 13 is the enter keycode
       confirmEdit(i);
     }
   };
 
   return (
     <li
-      className="hover:text-blue-400 inline"
+      className="inline"
       key={i}
       onMouseEnter={() => {
         handleIconVisibility(true, i);
@@ -70,11 +70,11 @@ export default function EditableListItem({ content, i, updateList }) {
       onMouseLeave={() => {
         handleIconVisibility(false, i);
       }}>
-      <div className="flex flex-row space-x-1 focus:border-b focus:border-blue-400">
+      <div className="flex flex-row space-x-1 focus:border-b focus:border-blue-300">
         <span>- </span>
         <input
           ref={inputRef}
-          className="focus:outline-none"
+          className="focus:outline-none hover:text-blue-300"
           type="text"
           placeholder={content}
           value={input}
@@ -84,7 +84,7 @@ export default function EditableListItem({ content, i, updateList }) {
           onFocus={() => handleIsEditing(true, i)}
           placeholder="implement this feature"
         />
-        <button className={`hover:text-blue-400 ${iconVisibility[i] ? '' : 'hidden'}`}>
+        <button className={`hover:text-blue-300 ${iconVisibility[i] ? '' : 'hidden'}`}>
           {isEditing[i] ? (
             <CheckIcon onClick={() => handleIsEditing(false, i)} />
           ) : (

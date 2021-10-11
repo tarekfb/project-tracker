@@ -9,8 +9,7 @@ export default function Home() {
 
   useEffect(() => {
     setLoadNewProject(false);
-  }),
-    [];
+  }, []);
 
   return (
     <Layout home>

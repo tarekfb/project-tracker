@@ -4,8 +4,8 @@ import { Check, Add } from '@material-ui/icons';
 import { CircularProgress } from '@material-ui/core';
 
 const newListItemFieldStyle =
-  'border-solid border-black border-b focus:outline-none focus:border-b focus:border-blue-400';
-const newListItemButtonStyle = 'hover:text-blue-400';
+  'border-solid border-black border-b focus:outline-none focus:border-b focus:border-blue-300';
+const newListItemButtonStyle = 'hover:text-blue-300';
 const newListItemContainerStyle = 'flex flex-row';
 
 export function EditableList({ content, setContent }) {
@@ -38,7 +38,7 @@ export function EditableList({ content, setContent }) {
       setTasks(newState);
       setTimeout(function () {
         console.log(tasks);
-      }, 4000);
+      }, 3000);
     };
 
     const updateItem = (value, index) => {
@@ -80,9 +80,10 @@ export function EditableList({ content, setContent }) {
   };
 
   return (
-    <div>
+    <>
       {/* Task list section */}
       <ul>
+        {}
         {tasks?.map((task, i) => (
           <EditableListItem key={task + i} content={task} setList={setTasks} i={i} updateList={updateList} />
         ))}
@@ -125,6 +126,6 @@ export function EditableList({ content, setContent }) {
           </button>
         )}
       </div>
-    </div>
+    </>
   );
 }

@@ -61,7 +61,7 @@ export default function Project({ project }) {
   return (
     <Layout>
       <Head>
-        <title>{project.name}</title>
+        <title>Project tracker | {project.name}</title>
       </Head>
       <div className="flex flex-col justify-start space-y-5">
         {/* Meta information */}
