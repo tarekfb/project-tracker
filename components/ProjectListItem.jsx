@@ -2,12 +2,12 @@ import { useState } from 'react';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Link from 'next/link';
 
-export default function ProjectListItem({ project, removeProject }) {
+export default function ProjectListItem({ project, removeProject, key }) {
   const [isHovering, setIsHovering] = useState(false);
 
   return (
     <li
-      key={project.id}
+      key={key}
       onMouseEnter={() => {
         setIsHovering(true);
       }}

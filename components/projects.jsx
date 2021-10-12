@@ -3,10 +3,7 @@ import { findIndex } from '../util/util';
 import { useRouter } from 'next/router';
 import { useProjectContext } from './contexts/ProjectContext';
 import { useSavingContext } from './contexts/SavingContext';
-
 import firebase from '../firebase/FirebaseApp';
-import 'firebase/firestore';
-import { ClipLoader } from 'react-spinners';
 import ProjectListItem from './ProjectListItem';
 
 const ref = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects/');
@@ -68,13 +65,13 @@ export function Projects({ setLoadNewProject }) {
 
   return (
     <>
-      <ul>
-        {projects ? (
-          projects.map((project) => <ProjectListItem project={project} removeProject={removeProject} />)
-        ) : (
-          <ClipLoader />
-        )}
-      </ul>
+      {projects ? (
+        <ul>
+          {projects.map((project) => (
+            <ProjectListItem key={project.id} project={project} removeProject={removeProject} />
+          ))}
+        </ul>
+      ) : null}
       <input
         value={input}
         ref={inputRef}

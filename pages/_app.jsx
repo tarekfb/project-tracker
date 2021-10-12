@@ -1,16 +1,17 @@
-// import '../styles/global.css'
 import 'tailwindcss/tailwind.css';
-
 import { ProjectContextProvider } from '../components/contexts/ProjectContext';
 import { SavingContextProvider } from '../components/contexts/SavingContext';
+import { AuthContextProvider } from '../components/contexts/AuthContext';
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ProjectContextProvider>
-      <SavingContextProvider>
-        <Component {...pageProps} />
-      </SavingContextProvider>
-    </ProjectContextProvider>
+    <AuthContextProvider>
+      <ProjectContextProvider>
+        <SavingContextProvider>
+          <Component {...pageProps} />
+        </SavingContextProvider>
+      </ProjectContextProvider>
+    </AuthContextProvider>
   );
 }
 

@@ -16,7 +16,13 @@ export default function Home() {
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      {loadNewProject && <ClipLoader />}
+      {loadNewProject && (
+        <div className="flex h-screen">
+          <div className="m-auto">
+            <ClipLoader size={150} />
+          </div>
+        </div>
+      )}
       <Projects setLoadNewProject={setLoadNewProject} />
     </Layout>
   );

@@ -6,7 +6,7 @@ import { EditableList } from '../components/EditableList';
 import { useSavingContext } from '../components/contexts/SavingContext';
 import { getAllProjectIds } from '../components/contexts/ProjectContext';
 import { Notes } from '../components/Notes';
-
+import { ClipLoader } from 'react-spinners';
 import { GitHub, Link as UrlLink, CalendarToday } from '@material-ui/icons';
 import { Divider } from '@material-ui/core';
 
@@ -20,7 +20,7 @@ export async function getStaticPaths() {
   const paths = await getAllProjectIds();
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }
 
@@ -30,7 +30,6 @@ export async function getStaticProps({ params }) {
   let data = project.data();
   return {
     props: { project: data },
-    revalidate: 10,
   };
 }
 
@@ -59,71 +58,86 @@ export default function Project({ project }) {
     toggleIsSaving(false);
   };
 
-  return (
-    <Layout>
-      <Head>
-        <title>Project tracker | {project.name}</title>
-      </Head>
-      <div className="flex flex-col justify-start space-y-5">
-        {/* Meta information */}
-        <span className="text-3xl">
-          <EditableField
-            placeholder="Example Project Name"
-            id="name"
-            content={project.name}
-            setContent={updateContent}
-          />
-        </span>
-        <div className="flex flex-row justify-start space-x-5">
-          <div className="flex flex-col space-y-1">
-            <div className="flex flex-row space-x-1 items-center">
-              <CalendarToday />
-              <span className="text-sm">{' ' + project.startDate}</span>
-            </div>
-            <div className="flex flex-row space-x-1">
-              <span>Completion:</span>
-              <EditableField
-                placeholder="completed?"
-                id="completion"
-                content={project.completion}
-                setContent={updateContent}
-              />
-            </div>
-          </div>
-          <div className="flex flex-col space-y-1 text-m">
-            <span className="flex space-x-2">
-              <GitHub />
-              <EditableField
-                placeholder="github"
-                id="github"
-                content={project.github}
-                setContent={updateContent}
-                className="m-8"
-              />
-            </span>
-            <span className="flex space-x-2">
-              <UrlLink />
-              <EditableField
-                placeholder="www.example.com"
-                id="hostedAt"
-                content={project.hostedAt}
-                setContent={updateContent}
-              />
-            </span>
+  if (router.isFallback) {
+    return (
+      <Layout>
+        <Head>
+          <title>Project tracker | Loading...</title>
+        </Head>
+        <div className="flex h-screen">
+          <div className="m-auto">
+            <ClipLoader size={150} />
           </div>
         </div>
-        <Divider />
+      </Layout>
+    );
+  } else {
+    return (
+      <Layout>
+        <Head>
+          <title>Project tracker | {project.name}</title>
+        </Head>
+        <div className="flex flex-col justify-start space-y-5">
+          {/* Meta information */}
+          <span className="text-3xl">
+            <EditableField
+              placeholder="Example Project Name"
+              id="name"
+              content={project.name}
+              setContent={updateContent}
+            />
+          </span>
+          <div className="flex flex-row justify-start space-x-5">
+            <div className="flex flex-col space-y-1">
+              <div className="flex flex-row space-x-1 items-center">
+                <CalendarToday />
+                <span className="text-sm">{' ' + project.startDate}</span>
+              </div>
+              <div className="flex flex-row space-x-1">
+                <span>Completion:</span>
+                <EditableField
+                  placeholder="completed?"
+                  id="completion"
+                  content={project.completion}
+                  setContent={updateContent}
+                />
+              </div>
+            </div>
+            <div className="flex flex-col space-y-1 text-m">
+              <span className="flex space-x-2">
+                <GitHub />
+                <EditableField
+                  placeholder="github"
+                  id="github"
+                  content={project.github}
+                  setContent={updateContent}
+                  className="m-8"
+                />
+              </span>
+              <span className="flex space-x-2">
+                <UrlLink />
+                <EditableField
+                  placeholder="www.example.com"
+                  id="hostedAt"
+                  content={project.hostedAt}
+                  setContent={updateContent}
+                />
+              </span>
+            </div>
+          </div>
+          <Divider />
 
-        {/* Project content */}
-        <div className="flex flex-col justify-start space-y-10 space-x-0 w-full sm:flex-row sm:space-y-0 sm:space-x-10">
-          <div className="w-full">
-            <Notes content={project.notes} setContent={updateContent} />
-          </div>
-          <div className="w-full">
-            <EditableList content={project.tasks} setContent={updateContent} />
+          {/* Project content */}
+          <div className="flex flex-col justify-start space-y-10 space-x-0 w-full sm:flex-row sm:space-y-0 sm:space-x-10">
+            <div className="w-full">
+              <Notes content={project.notes} setContent={updateContent} />
+            </div>
+            <div className="w-full">
+              <EditableList content={project.tasks} setContent={updateContent} />
+            </div>
           </div>
         </div>
-      </div>
-    </Layout>
-  );
+      </Layout>
+    );
+  }
 }

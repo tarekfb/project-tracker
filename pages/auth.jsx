@@ -1,26 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import Layout from '../components/Layout';
-// import { StyledFirebaseAuth } from 'react-firebaseui';
-// import { FirebaseAuth } from '../components/FirebaseAuth';
-// import FirebaseAuth from '../components/FirebaseAuth';
 import firebase from '../firebase/FirebaseApp';
-import '../node_modules/firebaseui/dist/firebaseui.css';
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 
-// const uiConfig = {
-//   signInSuccessUrl: '/',
-//   signInOptions: [firebase.auth.EmailAuthProvider],
-// };
+import { ClipLoader } from 'react-spinners';
 
-export default function SignInScreen() {
+export default function Auth() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const auth = firebase.auth();
+  const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword(auth);
+
+  const signIn = (email, password) => {
+    signInWithEmailAndPassword(email, password);
+    setEmail('');
+    setPassword('');
+  };
+
   return (
     <Layout>
       <Head>
         <title>Authentication</title>
       </Head>
-      <div className="flex flex-col justify-center">
-        <p>Sign in with email/password:</p>
-        {/* <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} /> */}
+      {loading && (
+        <div className="flex h-screen backdrop-filter backdrop-blur-lg">
+          <div className="m-auto">
+            <ClipLoader size={150} />
+          </div>
+        </div>
+      )}
+      <div className="flex flex-col w-4/12">
+        Email
+        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        Password
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <button onClick={() => auth.signOut()}>sign out</button>
+        <button onClick={() => signIn(email, password)}>Sign In</button>
+        <p>Current User: {user ? <span>auth</span> : <span>not auth</span>}</p>
       </div>
     </Layout>
   );
