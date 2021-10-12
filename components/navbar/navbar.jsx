@@ -16,7 +16,7 @@ export function Navbar() {
   const [user, loading, error] = useAuthState(auth);
 
   return (
-    <div className="flex justify-end space-x-4 items-center bg-prussianBlue text-white p-4 pr-4">
+    <div className="flex justify-end space-x-4 items-center text-white p-4 pr-4 bg-gradient-to-r from-black to-indigo-800">
       <h1 className="text-4xl mr-auto">
         <Link href="/">
           <a>Project tracker</a>

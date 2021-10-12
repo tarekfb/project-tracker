@@ -8,24 +8,24 @@ export function DropDownMenu({ projects }) {
 
   return (
     <div
-      className="bg-prussianBlue"
+      className="p-2.5 hover:bg-black rounded-md "
       onMouseOver={() => {
         setIsOpen(true);
       }}
       onMouseLeave={() => {
         setIsOpen(false);
       }}>
-      <span className="hover:text-blue-400">
+      <span className="">
         Projects
         <ArrowDropDownIcon />
       </span>
-      <ul className={`absolute pt-3 ${isOpen ? '' : 'hidden'}`}>
+      <ul className={`absolute pt-3 pl-2.5 pr-8 rounded-md bg-black ${isOpen ? '' : 'hidden'}`}>
         {projects ? (
           projects.length > 0 ? (
             projects.map((project) => (
-              <li key={project.id} className="pr-4 pl-4 pb-2 bg-prussianBlue hover:text-blue-400 whitespace-nowrap">
+              <li key={project.id} className="pb-2 hover:text-blue-300 rounded-md whitespace-nowrap">
                 <Link href={'/' + project.id}>
-                  <a>- {project.name}</a>
+                  <a>{project.name}</a>
                 </Link>
               </li>
             ))
