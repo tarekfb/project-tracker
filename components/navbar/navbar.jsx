@@ -23,11 +23,11 @@ export function Navbar() {
         </Link>
       </h1>
       <Link href="/auth">
-        <a>
+        <a className="flex justify-center items-center space-x-2">
           <AccountCircle />
+          {loading ? <div>loading...</div> : user ? <div>auth</div> : <div>not auth</div>}
         </a>
       </Link>
-      {loading ? <div>loading...</div> : user ? <div>auth</div> : <div>not auth</div>}
       <DropDownMenu projects={projects} />
       <div className="w-1/12 flex-initial flex flex-row justify-center">
         {isSaving ? (

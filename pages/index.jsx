@@ -3,27 +3,24 @@ import React, { useEffect, useState } from 'react';
 import Layout, { siteTitle } from '../components/Layout';
 import { Projects } from '../components/Projects';
 import { ClipLoader } from 'react-spinners';
+import { useBlurContext } from '@/components/contexts/BlurContext';
 
 export default function Home() {
-  const [loadNewProject, setLoadNewProject] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { toggleBlur } = useBlurContext();
 
   useEffect(() => {
-    setLoadNewProject(false);
+    toggleBlur(false);
   }, []);
+
+  // STÄÅNG AV I PROJECTS
 
   return (
     <Layout home>
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      {loadNewProject && (
-        <div className="flex h-screen">
-          <div className="m-auto">
-            <ClipLoader size={150} />
-          </div>
-        </div>
-      )}
-      <Projects setLoadNewProject={setLoadNewProject} />
+      <Projects />
     </Layout>
   );
 }

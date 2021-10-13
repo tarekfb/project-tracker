@@ -5,20 +5,22 @@ import { useProjectContext } from './contexts/ProjectContext';
 import { useSavingContext } from './contexts/SavingContext';
 import firebase from '../firebase/FirebaseApp';
 import ProjectListItem from './ProjectListItem';
+import { useBlurContext } from './contexts/BlurContext';
 
 const ref = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects/');
 
-export function Projects({ setLoadNewProject }) {
+export function Projects({}) {
   const [input, setInput] = useState('');
   const { projects, setProjectsWrapper } = useProjectContext();
   const { toggleIsSaving } = useSavingContext();
+  const { toggleBlur } = useBlurContext();
 
   const inputRef = useRef(null);
   const router = useRouter();
 
   const addProject = async () => {
     toggleIsSaving(true);
-    setLoadNewProject(true);
+    toggleBlur(true);
 
     // create project obj at client
     let newProject = {};
@@ -31,8 +33,6 @@ export function Projects({ setLoadNewProject }) {
     // open new proj
     router.push('/' + docRef.id);
     toggleIsSaving(false);
-    // if the loading of page matches this state then keep
-    // if not fix
   };
 
   const removeProject = async (name) => {

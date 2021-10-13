@@ -1,17 +1,17 @@
 import 'tailwindcss/tailwind.css';
-import { ProjectContextProvider } from '../components/contexts/ProjectContext';
-import { SavingContextProvider } from '../components/contexts/SavingContext';
-import { AuthContextProvider } from '../components/contexts/AuthContext';
+import { ProjectContextProvider } from 'components/contexts/ProjectContext';
+import { SavingContextProvider } from 'components/contexts/SavingContext';
+import { BlurContextProvider } from 'components/contexts/BlurContext';
 
 function MyApp({ Component, pageProps }) {
   return (
-    <AuthContextProvider>
+    <BlurContextProvider>
       <ProjectContextProvider>
         <SavingContextProvider>
           <Component {...pageProps} />
         </SavingContextProvider>
       </ProjectContextProvider>
-    </AuthContextProvider>
+    </BlurContextProvider>
   );
 }
 
