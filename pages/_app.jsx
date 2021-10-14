@@ -1,16 +1,17 @@
-// import '../styles/global.css'
 import 'tailwindcss/tailwind.css';
-
-import { ProjectContextProvider } from '../components/contexts/ProjectContext';
-import { SavingContextProvider } from '../components/contexts/SavingContext';
+import { ProjectContextProvider } from 'components/contexts/ProjectContext';
+import { SavingContextProvider } from 'components/contexts/SavingContext';
+import { BlurContextProvider } from 'components/contexts/BlurContext';
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ProjectContextProvider>
-      <SavingContextProvider>
-        <Component {...pageProps} />
-      </SavingContextProvider>
-    </ProjectContextProvider>
+    <BlurContextProvider>
+      <ProjectContextProvider>
+        <SavingContextProvider>
+          <Component {...pageProps} />
+        </SavingContextProvider>
+      </ProjectContextProvider>
+    </BlurContextProvider>
   );
 }
 

@@ -1,9 +1,13 @@
 import Head from 'next/head';
+import { useState } from 'react';
+import { ClipLoader } from 'react-spinners';
+import { useBlurContext } from './contexts/BlurContext';
 import { Navbar } from './navbar/Navbar';
 
 export const siteTitle = 'Project tracker';
 
 export default function Layout({ children }) {
+  const { blur } = useBlurContext();
 
   return (
     <>
@@ -23,7 +27,16 @@ export default function Layout({ children }) {
         <header>
           <Navbar />
         </header>
-        <main className="p-5">{children}</main>
+        <div className="relative w-full">
+          {blur && (
+            <div className="absolute flex h-full w-full backdrop-filter backdrop-blur-sm">
+              <div className="m-auto">
+                <ClipLoader size={150} />
+              </div>
+            </div>
+          )}
+          <main className="p-5">{children}</main>
+        </div>
       </div>
     </>
   );

@@ -4,8 +4,8 @@ import { Check, Add } from '@material-ui/icons';
 import { CircularProgress } from '@material-ui/core';
 
 const newListItemFieldStyle =
-  'border-solid border-black border-b focus:outline-none focus:border-b focus:border-blue-400';
-const newListItemButtonStyle = 'hover:text-blue-400';
+  'border-solid border-black border-b focus:outline-none focus:border-b focus:border-blue-300';
+const newListItemButtonStyle = 'hover:text-blue-300';
 const newListItemContainerStyle = 'flex flex-row';
 
 export function EditableList({ content, setContent }) {
@@ -31,14 +31,9 @@ export function EditableList({ content, setContent }) {
   // update the list: remove item or update item
   const updateList = (value, index) => {
     const removeItem = (index) => {
-      console.log(index);
-      console.log(tasks[index]);
       let newState = [...tasks];
       newState.splice(index, 1);
       setTasks(newState);
-      setTimeout(function () {
-        console.log(tasks);
-      }, 4000);
     };
 
     const updateItem = (value, index) => {
@@ -51,12 +46,7 @@ export function EditableList({ content, setContent }) {
     // if index -1, remove last
     // if index => 0 && value != "", update at index
     if (value === '') {
-      console.log(index);
       removeItem(index);
-      // } else if (index === -1) {
-      //   // does this ever happen
-      //   removeItem(tasks.length - 1);
-      //   console.log('I WAS CALLED DONT DELETE ME');
     } else if (index >= 0 && value !== '') {
       updateItem(value, index);
     }
@@ -80,9 +70,10 @@ export function EditableList({ content, setContent }) {
   };
 
   return (
-    <div>
+    <>
       {/* Task list section */}
       <ul>
+        {}
         {tasks?.map((task, i) => (
           <EditableListItem key={task + i} content={task} setList={setTasks} i={i} updateList={updateList} />
         ))}
@@ -115,7 +106,6 @@ export function EditableList({ content, setContent }) {
               buttonRef.current.blur();
               addListItem();
               setIsAdding(false);
-              console.log(tasks);
             }}>
             <Check />
           </button>
@@ -125,6 +115,6 @@ export function EditableList({ content, setContent }) {
           </button>
         )}
       </div>
-    </div>
+    </>
   );
 }
