@@ -1,16 +1,16 @@
 import Head from 'next/head';
-import Layout from '../components/Layout';
+import Layout from '@/components/Layout';
 import { useRouter } from 'next/router';
-import { EditableField } from '../components/EditableField';
-import { EditableList } from '../components/EditableList';
-import { useSavingContext } from '../components/contexts/SavingContext';
-import { getAllProjectIds } from '../components/contexts/ProjectContext';
-import { Notes } from '../components/Notes';
+import { EditableField } from '@/components/EditableField';
+import { EditableList } from '@/components/EditableList';
+import { useSavingContext } from '@/components/contexts/SavingContext';
+import { getAllProjectIds } from '@/components/contexts/ProjectContext';
+import { Notes } from '@/components/Notes';
 import { ClipLoader } from 'react-spinners';
-import { GitHub, Link as UrlLink, CalendarToday } from '@material-ui/icons';
+import { GitHub, Link as UrlLink, CalendarToday } from '@mui/icons-material';
 import { Divider } from '@mui/material';
 
-import firebase from '../firebase/FirebaseApp';
+import firebase from '@/firebase/FirebaseApp';
 import 'firebase/firestore';
 
 const ref = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects');
@@ -80,12 +80,7 @@ export default function Project({ project }) {
         <div className="flex flex-col justify-start space-y-5">
           {/* Meta information */}
           <span className="text-3xl">
-            <EditableField
-              placeholder="Example Project Name"
-              id="name"
-              content={project.name}
-              setContent={updateContent}
-            />
+            <EditableField placeholder="Example Project Name" id="name" content={project.name} setContent={updateContent} />
           </span>
           <div className="flex flex-row justify-start space-x-5">
             <div className="flex flex-col space-y-1">
@@ -95,33 +90,17 @@ export default function Project({ project }) {
               </div>
               <div className="flex flex-row space-x-1">
                 <span>Completion:</span>
-                <EditableField
-                  placeholder="completed?"
-                  id="completion"
-                  content={project.completion}
-                  setContent={updateContent}
-                />
+                <EditableField placeholder="completed?" id="completion" content={project.completion} setContent={updateContent} />
               </div>
             </div>
             <div className="flex flex-col space-y-1 text-m">
               <span className="flex space-x-2">
                 <GitHub />
-                <EditableField
-                  placeholder="github"
-                  id="github"
-                  content={project.github}
-                  setContent={updateContent}
-                  className="m-8"
-                />
+                <EditableField placeholder="github" id="github" content={project.github} setContent={updateContent} className="m-8" />
               </span>
               <span className="flex space-x-2">
                 <UrlLink />
-                <EditableField
-                  placeholder="www.example.com"
-                  id="hostedAt"
-                  content={project.hostedAt}
-                  setContent={updateContent}
-                />
+                <EditableField placeholder="www.example.com" id="hostedAt" content={project.hostedAt} setContent={updateContent} />
               </span>
             </div>
           </div>

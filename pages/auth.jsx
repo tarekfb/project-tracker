@@ -6,10 +6,16 @@ import { useSignInWithEmailAndPassword, useAuthState, useCreateUserWithEmailAndP
 import { ClipLoader } from 'react-spinners';
 import { InputAdornment, TextField } from '@mui/material';
 import { AccountCircle, Lock } from '@mui/icons-material';
+import { AuthAction } from '@/components/auth/AuthAction';
+import { useSavingContext } from '@/components/contexts/SavingContext';
+
+const ref = firebase.firestore().collection('/users/');
 
 export default function Auth() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const { toggleIsSaving } = useSavingContext();
 
   const auth = firebase.auth();
   const [signInWithEmailAndPassword, signInUser, signInLoading, signInError] = useSignInWithEmailAndPassword(auth);
@@ -20,7 +26,7 @@ export default function Auth() {
     auth.signOut();
   };
 
-  const signIn = (email, password) => {
+  const signIn = () => {
     try {
       signInWithEmailAndPassword(email, password);
     } catch {
@@ -30,13 +36,27 @@ export default function Auth() {
     setPassword('');
   };
 
-  const register = (email, password) => {
+  const register = async () => {
     let pattern = '(?=.*[0-9a-zA-Z]).{6,}'; // min 6, any char allowed: https://stackoverflow.com/a/65641047
     if (!password.match(pattern)) {
       alert('password needs a minimum of 6 in length');
     } else {
       try {
+        toggleIsSaving(true);
+
+        // register user in auth service
         createUserWithEmailAndPassword(email, password);
+
+        // create user object locally
+        let userObj = {
+          email: email,
+        };
+        response = await ref.add(userObj);
+
+        let snapshot = await firebase.firestore().collection('/users/wPecInICm1CsUbDg8lmQ/projects/').get();
+        console.log(snapshot.size);
+
+        toggleIsSaving(false);
       } catch {
         console.log(createError);
       }
@@ -64,12 +84,45 @@ export default function Auth() {
     },
   };
 
+  const test = async () => {
+    const ref1 = firebase.firestore().collection('/users/');
+    let id;
+    ref1.get().then((user) => {
+      user.docs.map((doc) => {
+        if (doc.data().email == 'tarekfb69@gmail.com') {
+          id = doc.id;
+        }
+      });
+    });
+    let newRef = firebase.firestore().collection(`/users/${id}/projects/`);
+    let querySnapshot = await newRef.get();
+    console.log(querySnapshot.size);
+    console.log(querySnapshot.docs);
+    console.log(id);
+    newRef.get().then((project) => {
+      console.log(project.docs);
+      project.docs.map((doc) => {
+        doc.data();
+      });
+    });
+
+    // can't manage to access the docs for a project
+    // what i want to do is find the size, or docs, for any project
+    // it always returns 0 atm
+    // i'm trying to find size or docs so I then can determine if a given user has any proejct
+    // if no projects, dont try to query on /projects
+    // instead return 0 static paths in [id]
+
+    return querySnapshot.size;
+  };
+
   return (
     <Layout>
       <Head>
         <title>Authentication</title>
       </Head>
       <div className="flex flex-col justify-center align-center items-center space-y-2">
+        <button onClick={test}>test</button>
         {!authStateUser ? (
           <>
             <TextField
@@ -106,19 +159,28 @@ export default function Auth() {
                   </InputAdornment>
                 ),
               }}
+              // InputProps (capital i) provides props for material Input componenet
               inputProps={{
                 style: {
                   WebkitBoxShadow: '0 0 0 1000px white inset',
                 },
               }}
+              // inputProps provides props for html input element
+              // webkitboxshadow removes blue bg on autofill
             />
-            {signInLoading ? <ClipLoader size={50} /> : <button onClick={() => signIn(email, password)}>log in</button>}
-            {createLoading ? <ClipLoader size={50} /> : <button onClick={() => register(email, password)}>register</button>}
+            {signInLoading || createLoading ? (
+              <ClipLoader size={50} />
+            ) : (
+              <div className="flex flex-row space-x-2">
+                <AuthAction action={signIn} content="log in" />
+                <AuthAction action={register} content="register" />
+              </div>
+            )}
           </>
         ) : (
           <>
             <button onClick={logOut}>sign out</button>
-            <p>
+            <div>
               Current User:
               {authStateUser ? <span>auth</span> : <span>not auth</span>}
               {signInLoading && (
@@ -126,7 +188,7 @@ export default function Auth() {
                   <ClipLoader size={50} />
                 </div>
               )}
-            </p>
+            </div>
           </>
         )}
       </div>

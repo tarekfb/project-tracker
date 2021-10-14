@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TextareaAutosize } from '@material-ui/core';
+import { TextareaAutosize } from '@mui/material';
 
 export function Notes({ content, setContent }) {
   const [input, setInput] = useState(content);

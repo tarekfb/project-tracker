@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { DropDownMenu } from './DropDownMenu';
-import { useProjectContext } from '../contexts/ProjectContext';
-import { useSavingContext } from '../contexts/SavingContext';
-import firebase from '../../firebase/FirebaseApp';
+import { DropDownMenu } from '@/components/navbar/DropDownMenu';
+import { useProjectContext } from '@/contexts/ProjectContext';
+import { useSavingContext } from '@/contexts/SavingContext';
+import firebase from '@/firebase/FirebaseApp';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { CloudDone, AccountCircle } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';

@@ -2,11 +2,18 @@ import { useState, useEffect, createContext, useContext } from 'react';
 import firebase from '../../firebase/FirebaseApp';
 import 'firebase/firestore';
 
-const ref = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects/');
+let ref = firebase.firestore().collection('/users/wPecInICm1CsUbDg8lmQ/projects/');
+// const ref = firebase.firestore().collection('/users/');
+
+async function checkIfProjectsCollectionExists() {
+  // let snapshot = await ref.get();
+  // console.log(snapshot.size());
+}
 
 async function getProjects() {
-  const projectsRef = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects');
-  projectsRef.get().then((project) => {
+  checkIfProjectsCollectionExists();
+
+  ref.get().then((project) => {
     const projectsList = project.docs.map((doc) => {
       let obj = doc.data();
       obj.id = doc.id;
@@ -15,19 +22,6 @@ async function getProjects() {
     return projectsList;
   });
 }
-
-// export async function getProjectIdFromName(name) {
-//   const projectsRef = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects');
-//   let id;
-//   projectsRef.get().then((project) => {
-//     const projectsList = project.docs.map((doc) => {
-//       if (doc.data().name == name) {
-//         id = doc.id;
-//       }
-//     });
-//     return id;
-//   });
-// }
 
 export async function getAllProjectIds() {
   const collection = await ref.get();
@@ -43,21 +37,46 @@ export async function getAllProjectIds() {
   return ids;
 }
 
+export async function getUserIdFromEmail(email) {
+  const ref = firebase.firestore().collection('/users/');
+  let id;
+  ref.get().then((user) => {
+    user.docs.map((doc) => {
+      if (doc.data().email == email) {
+        id = doc.id;
+      }
+    });
+  });
+  return id;
+}
+
 //default values
 const projectContextDefaultValue = getProjects();
 
 //provider
 const ProjectContext = createContext(projectContextDefaultValue);
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 //hooks that components can use to change the values
 export function ProjectContextProvider({ children }) {
   const [projects, setProjects] = useState();
 
+  const auth = firebase.auth();
+  const [user, loading, error] = useAuthState(auth);
+
   useEffect(() => {
+    async function setRef() {
+      if (user) {
+        let id = await getUserIdFromEmail(user.email);
+        ref = firebase.firestore().collection(`/users/${id}/projects/`);
+        let querySnapshot = await ref.get();
+        console.log(querySnapshot.size);
+      }
+    }
+
     async function initProjects() {
-      // get all
-      const projectsRef = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects');
-      projectsRef.get().then((project) => {
+      // get all projects from db, then assign id from db to each local project
+      ref.get().then((project) => {
         const projectsList = project.docs.map((doc) => {
           let obj = doc.data();
           obj.id = doc.id;
@@ -68,6 +87,7 @@ export function ProjectContextProvider({ children }) {
     }
 
     initProjects();
+    setRef();
   }, []);
 
   const setProjectsWrapper = async (projects, operation, project) => {

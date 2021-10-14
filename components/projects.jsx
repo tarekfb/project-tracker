@@ -1,15 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
 import { findIndex } from '../util/util';
 import { useRouter } from 'next/router';
-import { useProjectContext } from './contexts/ProjectContext';
-import { useSavingContext } from './contexts/SavingContext';
-import firebase from '../firebase/FirebaseApp';
-import ProjectListItem from './ProjectListItem';
-import { useBlurContext } from './contexts/BlurContext';
+import { useProjectContext } from '@/contexts/ProjectContext';
+import { useSavingContext } from '@/contexts/SavingContext';
+import { useBlurContext } from '@/contexts/BlurContext';
+import firebase from '@/firebase/FirebaseApp';
+import { ProjectListItem } from '@/components/ProjectListItem';
 
-const ref = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects/');
+const ref = firebase.firestore().collection('/users/wPecInICm1CsUbDg8lmQ/projects/');
 
-export function Projects({}) {
+export function Projects() {
   const [input, setInput] = useState('');
   const { projects, setProjectsWrapper } = useProjectContext();
   const { toggleIsSaving } = useSavingContext();
@@ -20,7 +20,7 @@ export function Projects({}) {
   const router = useRouter();
 
   useEffect(() => {
-    router.events.on('routeChangeComplete', (url) => {
+    router.events.on('routeChangeComplete', () => {
       toggleBlur(false);
     });
   }, []);
@@ -80,12 +80,7 @@ export function Projects({}) {
           ))}
         </ul>
       ) : null}
-      <input
-        value={input}
-        ref={inputRef}
-        onInput={(e) => setInput(e.target.value)}
-        onKeyPress={(e) => enterPressed(e)}
-      />
+      <input value={input} ref={inputRef} onInput={(e) => setInput(e.target.value)} onKeyPress={(e) => enterPressed(e)} />
       <button className="mx-3 hover:text-blue-300" onClick={() => addProject()}>
         Add
       </button>
