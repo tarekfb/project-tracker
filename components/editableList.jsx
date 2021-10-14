@@ -31,14 +31,9 @@ export function EditableList({ content, setContent }) {
   // update the list: remove item or update item
   const updateList = (value, index) => {
     const removeItem = (index) => {
-      console.log(index);
-      console.log(tasks[index]);
       let newState = [...tasks];
       newState.splice(index, 1);
       setTasks(newState);
-      setTimeout(function () {
-        console.log(tasks);
-      }, 3000);
     };
 
     const updateItem = (value, index) => {
@@ -51,12 +46,7 @@ export function EditableList({ content, setContent }) {
     // if index -1, remove last
     // if index => 0 && value != "", update at index
     if (value === '') {
-      console.log(index);
       removeItem(index);
-      // } else if (index === -1) {
-      //   // does this ever happen
-      //   removeItem(tasks.length - 1);
-      //   console.log('I WAS CALLED DONT DELETE ME');
     } else if (index >= 0 && value !== '') {
       updateItem(value, index);
     }
@@ -116,7 +106,6 @@ export function EditableList({ content, setContent }) {
               buttonRef.current.blur();
               addListItem();
               setIsAdding(false);
-              console.log(tasks);
             }}>
             <Check />
           </button>

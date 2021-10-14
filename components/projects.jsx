@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { findIndex } from '../util/util';
 import { useRouter } from 'next/router';
 import { useProjectContext } from './contexts/ProjectContext';
@@ -16,7 +16,14 @@ export function Projects({}) {
   const { toggleBlur } = useBlurContext();
 
   const inputRef = useRef(null);
+
   const router = useRouter();
+
+  useEffect(() => {
+    router.events.on('routeChangeComplete', (url) => {
+      toggleBlur(false);
+    });
+  }, []);
 
   const addProject = async () => {
     toggleIsSaving(true);
@@ -31,6 +38,7 @@ export function Projects({}) {
     let docRef = await setProjectsWrapper([...projects], 'create', newProject);
     setInput('');
     // open new proj
+
     router.push('/' + docRef.id);
     toggleIsSaving(false);
   };

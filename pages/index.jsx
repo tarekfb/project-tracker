@@ -1,16 +1,15 @@
 import Head from 'next/head';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Layout, { siteTitle } from '../components/Layout';
 import { Projects } from '../components/Projects';
 import { ClipLoader } from 'react-spinners';
 import { useBlurContext } from '@/components/contexts/BlurContext';
 
 export default function Home() {
-  const [loading, setLoading] = useState(false);
   const { toggleBlur } = useBlurContext();
 
   useEffect(() => {
-    toggleBlur(false);
+    // toggleBlur(false);
   }, []);
 
   // STÄÅNG AV I PROJECTS
