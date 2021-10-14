@@ -1,7 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 
-import CheckIcon from '@material-ui/icons/Check';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { CheckIcon, DeleteIcon } from '@mui/icons-material';
 
 export default function EditableListItem({ content, i, updateList }) {
   const [iconVisibility, setIconVisibility] = useState([false, false, false]);

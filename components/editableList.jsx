@@ -1,10 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import EditableListItem from './EditableListItem';
-import { Check, Add } from '@material-ui/icons';
-import { CircularProgress } from '@material-ui/core';
+import { Check, Add } from '@mui/icons-material';
 
-const newListItemFieldStyle =
-  'border-solid border-black border-b focus:outline-none focus:border-b focus:border-blue-300';
+const newListItemFieldStyle = 'border-solid border-black border-b focus:outline-none focus:border-b focus:border-blue-300';
 const newListItemButtonStyle = 'hover:text-blue-300';
 const newListItemContainerStyle = 'flex flex-row';
 

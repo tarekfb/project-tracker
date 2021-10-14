@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import CheckIcon from '@material-ui/icons/Check';
+import { CheckIcon } from '@mui/icons-material';
 
 export function EditableField({ placeholder, id, content, setContent }) {
   const [editVisibility, setEditVisibility] = useState(false);

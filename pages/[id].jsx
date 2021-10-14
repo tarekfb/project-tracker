@@ -8,7 +8,7 @@ import { getAllProjectIds } from '../components/contexts/ProjectContext';
 import { Notes } from '../components/Notes';
 import { ClipLoader } from 'react-spinners';
 import { GitHub, Link as UrlLink, CalendarToday } from '@material-ui/icons';
-import { Divider } from '@material-ui/core';
+import { Divider } from '@mui/material';
 
 import firebase from '../firebase/FirebaseApp';
 import 'firebase/firestore';

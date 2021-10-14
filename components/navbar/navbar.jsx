@@ -4,8 +4,8 @@ import { useProjectContext } from '../contexts/ProjectContext';
 import { useSavingContext } from '../contexts/SavingContext';
 import firebase from '../../firebase/FirebaseApp';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { CloudDone, AccountCircle } from '@material-ui/icons';
-import Tooltip from '@material-ui/core/Tooltip';
+import { CloudDone, AccountCircle } from '@mui/icons-material';
+import { Tooltip } from '@mui/material';
 import SyncLoader from 'react-spinners/SyncLoader';
 
 export function Navbar() {

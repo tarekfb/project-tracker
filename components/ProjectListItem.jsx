@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { DeleteIcon } from '@mui/icons-material';
 import Link from 'next/link';
 
 export default function ProjectListItem({ project, removeProject }) {

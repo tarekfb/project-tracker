@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { useState } from 'react';
 import { ClipLoader } from 'react-spinners';
 import { useBlurContext } from './contexts/BlurContext';
 import { Navbar } from './navbar/Navbar';
