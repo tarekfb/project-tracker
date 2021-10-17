@@ -12,6 +12,7 @@ import { Divider } from '@mui/material';
 
 import firebase from '@/firebase/FirebaseApp';
 import 'firebase/firestore';
+import { useBlurContext } from '@/components/contexts/BlurContext';
 
 const ref = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects');
 
@@ -37,6 +38,7 @@ export async function getStaticProps({ params }) {
 export default function Project({ project }) {
   const { toggleIsSaving } = useSavingContext();
   const router = useRouter();
+  const { toggleBlur } = useBlurContext();
 
   // updates content in db
   const updateContent = async (contentID, content) => {
@@ -60,16 +62,13 @@ export default function Project({ project }) {
   };
 
   if (router.isFallback) {
+    toggleBlur(true);
+
     return (
       <Layout>
         <Head>
           <title>Project tracker | Loading...</title>
         </Head>
-        <div className="flex h-screen">
-          <div className="m-auto">
-            <ClipLoader size={150} />
-          </div>
-        </div>
       </Layout>
     );
   } else {

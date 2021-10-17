@@ -28,18 +28,16 @@ export function Projects() {
   const addProject = async () => {
     toggleIsSaving(true);
     toggleBlur(true);
-
     // create project obj at client
     let newProject = {};
     newProject.name = input;
     newProject.startDate = new Date().toLocaleString('en-GB');
-
     // send to db
-    let docRef = await setProjectsWrapper([...projects], 'create', newProject);
+    let projectsList = projects ? [...projects] : [];
+    let doc = await setProjectsWrapper(projectsList, 'create', newProject);
     setInput('');
     // open new proj
-
-    router.push('/' + docRef.id);
+    router.push('/' + doc.id);
     toggleIsSaving(false);
   };
 
@@ -47,13 +45,14 @@ export function Projects() {
     let answer = confirm('Are you sure you want to delete project: ' + name + '?');
     if (answer) {
       const i = findIndex(projects, 'name', name);
-      let newProjects = [...projects];
+      let projectsList = projects ? [...projects] : []; // test
+
       if (i !== -1) {
-        const project = newProjects[i];
-        newProjects.splice(i, 1);
+        const project = projectsList[i];
+        projectsList.splice(i, 1);
 
         toggleIsSaving(true);
-        let promise = await setProjectsWrapper(newProjects, 'delete', project);
+        await setProjectsWrapper(projectsList, 'delete', project);
         toggleIsSaving(false);
       } else {
         console.log("Couldn't find project: ", name);
