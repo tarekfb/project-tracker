@@ -85,26 +85,69 @@ export default function Auth() {
   };
 
   const test = async () => {
-    const ref1 = firebase.firestore().collection('/users/');
+    // const ref1 = firebase.firestore().collection('/users/');
+    // let id;
+    // ref1.get().then((user) => {
+    //   user.docs.map((doc) => {
+    //     if (doc.data().email == 'tarekfb69@gmail.com') {
+    //       id = doc.id;
+    //     }
+    //   });
+    // });
+    // let newRef = firebase.firestore().collection(`/users/${id}/projects/`);
+    // let querySnapshot = await newRef.get();
+    // console.log(querySnapshot.size);
+    // console.log(querySnapshot.docs);
+    // console.log(id);
+    // newRef.get().then((project) => {
+    //   console.log(project.docs);
+    //   project.docs.map((doc) => {
+    //     doc.data();
+    //   });
+    // });
+
     let id;
-    ref1.get().then((user) => {
-      user.docs.map((doc) => {
+    console.log('NEW TRY_____________________________');
+    const ref2 = firebase.firestore().collection('/users/');
+    ref2.get().then((user) => {
+      user.docs.map(async (doc) => {
         if (doc.data().email == 'tarekfb69@gmail.com') {
           id = doc.id;
+          let test = await doc.collection('projects').get();
+          console.log(doc);
+          console.log(test);
+          console.log(doc.collection('projects').get());
+          console.log(test.size);
+          // doc
+          //   .collection('projects')
+          //   .get()
+          //   .then((user) => {
+          //     user.docs.map((doc) => {
+          //       console.log('from inner');
+
+          //       console.log(doc.data());
+          //     });
+          //   });
         }
       });
     });
-    let newRef = firebase.firestore().collection(`/users/${id}/projects/`);
-    let querySnapshot = await newRef.get();
-    console.log(querySnapshot.size);
-    console.log(querySnapshot.docs);
-    console.log(id);
-    newRef.get().then((project) => {
-      console.log(project.docs);
-      project.docs.map((doc) => {
-        doc.data();
+    // https://www.google.com/search?q=firestore+react+hooks+user+email&rlz=1C1CHBF_svSE958SE958&oq=firestore+react+hooks+user+email&aqs=chrome..69i57j0i22i30.7211j0j7&sourceid=chrome&ie=UTF-8
+
+    firebase
+      .firestore()
+      .collection('users')
+      .doc(id)
+      .collection('projects')
+      .get()
+      .then((querySnapshot) => {
+        console.log(querySnapshot.docs);
       });
-    });
+
+    // ref2.get().then((project) => {
+    //   project.docs.map((doc) => {
+    //     console.log(doc.data());
+    //   });
+    // });
 
     // can't manage to access the docs for a project
     // what i want to do is find the size, or docs, for any project
@@ -113,7 +156,7 @@ export default function Auth() {
     // if no projects, dont try to query on /projects
     // instead return 0 static paths in [id]
 
-    return querySnapshot.size;
+    // return querySnapshot.size;
   };
 
   return (
