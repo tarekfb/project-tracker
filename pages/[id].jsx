@@ -18,6 +18,7 @@ const ref = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/project
 // gets all paths, based on project ids
 export async function getStaticPaths() {
   const paths = await getAllProjectIds();
+  console.log(paths);
   return {
     paths,
     fallback: true,

@@ -2,17 +2,10 @@ import { useState, useEffect, createContext, useContext } from 'react';
 import firebase from '../../firebase/FirebaseApp';
 import 'firebase/firestore';
 
-let ref = firebase.firestore().collection('/users/wPecInICm1CsUbDg8lmQ/projects/');
+let ref = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects/');
 // const ref = firebase.firestore().collection('/users/');
 
-async function checkIfProjectsCollectionExists() {
-  // let snapshot = await ref.get();
-  // console.log(snapshot.size());
-}
-
 async function getProjects() {
-  checkIfProjectsCollectionExists();
-
   ref.get().then((project) => {
     const projectsList = project.docs.map((doc) => {
       let obj = doc.data();
@@ -23,17 +16,52 @@ async function getProjects() {
   });
 }
 
+/**
+ * Gets the ids of all existing projects.
+ * @returns A list of ids: string.
+ */
 export async function getAllProjectIds() {
-  const collection = await ref.get();
+  let ref = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects/'); // when i remove this line, not correct response
+  // so in useffect , or variable delcarion, it's using a different value
+  // what is want to do is use the id of user
+  // this is happening in use effect atm
+  // but not working, even thoughl ogged in to correct account
+  // test
+
+  // const collection = await ref.get();
   const ids = [];
-  collection.docs.map((doc) => {
-    let idObj = {
-      params: {
-        id: doc.id,
-      },
-    };
-    ids.push(idObj);
+
+  // let size;
+  ref.get().then((snap) => {
+    let size = snap.size; // will return the collection size
+    console.log(size);
+    if (size > 0) {
+      snap.docs.map((doc) => {
+        let idObj = {
+          params: {
+            id: doc.id,
+          },
+        };
+        ids.push(idObj);
+      });
+    }
   });
+  // 6
+  // looks at querySsnaphot
+  // iterating lvl 1: itearting every collection at doc user
+
+  // undefined
+  // looks at query document snapshot
+  // iterating lvl 2: iterating every collection of doc project
+  // collection.docs.map((doc) => {
+  //   let idObj = {
+  //     params: {
+  //       id: doc.id,
+  //     },
+  //   };
+  //   ids.push(idObj);
+  // });
+
   return ids;
 }
 
@@ -64,16 +92,15 @@ export function ProjectContextProvider({ children }) {
   const auth = firebase.auth();
   const [user, loading, error] = useAuthState(auth);
 
-  useEffect(() => {
-    async function setRef() {
-      if (user) {
-        let id = await getUserIdFromEmail(user.email);
-        ref = firebase.firestore().collection(`/users/${id}/projects/`);
-        let querySnapshot = await ref.get();
-        console.log(querySnapshot.size);
-      }
+  const setRef = async () => {
+    if (user) {
+      let id = await getUserIdFromEmail(user.email);
+      ref = firebase.firestore().collection(`/users/${id}/projects/`);
+      let querySnapshot = await ref.get();
     }
+  };
 
+  useEffect(() => {
     async function initProjects() {
       // get all projects from db, then assign id from db to each local project
       ref.get().then((project) => {
@@ -87,8 +114,12 @@ export function ProjectContextProvider({ children }) {
     }
 
     initProjects();
-    setRef();
+    // setRef();
   }, []);
+
+  useEffect(() => {
+    setRef();
+  }, [user]);
 
   const setProjectsWrapper = async (projects, operation, project) => {
     // let promise = new Promise((resolve, reject) => {});

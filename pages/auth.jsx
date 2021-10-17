@@ -8,6 +8,7 @@ import { InputAdornment, TextField } from '@mui/material';
 import { AccountCircle, Lock } from '@mui/icons-material';
 import { AuthAction } from '@/components/auth/AuthAction';
 import { useSavingContext } from '@/components/contexts/SavingContext';
+import { getAllProjectIds } from '@/components/contexts/ProjectContext';
 
 const ref = firebase.firestore().collection('/users/');
 
@@ -85,6 +86,7 @@ export default function Auth() {
   };
 
   const test = async () => {
+    let list = await getAllProjectIds();
     // const ref1 = firebase.firestore().collection('/users/');
     // let id;
     // ref1.get().then((user) => {
@@ -106,42 +108,42 @@ export default function Auth() {
     //   });
     // });
 
-    let id;
-    console.log('NEW TRY_____________________________');
-    const ref2 = firebase.firestore().collection('/users/');
-    ref2.get().then((user) => {
-      user.docs.map(async (doc) => {
-        if (doc.data().email == 'tarekfb69@gmail.com') {
-          id = doc.id;
-          let test = await doc.collection('projects').get();
-          console.log(doc);
-          console.log(test);
-          console.log(doc.collection('projects').get());
-          console.log(test.size);
-          // doc
-          //   .collection('projects')
-          //   .get()
-          //   .then((user) => {
-          //     user.docs.map((doc) => {
-          //       console.log('from inner');
+    // let id;
+    // console.log('NEW TRY_____________________________');
+    // const ref2 = firebase.firestore().collection('/users/');
+    // ref2.get().then((user) => {
+    //   user.docs.map(async (doc) => {
+    //     if (doc.data().email == 'tarekfb69@gmail.com') {
+    //       id = doc.id;
+    //       let test = await doc.collection('projects').get();
+    //       console.log(doc);
+    //       console.log(test);
+    //       console.log(doc.collection('projects').get());
+    //       console.log(test.size);
+    //       // doc
+    //       //   .collection('projects')
+    //       //   .get()
+    //       //   .then((user) => {
+    //       //     user.docs.map((doc) => {
+    //       //       console.log('from inner');
 
-          //       console.log(doc.data());
-          //     });
-          //   });
-        }
-      });
-    });
+    //       //       console.log(doc.data());
+    //       //     });
+    //       //   });
+    //     }
+    //   });
+    // });
     // https://www.google.com/search?q=firestore+react+hooks+user+email&rlz=1C1CHBF_svSE958SE958&oq=firestore+react+hooks+user+email&aqs=chrome..69i57j0i22i30.7211j0j7&sourceid=chrome&ie=UTF-8
 
-    firebase
-      .firestore()
-      .collection('users')
-      .doc(id)
-      .collection('projects')
-      .get()
-      .then((querySnapshot) => {
-        console.log(querySnapshot.docs);
-      });
+    // firebase
+    //   .firestore()
+    //   .collection('users')
+    //   .doc(id)
+    //   .collection('projects')
+    //   .get()
+    //   .then((querySnapshot) => {
+    //     console.log(querySnapshot.docs);
+    //   });
 
     // ref2.get().then((project) => {
     //   project.docs.map((doc) => {
