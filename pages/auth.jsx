@@ -8,7 +8,6 @@ import { InputAdornment, TextField } from '@mui/material';
 import { AccountCircle, Lock } from '@mui/icons-material';
 import { AuthAction } from '@/components/auth/AuthAction';
 import { useSavingContext } from '@/components/contexts/SavingContext';
-import { getAllProjectIds } from '@/components/contexts/ProjectContext';
 
 const ref = firebase.firestore().collection('/users/');
 
@@ -64,25 +63,6 @@ export default function Auth() {
       setEmail('');
       setPassword('');
     }
-  };
-
-  const styles = {
-    underline: {
-      '&::before': {
-        borderBottom: '1px solid #90caf9',
-      },
-      '&:hover:not(.Mui-disabled):before': {
-        borderBottom: '2px solid #90caf9',
-      },
-      '&::after': {
-        borderBottom: '2px solid #90caf9',
-      },
-    },
-    input: {
-      '&:-webkit-autofill': {
-        WebkitBoxShadow: '0 0 0 1000px black inset',
-      },
-    },
   };
 
   return (
@@ -150,7 +130,7 @@ export default function Auth() {
             <button onClick={logOut}>sign out</button>
             <div>
               Current User:
-              {authStateUser ? <span>auth</span> : <span>not auth</span>}
+              {authStateUser ? <span>{authStateUser.email}</span> : <span>not auth</span>}
               {signInLoading && (
                 <div className="m-auto">
                   <ClipLoader size={50} />

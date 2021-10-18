@@ -1,5 +1,4 @@
 import { useState, useRef } from 'react';
-
 import { CheckIcon, DeleteIcon } from '@mui/icons-material';
 
 export default function EditableListItem({ content, i, updateList }) {

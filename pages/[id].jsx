@@ -1,35 +1,57 @@
 import Head from 'next/head';
-import Layout from '@/components/Layout';
 import { useRouter } from 'next/router';
+import Layout from '@/components/Layout';
 import { EditableField } from '@/components/EditableField';
 import { EditableList } from '@/components/EditableList';
 import { useSavingContext } from '@/components/contexts/SavingContext';
-import { getAllProjectIds } from '@/components/contexts/ProjectContext';
+import { getAllProjectIds, getProject } from '@/components/contexts/ProjectContext';
+import { useBlurContext } from '@/components/contexts/BlurContext';
 import { Notes } from '@/components/Notes';
-import { ClipLoader } from 'react-spinners';
 import { GitHub, Link as UrlLink, CalendarToday } from '@mui/icons-material';
 import { Divider } from '@mui/material';
 
-import firebase from '@/firebase/FirebaseApp';
-import 'firebase/firestore';
-import { useBlurContext } from '@/components/contexts/BlurContext';
+/**
+ * Gets all paths, based on project ids.
+ * @returns Possible paths, and fallback value.
+ */
+// export async function getStaticPaths() {
+//   const paths = await getAllProjectIds();
+//   console.log('PATHS ARE');
+//   console.log(paths);
+//   return {
+//     paths,
+//     fallback: true,
+//   };
+// }
 
-const ref = firebase.firestore().collection('/users/olQnZcn5BJ4Oy7dagx4k/projects');
+// /**
+//  * fetches the project data, using a project id
+//  * @param {*} params Route parameters.
+//  * @returns Project data as JSON.
+//  */
+// export async function getStaticProps({ params }) {
+//   let project = await getProject(params.id);
+//   let data = project.data();
+//   console.log(data);
+//   if (data) {
+//     return {
+//       props: { project: data },
+//     };
+//   }
+//   return null; // should never happen, because in this case the projectcontext found this id in db
+//   // meaning this query will also find proejct in db
+// }
 
-// gets all paths, based on project ids
-export async function getStaticPaths() {
-  const paths = await getAllProjectIds();
-  console.log(paths);
-  return {
-    paths,
-    fallback: true,
-  };
-}
+export async function getServerSideProps(context) {
+  let project = await getProject(context.params.id);
+  let data = project?.data();
 
-// fetches the project data, using a project id
-export async function getStaticProps({ params }) {
-  let project = await ref.doc(params.id).get();
-  let data = project.data();
+  if (!data) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: { project: data },
   };
@@ -44,31 +66,37 @@ export default function Project({ project }) {
   const updateContent = async (contentID, content) => {
     toggleIsSaving(true);
 
-    const { id } = router.query;
+    // const { id } = router.query;
 
-    let projectsRef = ref.doc(id);
-    let collection = await projectsRef.get();
-    // let field = collection.get(contentID);
+    // let projectsRef = ref.doc(id);
+    // let collection = await projectsRef.get();
 
-    if (collection.exists) {
-      if (content) await projectsRef.update({ [contentID]: content });
-      else console.log('content null');
-    } else {
-      // doc.data() will be undefined in this case
-      console.log('No such document!');
-    }
+    // if (collection.exists) {
+    //   if (content) await projectsRef.update({ [contentID]: content });
+    //   else console.log('content null');
+    // } else {
+    //   // doc.data() will be undefined in this case
+    //   console.log('No such document!');
+    // }
+
+    // TODO: Rewrite updateContent to use ProjectContext
 
     toggleIsSaving(false);
   };
 
   if (router.isFallback) {
-    toggleBlur(true);
+    // toggleBlur(true);
+    /*
+    react-dom.development.js:67 Warning: Cannot update a component (`BlurContextProvider`) while rendering a different component (`Project`).
+    To locate the bad setState() call inside `Project`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render
+    */
 
     return (
       <Layout>
         <Head>
           <title>Project tracker | Loading...</title>
         </Head>
+        <div>Loading...</div>
       </Layout>
     );
   } else {
@@ -104,6 +132,7 @@ export default function Project({ project }) {
               </span>
             </div>
           </div>
+
           <Divider />
 
           {/* Project content */}

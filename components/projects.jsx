@@ -4,14 +4,14 @@ import { useRouter } from 'next/router';
 import { useProjectContext } from '@/contexts/ProjectContext';
 import { useSavingContext } from '@/contexts/SavingContext';
 import { useBlurContext } from '@/contexts/BlurContext';
-import firebase from '@/firebase/FirebaseApp';
 import { ProjectListItem } from '@/components/ProjectListItem';
 
-const ref = firebase.firestore().collection('/users/wPecInICm1CsUbDg8lmQ/projects/');
+// const ref = firebase.firestore().collection('/users/wPecInICm1CsUbDg8lmQ/projects/');
+// TODO: use projectcontext if using db
 
 export function Projects() {
   const [input, setInput] = useState('');
-  const { projects, setProjectsWrapper } = useProjectContext();
+  const { projects, setProjectsWrapper, logRef } = useProjectContext();
   const { toggleIsSaving } = useSavingContext();
   const { toggleBlur } = useBlurContext();
 
@@ -72,6 +72,13 @@ export function Projects() {
 
   return (
     <>
+      <button
+        onClick={() => {
+          let thing = logRef();
+          console.log(thing);
+        }}>
+        HALLIHALLÅ
+      </button>
       {projects ? (
         <ul>
           {projects.map((project) => (
