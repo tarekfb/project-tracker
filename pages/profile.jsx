@@ -2,14 +2,16 @@ import React from 'react';
 import Head from 'next/head';
 import Layout from 'components/Layout';
 import firebase from 'firebase';
-import { useAuthUser, withAuthUser, withAuthUserTokenSSR } from 'next-firebase-auth';
+import { auth } from '@/firebase/FirebaseApp';
+import { useAuthUser, withAuthUser, withAuthUserTokenSSR, AuthAction } from 'next-firebase-auth';
 import Loader from '@/components/Loader';
+import { server } from '@/config/server';
 
 const Profile = () => {
   const AuthUser = useAuthUser();
 
-  const signOut = async () => {
-    firebase.auth().signOut();
+  const logOut = async () => {
+    auth.signOut();
   };
 
   return (
@@ -31,18 +33,18 @@ const Profile = () => {
             transform 
             hover:scale-110  
             hover:opacity-75"
-        onClick={signOut}>
+        onClick={logOut}>
         SIGN OUT
       </button>
     </Layout>
   );
 };
 
-// Note that this is a higher-order function.
 export const getServerSideProps = withAuthUserTokenSSR()();
 
 export default withAuthUser({
   whenUnauthedBeforeInit: AuthAction.SHOW_LOADER,
   whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
+  whenAuthed: AuthAction.RENDER,
   LoaderComponent: Loader,
 })(Profile);

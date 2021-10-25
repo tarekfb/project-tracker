@@ -3,7 +3,7 @@ import { init } from 'next-firebase-auth';
 export const initAuth = () => {
   init({
     authPageURL: '/auth',
-    appPageURL: '/projects',
+    appPageURL: '/',
     loginAPIEndpoint: '/api/login',
     logoutAPIEndpoint: '/api/logout',
     // firebaseAuthEmulatorHost: 'localhost:9099',

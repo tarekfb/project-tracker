@@ -1,4 +1,6 @@
 import React from 'react';
+import Layout from 'components/Layout';
+import Head from 'next/head';
 import { ClipLoader } from 'react-spinners';
 
 const Loader = () => (

@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { findIndex } from '../util/util';
 import { useRouter } from 'next/router';
-import { useProjectContext } from '@/contexts/ProjectContext';
+// import { useProjectContext } from '@/contexts/ProjectContext';
 import { useSavingContext } from '@/contexts/SavingContext';
 import { useBlurContext } from '@/contexts/BlurContext';
 import { ProjectListItem } from '@/components/ProjectListItem';
@@ -24,21 +24,21 @@ export function ProjectsAlt({ projects }) {
     });
   }, []);
 
-    const addProject = async () => {
-  //     toggleIsSaving(true);
-  //     toggleBlur(true);
-  //     // create project obj at client
-  //     let newProject = {};
-  //     newProject.name = input;
-  //     newProject.startDate = new Date().toLocaleString('en-GB');
-  //     // send to db
-  //     let projectsList = projects ? [...projects] : [];
-  //     let doc = await setProjectsWrapper(projectsList, 'create', newProject);
-  //     setInput('');
-  //     // open new proj
-  //     router.push('/' + doc.id);
-  //     toggleIsSaving(false);
-    };
+  const addProject = async () => {
+    //     toggleIsSaving(true);
+    //     toggleBlur(true);
+    //     // create project obj at client
+    //     let newProject = {};
+    //     newProject.name = input;
+    //     newProject.startDate = new Date().toLocaleString('en-GB');
+    //     // send to db
+    //     let projectsList = projects ? [...projects] : [];
+    //     let doc = await setProjectsWrapper(projectsList, 'create', newProject);
+    //     setInput('');
+    //     // open new proj
+    //     router.push('/' + doc.id);
+    //     toggleIsSaving(false);
+  };
 
   const removeProject = async (name) => {
     //   let answer = confirm('Are you sure you want to delete project: ' + name + '?');

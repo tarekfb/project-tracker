@@ -1,19 +1,19 @@
 import '../styles/global.css';
-import { ProjectContextProvider } from 'components/contexts/ProjectContext';
+// import { ProjectContextProvider } from 'components/contexts/ProjectContext';
 import { SavingContextProvider } from 'components/contexts/SavingContext';
 import { BlurContextProvider } from 'components/contexts/BlurContext';
-import { initAuth } from '@/firebase/initDb';
+import { initAuth } from '@/firebase/FirebaseAuth';
 
 initAuth();
 
 function MyApp({ Component, pageProps }) {
   return (
     <BlurContextProvider>
-      <ProjectContextProvider>
-        <SavingContextProvider>
-          <Component {...pageProps} />
-        </SavingContextProvider>
-      </ProjectContextProvider>
+      {/* <ProjectContextProvider> */}
+      <SavingContextProvider>
+        <Component {...pageProps} />
+      </SavingContextProvider>
+      {/* </ProjectContextProvider> */}
     </BlurContextProvider>
   );
 }

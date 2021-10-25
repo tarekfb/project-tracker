@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Head from 'next/head';
 import Layout from 'components/Layout';
 import firebase from 'firebase/FirebaseApp';
-import { initAuth } from '@/firebase/initDb';
+import { initAuth } from '@/firebase/FirebaseAuth';
 import { useSignInWithEmailAndPassword, useAuthState, useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { ClipLoader } from 'react-spinners';
 import { InputAdornment, TextField } from '@mui/material';

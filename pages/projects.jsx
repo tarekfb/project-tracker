@@ -24,7 +24,7 @@ export const getServerSideProps = withAuthUserTokenSSR({
     headers: {
       Authorization: id,
     },
-  });
+  }); // TODO: change to use getidtoken instaed of id
   const data = await response.json();
   console.log(data);
   data.map((project) => {

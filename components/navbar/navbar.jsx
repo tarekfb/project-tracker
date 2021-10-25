@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { DropDownMenu } from '@/components/navbar/DropDownMenu';
-import { useProjectContext } from '@/contexts/ProjectContext';
+// import { useProjectContext } from '@/contexts/ProjectContext';
 import { useSavingContext } from '@/contexts/SavingContext';
 import firebase from '@/firebase/FirebaseApp';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -8,7 +8,6 @@ import { CloudDone, AccountCircle } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import SyncLoader from 'react-spinners/SyncLoader';
 import { useAuthUser } from 'next-firebase-auth';
-
 
 export function Navbar() {
   const authUser = useAuthUser();
@@ -24,12 +23,13 @@ export function Navbar() {
       <h1 className="text-4xl mr-auto">
         <Link href="/">
           <a>Project tracker</a>
-        </Link>z
+        </Link>
+        z
       </h1>
       <Link href="/auth">
         <a className="flex justify-center items-center space-x-2">
           <AccountCircle />
-          {authUser ? <div>auth</div> : <div>not auth</div>}
+          {authUser.id ? <div>auth</div> : <div>not auth</div>}
         </a>
       </Link>
       {/* <DropDownMenu projects={projects} /> */}

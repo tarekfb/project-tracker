@@ -1,62 +1,56 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import Layout from 'components/Layout';
-import firebase from 'firebase/FirebaseApp';
-import { withAuthUser, AuthAction } from 'next-firebase-auth';
-import { ClipLoader } from 'react-spinners';
-import { InputAdornment, TextField } from '@mui/material';
-import { AccountCircle, Lock } from '@mui/icons-material';
-import { useSavingContext } from '@/components/contexts/SavingContext';
-import FirebaseAuth from '@/components/FirebaseAuth';
+import { auth } from '@/firebase/FirebaseApp';
+import { withAuthUser, AuthAction, useAuthUser } from 'next-firebase-auth';
 import Loader from '@/components/Loader';
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import AuthForm from '@/components/AuthForm';
+import { server } from '@/config/server';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const authUser = useAuthUser();
 
-  const { toggleIsSaving } = useSavingContext();
+  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
 
-  const logOut = () => {
-    // auth.signOut();
+  const signIn = (email, password) => {
+    try {
+      signInWithEmailAndPassword(email, password);
+    } catch {
+      console.log(signInError);
+    }
   };
 
-  const signIn = () => {
-    // try {
-    //   signInWithEmailAndPassword(email, password);
-    // } catch {
-    //   console.log(signInError);
-    // }
-    setEmail('');
-    setPassword('');
-  };
-
-  const register = async () => {
+  const register = async (email, password) => {
     let pattern = '(?=.*[0-9a-zA-Z]).{6,}'; // min 6, any char allowed: https://stackoverflow.com/a/65641047
     if (!password.match(pattern)) {
       alert('password needs a minimum of 6 in length');
     } else {
-      //   try {
-      //     toggleIsSaving(true);
-
-      //     // register user in auth service
-      //     createUserWithEmailAndPassword(email, password);
-
-      //     // create user object locally
-      //     let userObj = {
-      //       email: email,
-      //     };
-      //     response = await ref.add(userObj);
-
-      //     let snapshot = await firebase.firestore().collection('/users/wPecInICm1CsUbDg8lmQ/projects/').get();
-      //     console.log(snapshot.size);
-
-      //     toggleIsSaving(false);
-      //   } catch {
-      //     console.log(createError);
-      //   }
-      setEmail('');
-      setPassword('');
+      try {
+        const response = await auth.createUserWithEmailAndPassword(email, password);
+        fetchRegister(response.user);
+      } catch (e) {
+        console.error(e);
+      }
     }
+  };
+
+  const fetchRegister = async (user) => {
+    const userObj = {
+      id: user.uid,
+      email: user.email,
+    };
+
+    const response = await fetch(`${server}/api/register`, {
+      method: 'POST',
+      body: JSON.stringify(userObj),
+      headers: {
+        Authorization: authUser.getIdToken(),
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
   };
 
   return (
@@ -64,7 +58,7 @@ const LoginPage = () => {
       <Head>
         <title>Project-tracker | Authentication</title>
       </Head>
-      <FirebaseAuth />
+      <AuthForm register={register} signIn={signIn} />
     </Layout>
   );
 };
@@ -75,79 +69,3 @@ export default withAuthUser({
   whenUnauthedAfterInit: AuthAction.RENDER,
   LoaderComponent: Loader,
 })(LoginPage);
-
-{
-  /* <div>
-        <TextField
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          label="Email"
-          variant="outlined"
-          type="email"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <AccountCircle />
-              </InputAdornment>
-            ),
-          }}
-          inputProps={{
-            style: {
-              WebkitBoxShadow: '0 0 0 1000px white inset',
-            },
-          }}
-        />
-        <TextField
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          label="Password"
-          variant="outlined"
-          type="password"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Lock />
-              </InputAdornment>
-            ),
-          }}
-          // InputProps (capital i) provides props for material Input componenet
-          inputProps={{
-            style: {
-              WebkitBoxShadow: '0 0 0 1000px white inset',
-            },
-          }}
-          // inputProps provides props for html input element
-          // webkitboxshadow removes blue bg on autofill
-        />
-      </div>
-      <div className="flex flex-row space-x-2">
-        <button
-          className="rounded-md
-            bg-gradient-main
-            py-2 px-10 
-            text-white 
-            transition-all 
-            duration-500 
-            transform 
-            hover:scale-110  
-            hover:opacity-75"
-          onClick={signIn}>
-          SIGN IN
-        </button>
-        <button
-          className="rounded-md
-            bg-gradient-main
-            py-2 px-10 
-            text-white 
-            transition-all 
-            duration-500 
-            transform 
-            hover:scale-110  
-            hover:opacity-75"
-          onClick={register}>
-          REIGSTER
-        </button>
-      </div> */
-}
