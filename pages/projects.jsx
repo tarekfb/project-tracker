@@ -23,6 +23,7 @@ export const getServerSideProps = withAuthUserTokenSSR({
     method: 'GET',
     headers: {
       Authorization: id,
+      'User-Agent': 'ANYTHING_WILL_WORK_HERE',
     },
   }); // TODO: change to use getidtoken instaed of id
   const data = await response.json();

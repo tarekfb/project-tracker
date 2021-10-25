@@ -1,16 +1,17 @@
-import firebase from 'firebase';
+import { db, auth } from '@/firebase/FirebaseApp';
 
 async function getProjects(id) {
-  // console.log('get projects api');
-  let projectsRef = firebase.firestore().collection(`users/${id}/projects`);
+  console.log('get projects api');
+  let projectsRef = db.collection(`users/${id}/projects`);
   projectsRef.get().then((project) => {
-    const projectsList = project.docs.map((doc) => {
+    let projectsList = [];
+    project.docs.map((doc) => {
       let obj = doc.data();
       obj.id = doc.id;
-      return obj;
+      projectsList.push(obj);
     });
-    // console.log('from getProjects inside of api call');
-    // console.log(projectsList);
+    console.log('from getProjects inside of api call');
+    console.log(projectsList);
     return projectsList;
     // rewrite to use async/await keywords
   });
@@ -23,15 +24,14 @@ const handler = async (req, res) => {
     console.log('from handler getprojects');
     let id = req.headers.authorization;
     console.log(id);
-    let body = await getProjects(req.headers.authorization);
-    // console.log(body);
-    // console.log(JSON(body));
-    res.JSON(body);
+    let projects = await getProjects(req.headers.authorization);
+    console.log('proejcts were');
+    console.log(projects);
+    return res.status(200).json(JSON.stringify(projects));
   } catch (e) {
     console.error(e);
     return res.status(500).json({ error: 'Unexpected error.' });
   }
-  return res.status(200).json({ success: true });
 };
 
 export default handler;
