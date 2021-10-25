@@ -1,0 +1,88 @@
+import { useState, useRef, useEffect } from 'react';
+import { findIndex } from '../util/util';
+import { useRouter } from 'next/router';
+import { useProjectContext } from '@/contexts/ProjectContext';
+import { useSavingContext } from '@/contexts/SavingContext';
+import { useBlurContext } from '@/contexts/BlurContext';
+import { ProjectListItem } from '@/components/ProjectListItem';
+
+// const ref = firebase.firestore().collection('/users/wPecInICm1CsUbDg8lmQ/projects/');
+// TODO: use projectcontext if using db
+
+export function ProjectsAlt({ projects }) {
+  const [input, setInput] = useState('');
+  const { toggleIsSaving } = useSavingContext();
+  const { toggleBlur } = useBlurContext();
+
+  const inputRef = useRef(null);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    router.events.on('routeChangeComplete', () => {
+      toggleBlur(false);
+    });
+  }, []);
+
+    const addProject = async () => {
+  //     toggleIsSaving(true);
+  //     toggleBlur(true);
+  //     // create project obj at client
+  //     let newProject = {};
+  //     newProject.name = input;
+  //     newProject.startDate = new Date().toLocaleString('en-GB');
+  //     // send to db
+  //     let projectsList = projects ? [...projects] : [];
+  //     let doc = await setProjectsWrapper(projectsList, 'create', newProject);
+  //     setInput('');
+  //     // open new proj
+  //     router.push('/' + doc.id);
+  //     toggleIsSaving(false);
+    };
+
+  const removeProject = async (name) => {
+    //   let answer = confirm('Are you sure you want to delete project: ' + name + '?');
+    //   if (answer) {
+    //     const i = findIndex(projects, 'name', name);
+    //     let projectsList = projects ? [...projects] : []; // test
+
+    //     if (i !== -1) {
+    //       const project = projectsList[i];
+    //       projectsList.splice(i, 1);
+
+    //       toggleIsSaving(true);
+    //       await setProjectsWrapper(projectsList, 'delete', project);
+    //       toggleIsSaving(false);
+    //     } else {
+    //       console.log("Couldn't find project: ", name);
+    //     }
+    //   }
+    alert('not implemented');
+  };
+
+  // add project on pressing enter
+  const enterPressed = (event, i) => {
+    let code = event.keyCode || event.which;
+    if (code === 13) {
+      inputRef.current.blur();
+      // 13 is the enter keycode
+      addProject();
+    }
+  };
+
+  return (
+    <>
+      {projects ? (
+        <ul>
+          {projects.map((project) => (
+            <ProjectListItem key={project.id} project={project} removeProject={removeProject} />
+          ))}
+        </ul>
+      ) : null}
+      <input value={input} ref={inputRef} onInput={(e) => setInput(e.target.value)} onKeyPress={(e) => enterPressed(e)} />
+      <button className="mx-3 hover:text-blue-300" onClick={() => alert('NOT IMPLEMENTED')}>
+        Add
+      </button>
+    </>
+  );
+}
