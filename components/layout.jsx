@@ -5,7 +5,7 @@ import { Navbar } from '@/components/navbar/Navbar';
 
 export const siteTitle = 'Project tracker';
 
-export default function Layout({ children }) {
+export const Layout = ({ children }) => {
   const { blur } = useBlurContext();
 
   return (
@@ -39,4 +39,4 @@ export default function Layout({ children }) {
       </div>
     </>
   );
-}
+};

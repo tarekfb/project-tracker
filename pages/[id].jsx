@@ -4,8 +4,8 @@ import { withAuthUser, AuthAction, withAuthUserTokenSSR, useAuthUser } from 'nex
 import { GitHub, Link as UrlLink, CalendarToday } from '@mui/icons-material';
 import { Divider } from '@mui/material';
 import { getProject, updateContent } from '@/firebase/DbQueries';
-import Layout from '@/components/Layout';
-import Loader from '@/components/Loader';
+import { Layout } from '@/components/Layout';
+import { Loader } from '@/components/Loader';
 import { EditableField } from '@/components/EditableField';
 import { EditableList } from '@/components/EditableList';
 import { useSavingContext } from '@/components/contexts/SavingContext';
