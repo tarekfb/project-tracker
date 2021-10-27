@@ -36,6 +36,7 @@ const LoginPage = () => {
   };
 
   const fetchRegister = async (user) => {
+    // rewrite to use dbQueries location
     const userObj = {
       id: user.uid,
       email: user.email,

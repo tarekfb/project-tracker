@@ -4,7 +4,7 @@ import { Check } from '@mui/icons-material';
 export function EditableField({ placeholder, id, content, setContent }) {
   const [editVisibility, setEditVisibility] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [input, setInput] = useState(content);
+  const [input, setInput] = useState(content ? content : '');
   const inputRef = useRef(null);
 
   // handle if the field is currently being edited or not

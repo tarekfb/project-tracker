@@ -11,6 +11,7 @@ export function EditableList({ content, setContent }) {
   const [input, setInput] = useState('');
   const [isAdding, setIsAdding] = useState(false);
   const [tasks, setTasks] = useState(content ? content : []);
+  const [isMounted, setIsMounted] = useState(false);
 
   const inputRef = useRef(null);
   const buttonRef = useRef(null);
@@ -24,6 +25,8 @@ export function EditableList({ content, setContent }) {
 
   // Whenever tasks is changed, update in db
   useEffect(() => {
+    if (!isMounted) return; // skip first render
+    setIsMounted(true);
     setContent('tasks', tasks);
   }, [tasks]);
 

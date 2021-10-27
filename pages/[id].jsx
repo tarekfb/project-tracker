@@ -1,5 +1,9 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { withAuthUser, AuthAction, withAuthUserTokenSSR, useAuthUser } from 'next-firebase-auth';
+import { GitHub, Link as UrlLink, CalendarToday } from '@mui/icons-material';
+import { Divider } from '@mui/material';
+import { getProject, updateContent } from '@/firebase/DbQueries';
 import Layout from '@/components/Layout';
 import { EditableField } from '@/components/EditableField';
 import { EditableList } from '@/components/EditableList';
@@ -7,10 +11,7 @@ import { useSavingContext } from '@/components/contexts/SavingContext';
 // import { getAllProjectIds, getProject } from '@/components/contexts/ProjectContext';
 import { useBlurContext } from '@/components/contexts/BlurContext';
 import { Notes } from '@/components/Notes';
-import { GitHub, Link as UrlLink, CalendarToday } from '@mui/icons-material';
-import { Divider } from '@mui/material';
-import { AuthAction, withAuthUserTokenSSR, useAuthUser } from 'next-firebase-auth';
-import { getProject, updateContent } from '@/firebase/DbQueries';
+import { Loader } from '@/components/Loader';
 
 /**
  * Gets all paths, based on project ids.
@@ -72,7 +73,7 @@ export const getServerSideProps = withAuthUserTokenSSR({
   };
 });
 
-export default function Project({ project }) {
+const Project = ({ project }) => {
   const { toggleIsSaving } = useSavingContext();
   const router = useRouter();
   const { toggleBlur } = useBlurContext();
@@ -80,12 +81,22 @@ export default function Project({ project }) {
   const authUser = useAuthUser();
 
   const updateContentWrapper = async (contentId, content) => {
-    toggleIsSaving(true);
+    // If both the property (contentId) and the new content (content) are null
+    // no need to change anything
+    // In this case attempting to set an empty field to empty --> cancle
 
-    const projectId = router.query.id;
-    let response = await updateContent(authUser.id, projectId, contentId, content);
+    // if not both of these are null, update in db
+    if (!(!project[contentId] && !content)) {
+      toggleIsSaving(true);
 
-    toggleIsSaving(false);
+      const projectId = router.query.id;
+      project[contentId] = content;
+      console.log(authUser.id);
+      console.log(authUser.email);
+      let response = await updateContent(authUser.id, project);
+
+      toggleIsSaving(false);
+    }
   };
 
   if (router.isFallback) {
@@ -100,7 +111,7 @@ export default function Project({ project }) {
         <Head>
           <title>Project tracker | Loading...</title>
         </Head>
-        <div>Loading...</div>
+        <Loader />
       </Layout>
     );
   } else {
@@ -152,4 +163,11 @@ export default function Project({ project }) {
       </Layout>
     );
   }
-}
+};
+
+export default withAuthUser({
+  whenUnauthedBeforeInit: AuthAction.SHOW_LOADER,
+  whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
+  whenAuthed: AuthAction.RENDER,
+  LoaderComponent: Loader,
+})(Project);

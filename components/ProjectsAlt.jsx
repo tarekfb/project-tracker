@@ -70,7 +70,7 @@ export function ProjectsAlt({ projects }) {
 
   return (
     <>
-      {projectsState ? (
+      {projectsState.length > 0 ? (
         <ul>
           {projectsState.map((project) => (
             <ProjectListItem

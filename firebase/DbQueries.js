@@ -53,20 +53,23 @@ export const removeProject = async (userId, projectId) => {
   }
 };
 
-export const updateContent = async (userId, projectId, contentId, content) => {
+export const updateContent = async (userId, project) => {
   try {
-    let projectsRef = db.collection(`users/${userId}/projects`);
-    let projectDoc = projectsRef.doc(projectId);
-    let response;
-    if (content) {
-      response = await projectDoc.update({ [contentId]: content });
-      return response;
-    } else {
-      console.log('content null');
-      return null;
-    }
+    let docRef = db.collection(`users/${userId}/projects`).doc(project.id);
+    console.log(userId + ' and ' + project.id);
+    return await docRef.set(project);
   } catch (e) {
     console.error(e);
     return null;
   }
+};
+
+const checkItemsNotNull = (items) => {
+  let bool = true;
+  items.forEach((item) => {
+    if (!item) {
+      bool = false;
+    }
+  });
+  return bool;
 };
