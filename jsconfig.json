@@ -5,7 +5,10 @@
       "@/components/*": ["components/*"],
       "@/contexts/*": ["components/contexts/*"],
       "@/pages/*": ["pages/*"],
-      "@/firebase/*": ["firebase/*"]
+      "@/firebase/*": ["firebase/*"],
+      "@/styles/*": ["styles/*"],
+      "@/config/*": ["config/*"],
+      "@/util/*": ["util/*"]
     }
   },
   "exclude": ["node_modules"]

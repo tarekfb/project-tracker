@@ -1,16 +1,16 @@
-import 'tailwindcss/tailwind.css';
-import { ProjectContextProvider } from 'components/contexts/ProjectContext';
+import '../styles/global.css';
 import { SavingContextProvider } from 'components/contexts/SavingContext';
 import { BlurContextProvider } from 'components/contexts/BlurContext';
+import { initAuth } from '@/firebase/FirebaseAuth';
+
+initAuth();
 
 function MyApp({ Component, pageProps }) {
   return (
     <BlurContextProvider>
-      <ProjectContextProvider>
-        <SavingContextProvider>
-          <Component {...pageProps} />
-        </SavingContextProvider>
-      </ProjectContextProvider>
+      <SavingContextProvider>
+        <Component {...pageProps} />
+      </SavingContextProvider>
     </BlurContextProvider>
   );
 }

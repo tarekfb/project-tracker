@@ -1,10 +1,10 @@
 import { useState, useRef } from 'react';
-import CheckIcon from '@material-ui/icons/Check';
+import { Check } from '@mui/icons-material';
 
 export function EditableField({ placeholder, id, content, setContent }) {
   const [editVisibility, setEditVisibility] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [input, setInput] = useState(content);
+  const [input, setInput] = useState(content ? content : '');
   const inputRef = useRef(null);
 
   // handle if the field is currently being edited or not
@@ -82,7 +82,7 @@ export function EditableField({ placeholder, id, content, setContent }) {
       </div>
       <button className={`inline-block hover:text-blue-300 ${editVisibility ? '' : 'hidden'}`}>
         {isEditing ? (
-          <CheckIcon
+          <Check
             onClick={() => {
               toggleEditState();
             }}

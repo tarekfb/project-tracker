@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { Delete } from '@mui/icons-material';
 import Link from 'next/link';
 
-export default function ProjectListItem({ project, removeProject }) {
+export function ProjectListItem({ project, removeProject }) {
   const [isHovering, setIsHovering] = useState(false);
 
   return (
@@ -15,10 +15,9 @@ export default function ProjectListItem({ project, removeProject }) {
         setIsHovering(false);
       }}>
       <Link href={`/${encodeURIComponent(project.id)}`}>
-        {/* as={{ pathname: `/${project.name}`, query: { id: project.id } }}> */}
         <a>{project.name}</a>
       </Link>
-      <DeleteIcon
+      <Delete
         aria-label="delete"
         className={`hover:text-blue-300 ${isHovering ? '' : 'hidden'}`}
         onClick={() => {

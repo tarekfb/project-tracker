@@ -1,5 +1,5 @@
 module.exports = {
-  purge: [],
+  purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'media', // or 'media' or 'class'
   theme: {
     extend: {
@@ -18,11 +18,11 @@ module.exports = {
         powderBlue: '#A8DADC',
         celadonBlue: '#457B9D',
         prussianBlue: '#1D3557',
-      }
+      },
     },
   },
   variants: {
     extend: {},
   },
   plugins: [],
-}
+};

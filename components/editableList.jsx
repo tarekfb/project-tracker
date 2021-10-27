@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import EditableListItem from './EditableListItem';
-import { Check, Add } from '@material-ui/icons';
-import { CircularProgress } from '@material-ui/core';
+import EditableListItem from '@/components/EditableListItem';
 
-const newListItemFieldStyle =
-  'border-solid border-black border-b focus:outline-none focus:border-b focus:border-blue-300';
+import { Check, Add } from '@mui/icons-material';
+
+const newListItemFieldStyle = 'border-solid border-black border-b focus:outline-none focus:border-b focus:border-blue-300';
 const newListItemButtonStyle = 'hover:text-blue-300';
 const newListItemContainerStyle = 'flex flex-row';
 
@@ -12,6 +11,7 @@ export function EditableList({ content, setContent }) {
   const [input, setInput] = useState('');
   const [isAdding, setIsAdding] = useState(false);
   const [tasks, setTasks] = useState(content ? content : []);
+  const [isMounted, setIsMounted] = useState(false);
 
   const inputRef = useRef(null);
   const buttonRef = useRef(null);
@@ -25,6 +25,8 @@ export function EditableList({ content, setContent }) {
 
   // Whenever tasks is changed, update in db
   useEffect(() => {
+    if (!isMounted) return; // skip first render
+    setIsMounted(true);
     setContent('tasks', tasks);
   }, [tasks]);
 

@@ -1,7 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
-
-import CheckIcon from '@material-ui/icons/Check';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { useState, useRef } from 'react';
+import { Check, Delete } from '@mui/icons-material';
 
 export default function EditableListItem({ content, i, updateList }) {
   const [iconVisibility, setIconVisibility] = useState([false, false, false]);
@@ -86,9 +84,9 @@ export default function EditableListItem({ content, i, updateList }) {
         />
         <button className={`hover:text-blue-300 ${iconVisibility[i] ? '' : 'hidden'}`}>
           {isEditing[i] ? (
-            <CheckIcon onClick={() => handleIsEditing(false, i)} />
+            <Check onClick={() => handleIsEditing(false, i)} />
           ) : (
-            <DeleteIcon
+            <Delete
               aria-label="delete"
               onClick={() => {
                 handleIsEditing(false, i, 'force');

@@ -1,25 +1,26 @@
+import React from 'react';
 import Head from 'next/head';
-import React, { useEffect } from 'react';
-import Layout, { siteTitle } from '../components/Layout';
-import { Projects } from '../components/Projects';
-import { ClipLoader } from 'react-spinners';
-import { useBlurContext } from '@/components/contexts/BlurContext';
+import Link from 'next/link';
+import Layout, { siteTitle } from '@/components/Layout';
 
 export default function Home() {
-  const { toggleBlur } = useBlurContext();
-
-  useEffect(() => {
-    // toggleBlur(false);
-  }, []);
-
-  // STÄÅNG AV I PROJECTS
-
   return (
     <Layout home>
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      <Projects />
+      <p>This is list sort of thing. Like trello, but worse.</p>
+      <div className="flex flex-col space-y-2">
+        <Link href="/auth">
+          <a>auth</a>
+        </Link>
+        <Link href="/projects">
+          <a>projects</a>
+        </Link>
+        <Link href="/profile">
+          <a>profile</a>
+        </Link>
+      </div>
     </Layout>
   );
 }
