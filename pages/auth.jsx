@@ -1,11 +1,11 @@
 import React from 'react';
 import Head from 'next/head';
-import Layout from 'components/Layout';
 import { withAuthUser, AuthAction, useAuthUser } from 'next-firebase-auth';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { Layout } from '@/components/Layout';
 import { auth } from '@/firebase/FirebaseApp';
-import Loader from '@/components/Loader';
-import AuthForm from '@/components/AuthForm';
+import { Loader } from '@/components/Loader';
+import { AuthForm } from '@/components/AuthForm';
 import { server } from '@/config/server';
 
 const LoginPage = () => {

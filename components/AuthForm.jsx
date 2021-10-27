@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { InputAdornment, TextField } from '@mui/material';
 import { AccountCircle, Lock } from '@mui/icons-material';
 
-const AuthForm = ({ register, signIn }) => {
+export const AuthForm = ({ register, signIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -95,5 +95,3 @@ const AuthForm = ({ register, signIn }) => {
     </div>
   );
 };
-
-export default AuthForm;

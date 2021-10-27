@@ -1,9 +1,9 @@
 import React from 'react';
-import Layout from 'components/Layout';
+import { Layout } from '@/components/Layout';
 import Head from 'next/head';
 import { ClipLoader } from 'react-spinners';
 
-const Loader = () => (
+export const Loader = () => (
   <Layout>
     <Head>
       <title>Project-tracker | Loading...</title>
@@ -12,5 +12,3 @@ const Loader = () => (
     {/* TODO: style/position loader */}
   </Layout>
 );
-
-export default Loader;

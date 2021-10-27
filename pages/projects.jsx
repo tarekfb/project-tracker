@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import React from 'react';
-import Layout, { siteTitle } from 'components/Layout';
-import { ProjectsAlt } from '@/components/Projects';
+import { Layout, siteTitle } from 'components/Layout';
+import { Projects } from '@/components/Projects';
 import { withAuthUser, AuthAction, withAuthUserTokenSSR } from 'next-firebase-auth';
 import { getProjects } from '@/firebase/DbQueries';
 
@@ -10,7 +10,7 @@ const ProjectsPage = ({ projects }) => (
     <Head>
       <title>{siteTitle}</title>
     </Head>
-    <ProjectsAlt projects={projects} />
+    <Projects projects={projects} />
   </Layout>
 );
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import Layout, { siteTitle } from '@/components/Layout';
+import { siteTitle, Layout } from '@/components/Layout';
 
 export default function Home() {
   return (

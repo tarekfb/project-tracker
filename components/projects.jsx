@@ -7,7 +7,7 @@ import { ProjectListItem } from '@/components/ProjectListItem';
 import { addProject, removeProject } from '@/firebase/DbQueries';
 import { findIndex } from '@/util/util';
 
-export function ProjectsAlt({ projects }) {
+export function Projects({ projects }) {
   const [projectsState, setProjectsState] = useState(projects);
   const [input, setInput] = useState('');
   const { toggleIsSaving } = useSavingContext();
