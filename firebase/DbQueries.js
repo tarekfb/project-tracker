@@ -53,10 +53,9 @@ export const removeProject = async (userId, projectId) => {
   }
 };
 
-export const updateContent = async (userId, project) => {
+export const updateContent = async (userId, projectId, project) => {
   try {
-    let docRef = db.collection(`users/${userId}/projects`).doc(project.id);
-    console.log(userId + ' and ' + project.id);
+    let docRef = db.collection(`users/${userId}/projects`).doc(projectId);
     return await docRef.set(project);
   } catch (e) {
     console.error(e);

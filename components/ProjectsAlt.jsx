@@ -38,7 +38,10 @@ export function ProjectsAlt({ projects }) {
     newProject = await addProject(authUser.id, newProject);
 
     // add to state
-    setProjectsState((projects) => projects.push(newProject));
+    let projectsList = [...projectsState];
+    projectsList.push(newProject);
+    setProjectsState(projectsList);
+    // setProjectsState((projects) => projects.push(newProject));
 
     setInput('');
 
@@ -50,10 +53,16 @@ export function ProjectsAlt({ projects }) {
   const removeProjectWrapper = async (project) => {
     let answer = confirm('Are you sure you want to delete project: ' + project.name + '?');
     if (answer) {
-      const i = findIndex(projectsState, 'name', project.name);
-      setProjectsState((projects) => projects.splice(i, 1));
       toggleIsSaving(true);
+
       await removeProject(authUser.id, project.id);
+
+      // remove from state
+      let projectsList = [...projectsState];
+      const i = findIndex(projectsState, 'name', project.name);
+      projectsList.splice(i, 1);
+      setProjectsState(projectsList);
+      
       toggleIsSaving(false);
     }
   };
