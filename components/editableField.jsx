@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { CheckIcon } from '@mui/icons-material';
+import { Check } from '@mui/icons-material';
 
 export function EditableField({ placeholder, id, content, setContent }) {
   const [editVisibility, setEditVisibility] = useState(false);
@@ -82,7 +82,7 @@ export function EditableField({ placeholder, id, content, setContent }) {
       </div>
       <button className={`inline-block hover:text-blue-300 ${editVisibility ? '' : 'hidden'}`}>
         {isEditing ? (
-          <CheckIcon
+          <Check
             onClick={() => {
               toggleEditState();
             }}

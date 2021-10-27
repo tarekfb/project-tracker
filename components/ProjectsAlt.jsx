@@ -1,15 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
-import { findIndex } from '../util/util';
 import { useRouter } from 'next/router';
-// import { useProjectContext } from '@/contexts/ProjectContext';
+import { useAuthUser } from 'next-firebase-auth';
 import { useSavingContext } from '@/contexts/SavingContext';
 import { useBlurContext } from '@/contexts/BlurContext';
 import { ProjectListItem } from '@/components/ProjectListItem';
-
-// const ref = firebase.firestore().collection('/users/wPecInICm1CsUbDg8lmQ/projects/');
-// TODO: use projectcontext if using db
+import { addProject, removeProject } from '@/firebase/DbQueries';
+import { findIndex } from '@/util/util';
 
 export function ProjectsAlt({ projects }) {
+  const [projectsState, setProjectsState] = useState(projects);
   const [input, setInput] = useState('');
   const { toggleIsSaving } = useSavingContext();
   const { toggleBlur } = useBlurContext();
@@ -18,46 +17,45 @@ export function ProjectsAlt({ projects }) {
 
   const router = useRouter();
 
+  const authUser = useAuthUser();
+
   useEffect(() => {
     router.events.on('routeChangeComplete', () => {
       toggleBlur(false);
     });
   }, []);
 
-  const addProject = async () => {
-    //     toggleIsSaving(true);
-    //     toggleBlur(true);
-    //     // create project obj at client
-    //     let newProject = {};
-    //     newProject.name = input;
-    //     newProject.startDate = new Date().toLocaleString('en-GB');
-    //     // send to db
-    //     let projectsList = projects ? [...projects] : [];
-    //     let doc = await setProjectsWrapper(projectsList, 'create', newProject);
-    //     setInput('');
-    //     // open new proj
-    //     router.push('/' + doc.id);
-    //     toggleIsSaving(false);
+  const addProjectWrapper = async () => {
+    toggleIsSaving(true);
+    toggleBlur(true); // the toggleBlur(false) happens at routeChangeComplete listener
+
+    // create project obj
+    let newProject = {};
+    newProject.name = input;
+    newProject.startDate = new Date().toLocaleString('en-GB');
+
+    // send to db
+    newProject = await addProject(authUser.id, newProject);
+
+    // add to state
+    setProjectsState((projects) => projects.push(newProject));
+
+    setInput('');
+
+    // open new proj
+    router.push('/' + newProject.id);
+    toggleIsSaving(false);
   };
 
-  const removeProject = async (name) => {
-    //   let answer = confirm('Are you sure you want to delete project: ' + name + '?');
-    //   if (answer) {
-    //     const i = findIndex(projects, 'name', name);
-    //     let projectsList = projects ? [...projects] : []; // test
-
-    //     if (i !== -1) {
-    //       const project = projectsList[i];
-    //       projectsList.splice(i, 1);
-
-    //       toggleIsSaving(true);
-    //       await setProjectsWrapper(projectsList, 'delete', project);
-    //       toggleIsSaving(false);
-    //     } else {
-    //       console.log("Couldn't find project: ", name);
-    //     }
-    //   }
-    alert('not implemented');
+  const removeProjectWrapper = async (project) => {
+    let answer = confirm('Are you sure you want to delete project: ' + project.name + '?');
+    if (answer) {
+      const i = findIndex(projectsState, 'name', project.name);
+      setProjectsState((projects) => projects.splice(i, 1));
+      toggleIsSaving(true);
+      await removeProject(authUser.id, project.id);
+      toggleIsSaving(false);
+    }
   };
 
   // add project on pressing enter
@@ -66,21 +64,27 @@ export function ProjectsAlt({ projects }) {
     if (code === 13) {
       inputRef.current.blur();
       // 13 is the enter keycode
-      addProject();
+      addProjectWrapper();
     }
   };
 
   return (
     <>
-      {projects ? (
+      {projectsState ? (
         <ul>
-          {projects.map((project) => (
-            <ProjectListItem key={project.id} project={project} removeProject={removeProject} />
+          {projectsState.map((project) => (
+            <ProjectListItem
+              key={project.id}
+              project={project}
+              removeProject={() => {
+                removeProjectWrapper(project);
+              }}
+            />
           ))}
         </ul>
       ) : null}
       <input value={input} ref={inputRef} onInput={(e) => setInput(e.target.value)} onKeyPress={(e) => enterPressed(e)} />
-      <button className="mx-3 hover:text-blue-300" onClick={() => alert('NOT IMPLEMENTED')}>
+      <button className="mx-3 hover:text-blue-300" onClick={addProjectWrapper}>
         Add
       </button>
     </>

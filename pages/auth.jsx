@@ -1,10 +1,10 @@
 import React from 'react';
 import Head from 'next/head';
 import Layout from 'components/Layout';
-import { auth } from '@/firebase/FirebaseApp';
 import { withAuthUser, AuthAction, useAuthUser } from 'next-firebase-auth';
-import Loader from '@/components/Loader';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { auth } from '@/firebase/FirebaseApp';
+import Loader from '@/components/Loader';
 import AuthForm from '@/components/AuthForm';
 import { server } from '@/config/server';
 
@@ -41,7 +41,8 @@ const LoginPage = () => {
       email: user.email,
     };
 
-    const response = await fetch(`${server}/api/register`, {
+    // const response =
+    await fetch(`${server}/api/register`, {
       method: 'POST',
       body: JSON.stringify(userObj),
       headers: {
@@ -50,7 +51,10 @@ const LoginPage = () => {
       },
     });
 
-    const data = await response.json();
+    // TODO: rewrite to pass and store entire User as json
+    // https://youtu.be/awd_oYcmrRA?t=853
+
+    // const data = await response.json();
   };
 
   return (

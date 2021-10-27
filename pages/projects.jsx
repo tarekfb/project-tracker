@@ -3,7 +3,7 @@ import React from 'react';
 import Layout, { siteTitle } from 'components/Layout';
 import { ProjectsAlt } from '@/components/ProjectsAlt';
 import { withAuthUser, AuthAction, withAuthUserTokenSSR } from 'next-firebase-auth';
-import { server } from '@/config/server';
+import { getProjects } from '@/firebase/DbQueries';
 
 const ProjectsPage = ({ projects }) => (
   <Layout home>
@@ -17,20 +17,7 @@ const ProjectsPage = ({ projects }) => (
 export const getServerSideProps = withAuthUserTokenSSR({
   whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
 })(async ({ AuthUser }) => {
-  // Optionally, get other props.
-  const id = AuthUser.id;
-  const response = await fetch(`${server}/api/get-projects`, {
-    method: 'GET',
-    headers: {
-      Authorization: id,
-      'User-Agent': 'ANYTHING_WILL_WORK_HERE',
-    },
-  }); // TODO: change to use getidtoken instaed of id
-  const data = await response.json();
-  console.log(data);
-  data.map((project) => {
-    console.log(JSON.stringify(project));
-  });
+  const data = await getProjects(AuthUser.id);
   return {
     props: {
       projects: data,
@@ -39,3 +26,23 @@ export const getServerSideProps = withAuthUserTokenSSR({
 });
 
 export default withAuthUser()(ProjectsPage);
+
+// export const getServerSideProps = withAuthUserTokenSSR({
+//   whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
+// })(async ({ AuthUser }) => {
+//   // Optionally, get other props.
+//   const id = AuthUser.id;
+//   const response = await fetch(`${server}/api/get-projects`, {
+//     method: 'GET',
+//     headers: {
+//       Authorization: id,
+//       'User-Agent': 'ANYTHING_WILL_WORK_HERE',
+//     },
+//   }); // TODO: change to use getidtoken instaed of id
+//   const data = await response.json();
+//   return {
+//     props: {
+//       projects: data,
+//     },
+//   };
+// });

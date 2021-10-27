@@ -63,6 +63,7 @@ export default function Auth() {
       setEmail('');
       setPassword('');
     }
+
   };
 
   return (
