@@ -5,11 +5,11 @@ import { GitHub, Link as UrlLink, CalendarToday } from '@mui/icons-material';
 import { Divider } from '@mui/material';
 import { getProject, updateContent } from '@/firebase/DbQueries';
 import Layout from '@/components/Layout';
+import Loader from '@/components/Loader';
 import { EditableField } from '@/components/EditableField';
 import { EditableList } from '@/components/EditableList';
 import { useSavingContext } from '@/components/contexts/SavingContext';
 import { Notes } from '@/components/Notes';
-import { Loader } from '@/components/Loader';
 
 export const getServerSideProps = withAuthUserTokenSSR({
   whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,

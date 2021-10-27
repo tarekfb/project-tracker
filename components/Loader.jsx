@@ -3,7 +3,7 @@ import Layout from 'components/Layout';
 import Head from 'next/head';
 import { ClipLoader } from 'react-spinners';
 
-const Loader = () => (
+export default Loader = () => (
   <Layout>
     <Head>
       <title>Project-tracker | Loading...</title>
@@ -13,4 +13,3 @@ const Loader = () => (
   </Layout>
 );
 
-export default Loader;
