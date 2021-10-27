@@ -8,59 +8,8 @@ import Layout from '@/components/Layout';
 import { EditableField } from '@/components/EditableField';
 import { EditableList } from '@/components/EditableList';
 import { useSavingContext } from '@/components/contexts/SavingContext';
-// import { getAllProjectIds, getProject } from '@/components/contexts/ProjectContext';
-import { useBlurContext } from '@/components/contexts/BlurContext';
 import { Notes } from '@/components/Notes';
 import { Loader } from '@/components/Loader';
-
-/**
- * Gets all paths, based on project ids.
- * @returns Possible paths, and fallback value.
- */
-// export async function getStaticPaths() {
-//   const paths = await getAllProjectIds();
-//   console.log('PATHS ARE');
-//   console.log(paths);
-//   return {
-//     paths,
-//     fallback: true,
-//   };
-// }
-
-// /**
-//  * fetches the project data, using a project id
-//  * @param {*} params Route parameters.
-//  * @returns Project data as JSON.
-//  */
-// export async function getStaticProps({ params }) {
-//   let project = await getProject(params.id);
-//   let data = project.data();
-//   console.log(data);
-//   if (data) {
-//     return {
-//       props: { project: data },
-//     };
-//   }
-//   return null; // should never happen, because in this case the projectcontext found this id in db
-//   // meaning this query will also find proejct in db
-// }
-
-// export async function getServerSideProps(context) {
-//   const projectId = context.params.id;
-
-//   let project = await getProject(context.params.id);
-//   let data = project?.data();
-
-//   if (!data) {
-//     return {
-//       notFound: true,
-//     };
-//   }
-
-//   return {
-//     props: { project: data },
-//   };
-// }
 
 export const getServerSideProps = withAuthUserTokenSSR({
   whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
@@ -76,7 +25,6 @@ export const getServerSideProps = withAuthUserTokenSSR({
 const Project = ({ project }) => {
   const { toggleIsSaving } = useSavingContext();
   const router = useRouter();
-  const { toggleBlur } = useBlurContext();
 
   const authUser = useAuthUser();
 
@@ -98,12 +46,6 @@ const Project = ({ project }) => {
   };
 
   if (router.isFallback) {
-    // toggleBlur(true);
-    /*
-    react-dom.development.js:67 Warning: Cannot update a component (`BlurContextProvider`) while rendering a different component (`Project`).
-    To locate the bad setState() call inside `Project`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render
-    */
-
     return (
       <Layout>
         <Head>

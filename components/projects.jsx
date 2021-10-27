@@ -1,95 +1,97 @@
-// import { useState, useRef, useEffect } from 'react';
-// import { findIndex } from '../util/util';
-// import { useRouter } from 'next/router';
-// import { useProjectContext } from '@/contexts/ProjectContext';
-// import { useSavingContext } from '@/contexts/SavingContext';
-// import { useBlurContext } from '@/contexts/BlurContext';
-// import { ProjectListItem } from '@/components/ProjectListItem';
+import { useState, useRef, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { useAuthUser } from 'next-firebase-auth';
+import { useSavingContext } from '@/contexts/SavingContext';
+import { useBlurContext } from '@/contexts/BlurContext';
+import { ProjectListItem } from '@/components/ProjectListItem';
+import { addProject, removeProject } from '@/firebase/DbQueries';
+import { findIndex } from '@/util/util';
 
-// // const ref = firebase.firestore().collection('/users/wPecInICm1CsUbDg8lmQ/projects/');
-// // TODO: use projectcontext if using db
+export function ProjectsAlt({ projects }) {
+  const [projectsState, setProjectsState] = useState(projects);
+  const [input, setInput] = useState('');
+  const { toggleIsSaving } = useSavingContext();
+  const { toggleBlur } = useBlurContext();
+  const inputRef = useRef(null);
+  const router = useRouter();
+  const authUser = useAuthUser();
 
-// export function Projects() {
-//   const [input, setInput] = useState('');
-//   const { projects, setProjectsWrapper, logRef } = useProjectContext();
-//   const { toggleIsSaving } = useSavingContext();
-//   const { toggleBlur } = useBlurContext();
+  useEffect(() => {
+    router.events.on('routeChangeComplete', () => {
+      toggleBlur(false);
+    });
+  }, []);
 
-//   const inputRef = useRef(null);
+  const addProjectWrapper = async () => {
+    toggleIsSaving(true);
+    toggleBlur(true); // the toggleBlur(false) happens at routeChangeComplete listener
 
-//   const router = useRouter();
+    // create project obj
+    let newProject = {};
+    newProject.name = input;
+    newProject.startDate = new Date().toLocaleString('en-GB');
 
-//   useEffect(() => {
-//     router.events.on('routeChangeComplete', () => {
-//       toggleBlur(false);
-//     });
-//   }, []);
+    // send to db
+    newProject = await addProject(authUser.id, newProject);
 
-//   const addProject = async () => {
-//     toggleIsSaving(true);
-//     toggleBlur(true);
-//     // create project obj at client
-//     let newProject = {};
-//     newProject.name = input;
-//     newProject.startDate = new Date().toLocaleString('en-GB');
-//     // send to db
-//     let projectsList = projects ? [...projects] : [];
-//     let doc = await setProjectsWrapper(projectsList, 'create', newProject);
-//     setInput('');
-//     // open new proj
-//     router.push('/' + doc.id);
-//     toggleIsSaving(false);
-//   };
+    // add to state
+    let projectsList = [...projectsState];
+    projectsList.push(newProject);
+    setProjectsState(projectsList);
 
-//   const removeProject = async (name) => {
-//     let answer = confirm('Are you sure you want to delete project: ' + name + '?');
-//     if (answer) {
-//       const i = findIndex(projects, 'name', name);
-//       let projectsList = projects ? [...projects] : []; // test
+    setInput('');
 
-//       if (i !== -1) {
-//         const project = projectsList[i];
-//         projectsList.splice(i, 1);
+    // open new proj
+    router.push('/' + newProject.id);
+    toggleIsSaving(false);
+  };
 
-//         toggleIsSaving(true);
-//         await setProjectsWrapper(projectsList, 'delete', project);
-//         toggleIsSaving(false);
-//       } else {
-//         console.log("Couldn't find project: ", name);
-//       }
-//     }
-//   };
+  const removeProjectWrapper = async (project) => {
+    let answer = confirm('Are you sure you want to delete project: ' + project.name + '?');
+    if (answer) {
+      toggleIsSaving(true);
 
-//   // add project on pressing enter
-//   const enterPressed = (event, i) => {
-//     let code = event.keyCode || event.which;
-//     if (code === 13) {
-//       inputRef.current.blur();
-//       // 13 is the enter keycode
-//       addProject();
-//     }
-//   };
+      await removeProject(authUser.id, project.id);
 
-//   return (
-//     <>
-//       <button
-//         onClick={() => {
-//           let thing = logRef();
-//           console.log(thing);
-//         }}>
-//         HALLIHALLÅ
-//       </button>
-//       {projects ? (
-//         <ul>
-//           {projects.map((project) => (
-//             <ProjectListItem key={project.id} project={project} removeProject={removeProject} />
-//           ))}
-//         </ul>
-//       ) : null}
-//       <input value={input} ref={inputRef} onInput={(e) => setInput(e.target.value)} onKeyPress={(e) => enterPressed(e)} />
-//       <button className="mx-3 hover:text-blue-300" onClick={() => addProject()}>
-//         Add
-//       </button>
-//     </>
-//   );
-// }
+      // remove from state
+      let projectsList = [...projectsState];
+      const i = findIndex(projectsState, 'name', project.name);
+      projectsList.splice(i, 1);
+      setProjectsState(projectsList);
+
+      toggleIsSaving(false);
+    }
+  };
+
+  // add project on pressing enter
+  const enterPressed = (event, i) => {
+    let code = event.keyCode || event.which;
+    if (code === 13) {
+      inputRef.current.blur();
+      // 13 is the enter keycode
+      addProjectWrapper();
+    }
+  };
+
+  return (
+    <>
+      {projectsState.length > 0 ? (
+        <ul>
+          {projectsState.map((project) => (
+            <ProjectListItem
+              key={project.id}
+              project={project}
+              removeProject={() => {
+                removeProjectWrapper(project);
+              }}
+            />
+          ))}
+        </ul>
+      ) : null}
+      <input value={input} ref={inputRef} onInput={(e) => setInput(e.target.value)} onKeyPress={(e) => enterPressed(e)} />
+      <button className="mx-3 hover:text-blue-300" onClick={addProjectWrapper}>
+        Add
+      </button>
+    </>
+  );
+}

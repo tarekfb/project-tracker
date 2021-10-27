@@ -1,11 +1,9 @@
 import React from 'react';
 import Head from 'next/head';
 import Layout from 'components/Layout';
-import firebase from 'firebase';
 import { auth } from '@/firebase/FirebaseApp';
 import { useAuthUser, withAuthUser, withAuthUserTokenSSR, AuthAction } from 'next-firebase-auth';
 import Loader from '@/components/Loader';
-import { server } from '@/config/server';
 
 const Profile = () => {
   const AuthUser = useAuthUser();
