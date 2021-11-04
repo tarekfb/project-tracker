@@ -5,7 +5,6 @@
   "singleQuote": true,
   "printWidth": 160,
   "requireConfig": true,
-  "jsxBracketSameLine": true,
   "typescript.check.npmIsInstalled": false,
   "typescript.validate.enable": false
 }

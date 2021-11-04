@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ['plugin:react/recommended', 'airbnb', 'prettier', 'prettier'],
+  extends: ['plugin:react/recommended', 'prettier', 'plugin:@next/next/recommended'],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -13,22 +13,6 @@ module.exports = {
   },
   plugins: ['react', 'prettier'],
   rules: {
-    // 'react/jsx-max-props-per-line': [
-    //   1,
-    //   {
-    //     maximum: '1',
-    //     when: 'always',
-    //   },
-    // ],
-
-    //prettier version:
-    // "jsx-max-props-per-line": [
-    //   1,
-    //   {
-    //     "maximum": "1",
-    //     "when": "always"
-    //   }
-    // ],
     'react/prop-types': 0,
     'prettier/prettier': 'error',
     'no-unused-vars': [
