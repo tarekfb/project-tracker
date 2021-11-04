@@ -13,7 +13,8 @@ export function ProjectListItem({ project, removeProject }) {
       }}
       onMouseLeave={() => {
         setIsHovering(false);
-      }}>
+      }}
+    >
       <Link href={`/${encodeURIComponent(project.id)}`}>
         <a>{project.name}</a>
       </Link>

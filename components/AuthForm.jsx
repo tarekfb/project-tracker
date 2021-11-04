@@ -72,7 +72,8 @@ export const AuthForm = ({ register, signIn }) => {
           onClick={() => {
             signIn(email, password);
             clearFields();
-          }}>
+          }}
+        >
           SIGN IN
         </button>
         <button
@@ -88,7 +89,8 @@ export const AuthForm = ({ register, signIn }) => {
           onClick={() => {
             register(email, password);
             clearFields();
-          }}>
+          }}
+        >
           REGISTER
         </button>
       </div>

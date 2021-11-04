@@ -67,14 +67,14 @@ export default function EditableListItem({ content, i, updateList }) {
       }}
       onMouseLeave={() => {
         handleIconVisibility(false, i);
-      }}>
+      }}
+    >
       <div className="flex flex-row space-x-1 focus:border-b focus:border-blue-300">
         <span>- </span>
         <input
           ref={inputRef}
           className="focus:outline-none hover:text-blue-300"
           type="text"
-          placeholder={content}
           value={input}
           onKeyPress={(e) => enterPressed(e, i)}
           onBlur={() => confirmEdit(i)}

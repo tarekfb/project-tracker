@@ -39,7 +39,7 @@ const Project = ({ project }) => {
 
       const projectId = router.query.id;
       project[contentId] = content;
-      let response = await updateContent(authUser.id, projectId, project);
+      await updateContent(authUser.id, projectId, project);
 
       toggleIsSaving(false);
     }

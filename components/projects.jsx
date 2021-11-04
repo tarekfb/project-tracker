@@ -64,7 +64,7 @@ export function Projects({ projects }) {
   };
 
   // add project on pressing enter
-  const enterPressed = (event, i) => {
+  const enterPressed = (event) => {
     let code = event.keyCode || event.which;
     if (code === 13) {
       inputRef.current.blur();

@@ -14,13 +14,6 @@ module.exports = {
   plugins: ['react', 'prettier'],
   rules: {
     'react/prop-types': 0,
-    'prettier/prettier': 'error',
-    'no-unused-vars': [
-      'error',
-      {
-        vars: 'local',
-        args: 'none',
-      },
-    ],
+    'prettier/prettier': ['error', { endOfLine: 'auto' }, { usePrettierrc: true }],
   },
 };
