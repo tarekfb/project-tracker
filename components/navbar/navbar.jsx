@@ -15,7 +15,6 @@ export function Navbar() {
         <Link href="/">
           <a>Project tracker</a>
         </Link>
-        z
       </h1>
       <Link href="/auth">
         <a className="flex justify-center items-center space-x-2">
