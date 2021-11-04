@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import { useSavingContext } from '@/contexts/SavingContext';
 import { CloudDone, AccountCircle } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import SyncLoader from 'react-spinners/SyncLoader';
 import { useAuthUser } from 'next-firebase-auth';
+import { useSavingContext } from '@/contexts/SavingContext';
 
 export function Navbar() {
   const authUser = useAuthUser();
