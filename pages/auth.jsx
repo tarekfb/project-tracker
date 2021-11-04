@@ -16,8 +16,8 @@ const LoginPage = () => {
   const signIn = (email, password) => {
     try {
       signInWithEmailAndPassword(email, password);
-    } catch {
-      console.log(signInError);
+    } catch (e) {
+      console.log(e);
     }
   };
 

@@ -15,4 +15,3 @@ export function BlurContextProvider({ children }) {
 export function useBlurContext() {
   return useContext(BlurContext);
 }
-    

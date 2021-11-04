@@ -108,7 +108,8 @@ export function EditableList({ content, setContent }) {
               buttonRef.current.blur();
               addListItem();
               setIsAdding(false);
-            }}>
+            }}
+          >
             <Check />
           </button>
         ) : (

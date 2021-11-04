@@ -22,8 +22,8 @@ export const initAuth = () => {
       storageBucket: process.env.STORAGE_BUCKET,
       messagingSenderId: process.env.MESSAGE_SENDER_ID,
       appId: process.env.APP_ID,
-      authDomain: process.env.PROJECT_ID + 'PROJECT_ID.firebaseapp.com',
       databaseURL: 'https://' + process.env.PROJECT_ID + '.firebaseio.com',
+      // authDomain: process.env.PROJECT_ID + 'PROJECT_ID.firebaseapp.com',
     },
     cookies: {
       name: 'project-tracker',

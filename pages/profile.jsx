@@ -31,7 +31,8 @@ const Profile = () => {
             transform 
             hover:scale-110  
             hover:opacity-75"
-        onClick={logOut}>
+        onClick={logOut}
+      >
         SIGN OUT
       </button>
     </Layout>

@@ -1,7 +1,6 @@
 import { setAuthCookies } from 'next-firebase-auth';
 import { initAuth } from '@/firebase/FirebaseAuth';
 
-
 initAuth();
 
 // const db = firebase.firestore();

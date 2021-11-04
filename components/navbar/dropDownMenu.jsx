@@ -14,7 +14,8 @@ export function DropDownMenu({ projects }) {
       }}
       onMouseLeave={() => {
         setIsOpen(false);
-      }}>
+      }}
+    >
       <span className="">
         Projects
         <ArrowDropDown />

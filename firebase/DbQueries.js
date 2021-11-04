@@ -63,12 +63,12 @@ export const updateContent = async (userId, projectId, project) => {
   }
 };
 
-const checkItemsNotNull = (items) => {
-  let bool = true;
-  items.forEach((item) => {
-    if (!item) {
-      bool = false;
-    }
-  });
-  return bool;
-};
+// const checkItemsNotNull = (items) => {
+//   let bool = true;
+//   items.forEach((item) => {
+//     if (!item) {
+//       bool = false;
+//     }
+//   });
+//   return bool;
+// };
