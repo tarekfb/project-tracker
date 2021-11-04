@@ -39,5 +39,4 @@ module.exports = {
       },
     ],
   },
-  'eslint.alwaysShowStatus': true,
 };
