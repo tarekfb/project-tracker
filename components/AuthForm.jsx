@@ -13,7 +13,7 @@ export const AuthForm = ({ register, signIn }) => {
 
   return (
     <div>
-      <div className="flex flex-col space-y-2 justify-start">
+      <div className="flex flex-col space-y-2 justify-start mb-2">
         <TextField
           id="email"
           value={email}

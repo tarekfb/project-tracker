@@ -9,16 +9,16 @@ export default function Home() {
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      <p>This is list sort of thing. Like trello, but worse.</p>
+      <p className="mb-2">This is list sort of thing. Like trello, but worse.</p>
       <div className="flex flex-col space-y-2">
         <Link href="/auth">
-          <a>auth</a>
+          <a>{`> sign in`}</a>
         </Link>
         <Link href="/projects">
-          <a>projects</a>
+          <a>{`> projects`}</a>
         </Link>
         <Link href="/profile">
-          <a>profile</a>
+          <a>{`> profile`}</a>
         </Link>
       </div>
     </Layout>

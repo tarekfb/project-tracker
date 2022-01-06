@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import EditableListItem from '@/components/EditableListItem';
-
 import { Check, Add } from '@mui/icons-material';
 
 const newListItemFieldStyle = 'border-solid border-black border-b focus:outline-none focus:border-b focus:border-blue-300';
