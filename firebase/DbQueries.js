@@ -1,4 +1,5 @@
 import { db } from '@/firebase/FirebaseApp';
+import generateApiKey from 'generate-api-key';
 
 export const getProject = async (userId, projectId) => {
   try {
@@ -17,8 +18,10 @@ export const getProjects = async (id) => {
     let data = await projectsRef.get();
     let snapshot = data.docs;
     let projectsList = [];
-    if (snapshot.length) {
+    if (true) {
       snapshot.map((doc) => {
+        console.log('her');
+
         let obj = doc.data();
         obj.id = doc.id;
         projectsList.push(obj);
@@ -57,6 +60,54 @@ export const updateContent = async (userId, projectId, project) => {
   try {
     let docRef = db.collection(`users/${userId}/projects`).doc(projectId);
     return await docRef.set(project);
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+};
+
+/**
+ * Generates api key in db and returns new key or null if unsuccessful.
+ * @param {*} userId
+ * @param {*} project
+ */
+export const createApiKey = async (userId) => {
+  try {
+    // create ref
+    let docRef = db.collection(`users`).doc(userId);
+
+    // check if has apikey
+    let docRefGet = await docRef.get();
+    let data = docRefGet.data();
+    if (!data.apiKey) {
+      // create key
+      let apiKey = {
+        apiKey: generateApiKey(),
+      };
+
+      // set key in db
+      return await docRef.set(apiKey);
+    } else {
+      return null; // TODO: provide better error handling with details
+    }
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+};
+
+export const getApiKey = async (userId) => {
+  try {
+    // create ref
+    let docRef = db.collection(`users`).doc(userId);
+
+    // check if has apikey
+    // if has, return apikey
+    // if not, return empty
+    let docRefGet = await docRef.get();
+    let data = docRefGet.data();
+    if (!data.apiKey) return '';
+    else return data.apiKey;
   } catch (e) {
     console.error(e);
     return null;

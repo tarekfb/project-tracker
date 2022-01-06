@@ -18,8 +18,14 @@ export function Navbar() {
       </h1>
       <Link href="/auth">
         <a className="flex justify-center items-center space-x-2">
-          <AccountCircle />
-          {authUser.id ? <div>auth</div> : <div>not auth</div>}
+          {authUser.id ? (
+            <div>
+              <AccountCircle />
+              {authUser.firebaseUser && authUser.firebaseUser.displayName}
+            </div>
+          ) : (
+            <div>Sign in</div>
+          )}
         </a>
       </Link>
       <div className="w-1/12 flex-initial flex flex-row justify-center">

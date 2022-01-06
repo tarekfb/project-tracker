@@ -1,5 +1,7 @@
 import { initAuth } from '@/firebase/FirebaseAuth';
 import { db } from '@/firebase/FirebaseApp';
+import { getProjects } from '@/firebase/DbQueries';
+import Cryptr from 'cryptr';
 
 initAuth();
 
@@ -15,26 +17,48 @@ const getProject = async (id) => {
   //   }
 };
 
-const getProjects = async (id) => {};
+const verify = async (token, userId) => {};
 
-const verify = async (verificationId) => {
-    // get token 
-  return true;
+// const handleGetProjects = async (userId) => {
+//   // get dbToken
+//   let dbToken = '123';
+
+//   // decrypt
+//   // const cryptr = new Cryptr('pt2021');
+//   // token = cryptr.decrypt(token);
+//   // dbToken = cryptr.decrypt(dbToken);
+
+//   // verify
+//   // if (verify(token, userId)){
+//   // fetch projects
+//   let projects = await getProjects(userId);
+//   console.log(projects);
+//   // }
+
+//   return projects;
+// };
+
+const handleGetProjects = async (userId) => {
+  console.log('inside handle get projects');
+  let projects = await getProjects(userId);
+  console.log(projects);
+  return projects;
 };
 
 const handler = async (req, res) => {
+  let projects;
+  console.log('HEre');
+  
   try {
-    let data = req.body;
-
-    const verified = verify(data.verificationId);
-    if (verified) {
-    }
-    const projects = await getProjects(data.id, data.email);
+    // const body = JSON.parse(req.body);
+    // projects = handleGetProjects(body.id);
+    // console.log(data.id);
+    // projects = await getProjects(data.id, data.email);
   } catch (e) {
     console.error(e);
     return res.status(500).json({ error: 'Unexpected error.' });
   }
-  return res.status(200).json({ success: true });
+  return res.status(200).json({ projects });
 };
 
 export default handler;
