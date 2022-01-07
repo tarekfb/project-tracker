@@ -1,5 +1,4 @@
 import { initAuth } from '@/firebase/FirebaseAuth';
-import { db } from '@/firebase/FirebaseApp';
 import { getProjects } from '@/firebase/DbQueries';
 import Cryptr from 'cryptr';
 
@@ -25,7 +24,6 @@ const handler = async (req, res) => {
     console.error(e);
     return res.status(500).json({ error: 'Unexpected error.' });
   }
-//   return res.status(200).json({ projects });
 };
 
 export default handler;

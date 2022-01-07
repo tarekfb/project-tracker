@@ -21,17 +21,8 @@ const Profile = () => {
         <p>Your id is: {AuthUser.id ? AuthUser.id : 'unknown'}</p>
       </div>
       <div className="flex flex-row space-x-4">
-        <button
-          className="action-button"
-          onClick={logOut}
-        >
+        <button className="action-button" onClick={logOut}>
           SIGN OUT
-        </button>
-        <button
-          className="action-button"
-          onClick={testApi}
-        >
-          TEST GET PROJECTS API
         </button>
       </div>
     </Layout>

@@ -20,17 +20,17 @@ const Export = () => {
     // const cryptr = new Cryptr('pt2021');
     // const token = cryptr.encrypt('bEiBU9sxKFce1OrQV3a4g0VyAQ23');
 
-    const dataObj = {
-      id: 'DL07mjEzvkaWsnoiNDWpI5vN1px2',
-      token: 'bEiBU9sxKFce1OrQV3a4g0VyAQ23',
-    };
+    // const dataObj = {
+    //   id: 'DL07mjEzvkaWsnoiNDWpI5vN1px2',
+    //   token: 'bEiBU9sxKFce1OrQV3a4g0VyAQ23',
+    // };
 
     try {
-      const options = {
-        method: 'GET',
-        headers: new Headers({ 'content-type': 'application/json', 'authorization': '123' }),
-        mode: 'no-cors',
-      };
+      // const options = {
+      //   method: 'GET',
+      //   headers: new Headers({ 'content-type': 'application/json', 'authorization': '123' }),
+      //   mode: 'no-cors',
+      // };
       let response = await fetch(`${server}/api/${AuthUser.id}`);
       // let response = await fetch(`${server}/api/get-projects`, {
       //   method: 'POST',
