@@ -10,6 +10,7 @@ const addUserCollection = async (id, email) => {
     console.log("user doesn't exists yet. adding!");
     let data = {
       email: email,
+      apiKey: '',
     };
     let setDoc = await db.collection('users').doc(id).set(data);
     console.log(setDoc);

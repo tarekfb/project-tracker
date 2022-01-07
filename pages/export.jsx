@@ -26,6 +26,11 @@ const Export = () => {
     };
 
     try {
+      const options = {
+        method: 'GET',
+        headers: new Headers({ 'content-type': 'application/json', 'authorization': '123' }),
+        mode: 'no-cors',
+      };
       let response = await fetch(`${server}/api/${AuthUser.id}`);
       // let response = await fetch(`${server}/api/get-projects`, {
       //   method: 'POST',
@@ -63,32 +68,10 @@ const Export = () => {
       {apiKey ? <p>Your api key is {apiKey}</p> : <p>You can generate an api key using the button below</p>}
 
       <div className="flex flex-row space-x-4">
-        <button
-          className="ml-5 rounded-md
-            bg-gradient-main
-            py-2 px-10 
-            text-white 
-            transition-all 
-            duration-500 
-            transform 
-            hover:scale-110  
-            hover:opacity-75"
-          onClick={testApi}
-        >
+        <button className="action-button" onClick={testApi}>
           TEST GET PROJECTS API
         </button>
-        <button
-          className="ml-5 rounded-md
-            bg-gradient-main
-            py-2 px-10 
-            text-white 
-            transition-all 
-            duration-500 
-            transform 
-            hover:scale-110  
-            hover:opacity-75"
-          onClick={handleGenerateApiKey}
-        >
+        <button className="action-button" onClick={handleGenerateApiKey}>
           GENERATE API KEY
         </button>
       </div>
