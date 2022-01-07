@@ -1,5 +1,6 @@
 import { db } from '@/firebase/FirebaseApp';
 import generateApiKey from 'generate-api-key';
+import Cryptr from 'cryptr';
 
 export const getProject = async (userId, projectId) => {
   try {
@@ -81,12 +82,15 @@ export const createApiKey = async (userId) => {
     let data = docRefGet.data();
     if (!data.apiKey) {
       // create key
-      let apiKey = {
-        apiKey: generateApiKey(),
+      const cryptr = new Cryptr('asd'); // use key from env: CRYPTR_SECRET
+      const encryptedKey = cryptr.encrypt(userId);
+      console.log(encryptedKey);
+      let key = {
+        apiKey: encryptedKey,
       };
 
       // set key in db
-      return await docRef.set(apiKey);
+      return await docRef.set(key);
     } else {
       return null; // TODO: provide better error handling with details
     }
@@ -102,12 +106,15 @@ export const getApiKey = async (userId) => {
     let docRef = db.collection(`users`).doc(userId);
 
     // check if has apikey
-    // if has, return apikey
+    // if has, decrypt and return key
     // if not, return empty
     let docRefGet = await docRef.get();
     let data = docRefGet.data();
-    if (!data.apiKey) return '';
-    else return data.apiKey;
+    if (!data.apiKey) {
+      return '';
+    } else {
+      return data.apiKey;
+    }
   } catch (e) {
     console.error(e);
     return null;

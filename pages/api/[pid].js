@@ -1,6 +1,7 @@
 import { initAuth } from '@/firebase/FirebaseAuth';
 import { db } from '@/firebase/FirebaseApp';
 import { getProjects } from '@/firebase/DbQueries';
+import Cryptr from 'cryptr';
 
 initAuth();
 
@@ -14,13 +15,17 @@ const handleGetProjects = async (userId) => {
 const handler = async (req, res) => {
   try {
     const { pid } = req.query;
-    const projects = await handleGetProjects(pid);
+    const cryptr = new Cryptr('asd'); // use key from env: CRYPTR_SECRET
+    const decryptedKey = cryptr.decrypt(pid);
+    console.log(pid);
+    console.log(decryptedKey);
+    const projects = await handleGetProjects(decryptedKey);
     return res.status(200).json({ projects });
   } catch (e) {
     console.error(e);
     return res.status(500).json({ error: 'Unexpected error.' });
   }
-  return res.status(200).json({ projects });
+//   return res.status(200).json({ projects });
 };
 
 export default handler;

@@ -22,29 +22,13 @@ const Profile = () => {
       </div>
       <div className="flex flex-row space-x-4">
         <button
-          className="rounded-md
-            bg-gradient-main
-            py-2 px-10 
-            text-white 
-            transition-all 
-            duration-500 
-            transform 
-            hover:scale-110  
-            hover:opacity-75"
+          className="action-button"
           onClick={logOut}
         >
           SIGN OUT
         </button>
         <button
-          className="ml-5 rounded-md
-            bg-gradient-main
-            py-2 px-10 
-            text-white 
-            transition-all 
-            duration-500 
-            transform 
-            hover:scale-110  
-            hover:opacity-75"
+          className="action-button"
           onClick={testApi}
         >
           TEST GET PROJECTS API
