@@ -20,6 +20,9 @@ export default function Home() {
         <Link href="/profile">
           <a>{`> profile`}</a>
         </Link>
+        <Link href="/export">
+          <a>{`> export projects & api`}</a>
+        </Link>
       </div>
     </Layout>
   );

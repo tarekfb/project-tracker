@@ -22,7 +22,7 @@ const handler = async (req, res) => {
     return res.status(200).json({ projects });
   } catch (e) {
     console.error(e);
-    return res.status(500).json({ error: 'Unexpected error.' });
+    return res.status(500).json({ error: e.toString() });
   }
 };
 
