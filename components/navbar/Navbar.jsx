@@ -6,7 +6,7 @@ import { useAuthUser } from 'next-firebase-auth';
 import { useSavingContext } from '@/contexts/SavingContext';
 
 export function Navbar() {
-  const authUser = useAuthUser();
+  const AuthUser = useAuthUser();
   const { isSaving } = useSavingContext();
 
   return (
@@ -18,10 +18,10 @@ export function Navbar() {
       </h1>
       <Link href="/auth">
         <a className="flex justify-center items-center space-x-2">
-          {authUser.id ? (
+          {AuthUser.id ? (
             <div>
               <AccountCircle />
-              {authUser.firebaseUser && authUser.firebaseUser.displayName}
+              {AuthUser && AuthUser.email}
             </div>
           ) : (
             <div>Sign in</div>
