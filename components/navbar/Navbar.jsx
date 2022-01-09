@@ -21,7 +21,7 @@ export function Navbar() {
           {AuthUser.id ? (
             <div>
               <AccountCircle />
-              {AuthUser && AuthUser.email}
+              {AuthUser.firebaseUser && AuthUser.firebaseUser.displayName}
             </div>
           ) : (
             <div>Sign in</div>
