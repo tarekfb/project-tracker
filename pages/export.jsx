@@ -5,7 +5,7 @@ import { Layout } from '@/components/Layout';
 import { Loader } from '@/components/Loader';
 import { server } from '@/config/server';
 import { createApiKey, getApiKey } from '@/firebase/DbQueries';
-
+import { CopyAll } from '@mui/icons-material';
 const Export = () => {
   const AuthUser = useAuthUser();
   const [apiKey, setApiKey] = useState('');
@@ -31,7 +31,7 @@ const Export = () => {
       //   headers: new Headers({ 'content-type': 'application/json', 'authorization': '123' }),
       //   mode: 'no-cors',
       // };
-      let response = await fetch(`${server}/api/${AuthUser.id}`);
+      let response = await fetch(`${server}/api/${apiKey}`);
       // let response = await fetch(`${server}/api/get-projects`, {
       //   method: 'POST',
       //   body: JSON.stringify(dataObj),
@@ -60,13 +60,31 @@ const Export = () => {
     }
   };
 
+  // https://stackoverflow.com/questions/400212/how-do-i-copy-to-the-clipboard-in-javascript
   return (
     <Layout>
       <Head>
         <title>Project-tracker | Api</title>
       </Head>
-      {apiKey ? <p>Your api key is {apiKey}</p> : <p>You can generate an api key using the button below</p>}
-
+      {apiKey ? (
+        <div className="mb-2">
+          <h1 className="font-bold text-3xl mb-2">Your api key is:</h1>
+          <div className="p-4 bg-gray-200 flex flex-col">
+            <p className="self-right break-all">{apiKey}</p>
+            <button
+              className="self-end"
+              title="Copy to clipboard"
+              onClick={() => {
+                navigator.clipboard.writeText(apiKey);
+              }}
+            >
+              <CopyAll />
+            </button>
+          </div>
+        </div>
+      ) : (
+        <p>You can generate an api key using the button below</p>
+      )}
       <div className="flex flex-row space-x-4">
         <button className="action-button" onClick={testApi}>
           TEST GET PROJECTS API
