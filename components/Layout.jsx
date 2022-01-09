@@ -28,7 +28,7 @@ export const Layout = ({ children }) => {
         </header>
         <div className="relative w-full">
           {blur && (
-            <div className="absolute flex h-full w-full backdrop-filter backdrop-blur-sm">
+            <div className="mt-5 absolute flex h-full w-full backdrop-filter backdrop-blur-sm">
               <div className="m-auto">
                 <ClipLoader size={150} />
               </div>
