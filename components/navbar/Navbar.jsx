@@ -15,6 +15,9 @@ export function Navbar() {
         <Link href="/">
           <a>Project tracker</a>
         </Link>
+        <button className='ml-2' onClick={() => console.log(AuthUser.id)}>
+          log
+        </button>
       </h1>
       <Link href="/auth">
         <a className="flex justify-center items-center space-x-2">
