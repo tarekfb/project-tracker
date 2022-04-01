@@ -3,6 +3,7 @@ import { useAuthUser, withAuthUser, withAuthUserTokenSSR, AuthAction } from 'nex
 import { Layout } from '@/components/Layout';
 import { auth } from '@/firebase/FirebaseApp';
 import { Loader } from '@/components/Loader';
+import { PrimaryButton } from '@/components/PrimaryButton';
 
 const Profile = () => {
   const AuthUser = useAuthUser();
@@ -21,9 +22,7 @@ const Profile = () => {
         <p>Your id is: {AuthUser.id ? AuthUser.id : 'unknown'}</p>
       </div>
       <div className="flex flex-row space-x-4">
-        <button className="action-button" onClick={logOut}>
-          SIGN OUT
-        </button>
+        <PrimaryButton content="Sign out" onClick={logOut} />
       </div>
     </Layout>
   );

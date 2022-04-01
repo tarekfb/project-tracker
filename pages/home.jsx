@@ -2,8 +2,9 @@ import Head from 'next/head';
 import { useAuthUser, withAuthUser, withAuthUserTokenSSR, AuthAction } from 'next-firebase-auth';
 import { Layout } from '@/components/Layout';
 import { Loader } from '@/components/Loader';
+import { getProjects } from '@/firebase/DbQueries';
 
-const Home = () => {
+const Home = ({ projects }) => {
     const AuthUser = useAuthUser();
 
     return (
@@ -20,11 +21,29 @@ const Home = () => {
     );
 };
 
-export const getServerSideProps = withAuthUserTokenSSR()();
+// export const getServerSideProps = withAuthUserTokenSSR()();
 
-export default withAuthUser({
+// export default withAuthUser({
+//     whenUnauthedBeforeInit: AuthAction.SHOW_LOADER,
+//     whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
+//     whenAuthed: AuthAction.RENDER,
+//     LoaderComponent: Loader,
+// })(Home);
+
+
+export const getServerSideProps = withAuthUserTokenSSR({
     whenUnauthedBeforeInit: AuthAction.SHOW_LOADER,
-    whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
+    whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
     whenAuthed: AuthAction.RENDER,
     LoaderComponent: Loader,
-})(Home);
+})(async ({ AuthUser }) => {
+    const data = await getProjects(AuthUser.id);
+    return {
+        props: {
+            projects: data,
+        },
+    };
+});
+
+export default withAuthUser()(Home);
+

@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useAuthUser, withAuthUser, withAuthUserTokenSSR, AuthAction } from 'next-firebase-auth';
 import { Layout } from '@/components/Layout';
 import { Loader } from '@/components/Loader';
 import { server } from '@/config/server';
 import { createApiKey, getApiKey } from '@/firebase/DbQueries';
-import { CopyAll, Visibility } from '@mui/icons-material';
+import { MdCopyAll, MdVisibility } from 'react-icons/md'
+import { PrimaryButton } from '@/components/PrimaryButton';
+
 const Export = () => {
   const AuthUser = useAuthUser();
   const [apiKey, setApiKey] = useState('');
@@ -54,7 +56,7 @@ const Export = () => {
             <p className={`break-all ${!visible && 'filter blur-sm'}`}>{apiKey}</p>
             <div className="self-end flex flex-row space-x-2">
               <button title="Toggle visibility" onClick={() => setVisible((visible) => !visible)}>
-                <Visibility />
+                <MdVisibility />
               </button>
               <button
                 title="Copy to clipboard"
@@ -62,20 +64,16 @@ const Export = () => {
                   navigator.clipboard.writeText(apiKey);
                 }}
               >
-                <CopyAll />
+                <MdCopyAll />
               </button>
             </div>
           </div>
-          <button className="action-button align-middle" onClick={testApi}>
-            TEST GET PROJECTS API
-          </button>
+          <PrimaryButton content="Test get api key" onClick={testApi} />
         </>
       ) : (
         <>
           <p className="mb-2">You can generate an api key using the button below</p>
-          <button className="action-button" onClick={handleGenerateApiKey}>
-            GENERATE API KEY
-          </button>
+          <PrimaryButton content="Generate api key" onClick={handleGenerateApiKey} />
         </>
       )}
     </Layout>

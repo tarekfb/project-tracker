@@ -1,4 +1,3 @@
-import React from 'react';
 import Head from 'next/head';
 import { withAuthUser, AuthAction, useAuthUser } from 'next-firebase-auth';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';

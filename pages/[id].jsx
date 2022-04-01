@@ -1,7 +1,8 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { withAuthUser, AuthAction, withAuthUserTokenSSR, useAuthUser } from 'next-firebase-auth';
-import { GitHub, Link as UrlLink, CalendarToday } from '@mui/icons-material';
+import { MdLink, MdCalendarToday } from 'react-icons/md';
+import { AiFillGithub } from 'react-icons/ai';
 import { Divider } from '@mui/material';
 import { getProject, updateContent } from '@/firebase/DbQueries';
 import { Layout } from '@/components/Layout';
@@ -61,14 +62,13 @@ const Project = ({ project }) => {
           <title>Project tracker | {project.name}</title>
         </Head>
         <div className="flex flex-col justify-start space-y-5">
-          {/* Meta information */}
           <span className="text-3xl">
             <EditableField placeholder="Example Project Name" id="name" content={project.name} setContent={updateContentWrapper} />
           </span>
           <div className="flex flex-row justify-start space-x-5">
             <div className="flex flex-col space-y-1">
               <div className="flex flex-row space-x-1 items-center">
-                <CalendarToday />
+                <MdCalendarToday size={20} />
                 <span className="text-sm">{' ' + project.startDate}</span>
               </div>
               <div className="flex flex-row space-x-1">
@@ -77,20 +77,17 @@ const Project = ({ project }) => {
               </div>
             </div>
             <div className="flex flex-col space-y-1 text-m">
-              <span className="flex space-x-2">
-                <GitHub />
+              <span className="flex space-x-2 items-center">
+                <AiFillGithub size={20} />
                 <EditableField placeholder="github" id="github" content={project.github} setContent={updateContentWrapper} className="m-8" />
               </span>
-              <span className="flex space-x-2">
-                <UrlLink />
+              <span className="flex space-x-2 items-center">
+                <MdLink size={20} />
                 <EditableField placeholder="www.example.com" id="hostedAt" content={project.hostedAt} setContent={updateContentWrapper} />
               </span>
             </div>
           </div>
-
           <Divider />
-
-          {/* Project content */}
           <div className="flex flex-col justify-start space-y-10 space-x-0 w-full sm:flex-row sm:space-y-0 sm:space-x-10">
             <div className="w-full">
               <Notes content={project.notes} setContent={updateContentWrapper} />

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { CloudDone, AccountCircle } from '@mui/icons-material';
+import { MdAccountCircle, MdCloudDone } from 'react-icons/md'
 import { Tooltip } from '@mui/material';
 import SyncLoader from 'react-spinners/SyncLoader';
 import { useAuthUser } from 'next-firebase-auth';
@@ -15,15 +15,12 @@ export function Navbar() {
         <Link href="/">
           <a>Project tracker</a>
         </Link>
-        <button className='ml-2' onClick={() => console.log(AuthUser.id)}>
-          log
-        </button>
       </h1>
       <Link href="/auth">
         <a className="flex justify-center items-center space-x-2">
           {AuthUser.id ? (
             <div>
-              <AccountCircle />
+              <MdAccountCircle size={30} />
               {AuthUser.firebaseUser && AuthUser.firebaseUser.displayName}
             </div>
           ) : (
@@ -36,7 +33,7 @@ export function Navbar() {
           <SyncLoader color="#ffffff" size={10} />
         ) : (
           <Tooltip title="Saved to cloud">
-            <CloudDone fontSize="large" />
+            <MdCloudDone size={30} />
           </Tooltip>
         )}
       </div>

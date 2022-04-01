@@ -21,8 +21,6 @@ export const getProjects = async (id) => {
     let projectsList = [];
     if (true) {
       snapshot.map((doc) => {
-        console.log('her');
-
         let obj = doc.data();
         obj.id = doc.id;
         projectsList.push(obj);

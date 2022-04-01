@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { InputAdornment, TextField } from '@mui/material';
-import { AccountCircle, Lock } from '@mui/icons-material';
+import { MdAccountCircle, MdLock } from 'react-icons/md'
+import {PrimaryButton } from '@/components/PrimaryButton'
 
 export const AuthForm = ({ register, signIn }) => {
   const [email, setEmail] = useState('');
@@ -24,7 +25,7 @@ export const AuthForm = ({ register, signIn }) => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <AccountCircle />
+                <MdAccountCircle />
               </InputAdornment>
             ),
           }}
@@ -44,7 +45,7 @@ export const AuthForm = ({ register, signIn }) => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <Lock />
+                <MdLock />
               </InputAdornment>
             ),
           }}
@@ -53,46 +54,20 @@ export const AuthForm = ({ register, signIn }) => {
               WebkitBoxShadow: '0 0 0 1000px white inset',
             },
           }}
-          // InputProps (capital i) provides props for material Input componenet
-          // inputProps provides props for html input element
-          // webkitboxshadow removes blue bg on autofill
+        // InputProps (capital i) provides props for material Input componenet
+        // inputProps provides props for html input element
+        // webkitboxshadow removes blue bg on autofill
         />
       </div>
       <div className="flex flex-row space-x-2">
-        <button
-          className="rounded-md
-            bg-gradient-main
-            py-2 px-10 
-            text-white 
-            transition-all 
-            duration-500 
-            transform 
-            hover:scale-110  
-            hover:opacity-75"
-          onClick={() => {
-            signIn(email, password);
-            clearFields();
-          }}
-        >
-          SIGN IN
-        </button>
-        <button
-          className="rounded-md
-            bg-gradient-main
-            py-2 px-10 
-            text-white 
-            transition-all 
-            duration-500 
-            transform 
-            hover:scale-110  
-            hover:opacity-75"
-          onClick={() => {
-            register(email, password);
-            clearFields();
-          }}
-        >
-          REGISTER
-        </button>
+        <PrimaryButton content="Sign in" onClick={() => {
+          signIn(email, password);
+          clearFields();
+        }} />
+        <PrimaryButton content="Register" onClick={() => {
+          register(email, password);
+          clearFields();
+        }} />
       </div>
     </div>
   );

@@ -8,22 +8,26 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
-.text-color-accent {
-  @apply text-blue-300;
-}
-
-.bg-color-accent {
-  @apply bg-blue-300;
-}
-
 .bg-gradient-main {
-  @apply bg-gradient-to-r from-black to-indigo-800;
+  @apply bg-gradient-to-r from-blueLight to-blueDarkest;
 }
 
-.action-button {
-  @apply rounded-md
-            bg-gradient-main
-            py-2 px-10 text-white transition-all 
-            duration-500 transform 
-            hover:scale-110 hover:opacity-75;
+.bg-gradient-accent {
+  @apply bg-gradient-to-r from-redLight to-redDark;
+}
+
+.bg-highlight {
+  @apply bg-blueLight hover:bg-blueDarker;
+}
+
+.bg-highlight-accent {
+  @apply bg-redLight hover:bg-redDark;
+}
+
+.border-highlight {
+  @apply border-blueLight hover:border-blueDarker;
+}
+
+.border-accent {
+  @apply border-redLight hover:border-redDark;
 }
