@@ -47,7 +47,7 @@ export function Projects({ projects }) {
   };
 
   const removeProjectWrapper = async (project) => {
-    let answer = confirm('Are you sure you want to delete project: ' + project.name + '?');
+    const answer = confirm('Are you sure you want to delete project: ' + project.name + '?');
     if (answer) {
       toggleIsSaving(true);
 
@@ -65,7 +65,7 @@ export function Projects({ projects }) {
 
   // add project on pressing enter
   const enterPressed = (event) => {
-    let code = event.keyCode || event.which;
+    const code = event.keyCode || event.which;
     if (code === 13) {
       inputRef.current.blur();
       // 13 is the enter keycode
