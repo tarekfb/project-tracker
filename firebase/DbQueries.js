@@ -1,5 +1,5 @@
 import { db } from '@/firebase/FirebaseApp';
-import generateApiKey from 'generate-api-key';
+// import generateApiKey from 'generate-api-key';
 import Cryptr from 'cryptr';
 
 export const getProject = async (userId, projectId) => {
@@ -19,15 +19,13 @@ export const getProjects = async (id) => {
     let data = await projectsRef.get();
     let snapshot = data.docs;
     let projectsList = [];
-    if (true) {
-      snapshot.map((doc) => {
-        console.log('her');
-
-        let obj = doc.data();
-        obj.id = doc.id;
-        projectsList.push(obj);
-      });
-    }
+    // if (true) {
+    snapshot.map((doc) => {
+      let obj = doc.data();
+      obj.id = doc.id;
+      projectsList.push(obj);
+    });
+    // }
     return projectsList;
   } catch (e) {
     console.error(e);

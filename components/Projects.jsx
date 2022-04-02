@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAuthUser } from 'next-firebase-auth';
 import { useSavingContext } from '@/contexts/SavingContext';
@@ -6,13 +6,13 @@ import { useBlurContext } from '@/contexts/BlurContext';
 import { ProjectListItem } from '@/components/ProjectListItem';
 import { addProject, removeProject } from '@/firebase/DbQueries';
 import { findIndex } from '@/util/util';
+import { PrimaryButton } from '@/components/PrimaryButton';
 
 export function Projects({ projects }) {
   const [projectsState, setProjectsState] = useState(projects);
   const [input, setInput] = useState('');
   const { toggleIsSaving } = useSavingContext();
   const { toggleBlur } = useBlurContext();
-  const inputRef = useRef(null);
   const router = useRouter();
   const authUser = useAuthUser();
 
@@ -22,20 +22,24 @@ export function Projects({ projects }) {
     });
   }, []);
 
-  const addProjectWrapper = async () => {
+  const addProjectWrapper = async (e) => {
+    e.preventDefault();
     toggleIsSaving(true);
     toggleBlur(true); // the toggleBlur(false) happens at routeChangeComplete listener
 
     // create project obj
     let newProject = {};
     newProject.name = input;
-    newProject.startDate = new Date().toLocaleString('en-GB');
+    let date = new Date();
+    const dateArray = [date.getDay(), date.getMonth(), date.getFullYear()];
+    date = dateArray.join('/');
+    newProject.startDate = date.toString();
 
     // send to db
     newProject = await addProject(authUser.id, newProject);
 
     // add to state
-    let projectsList = [...projectsState];
+    const projectsList = [...projectsState];
     projectsList.push(newProject);
     setProjectsState(projectsList);
 
@@ -47,14 +51,14 @@ export function Projects({ projects }) {
   };
 
   const removeProjectWrapper = async (project) => {
-    let answer = confirm('Are you sure you want to delete project: ' + project.name + '?');
+    const answer = confirm('Are you sure you want to delete project: ' + project.name + '?');
     if (answer) {
       toggleIsSaving(true);
 
       await removeProject(authUser.id, project.id);
 
       // remove from state
-      let projectsList = [...projectsState];
+      const projectsList = [...projectsState];
       const i = findIndex(projectsState, 'name', project.name);
       projectsList.splice(i, 1);
       setProjectsState(projectsList);
@@ -63,20 +67,10 @@ export function Projects({ projects }) {
     }
   };
 
-  // add project on pressing enter
-  const enterPressed = (event) => {
-    let code = event.keyCode || event.which;
-    if (code === 13) {
-      inputRef.current.blur();
-      // 13 is the enter keycode
-      addProjectWrapper();
-    }
-  };
-
   return (
     <>
       {projectsState.length > 0 ? (
-        <ul>
+        <ul className="flex flex-row space-x-4 space-y-4 flex-wrap">
           {projectsState.map((project) => (
             <ProjectListItem
               key={project.id}
@@ -88,10 +82,10 @@ export function Projects({ projects }) {
           ))}
         </ul>
       ) : null}
-      <input value={input} ref={inputRef} onInput={(e) => setInput(e.target.value)} onKeyPress={(e) => enterPressed(e)} />
-      <button className="mx-3 hover:text-blue-300" onClick={addProjectWrapper}>
-        Add
-      </button>
+      <form className="flex space-x-2 mt-4" onSubmit={addProjectWrapper}>
+        <input value={input} onChange={(e) => setInput(e.target.value)} className="border-b border-highlight" />
+        <PrimaryButton onClick={addProjectWrapper} content="Add" />
+      </form>
     </>
   );
 }

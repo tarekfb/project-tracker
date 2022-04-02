@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
-import { Check, Delete } from '@mui/icons-material';
+import { MdCheck, MdDelete } from 'react-icons/md';
 
-export default function EditableListItem({ content, i, updateList }) {
+export function EditableListItem({ content, i, updateList }) {
   const [iconVisibility, setIconVisibility] = useState([false, false, false]);
   const [isEditing, setIsEditing] = useState([false, false, false]);
   const [input, setInput] = useState(content);
@@ -84,9 +84,9 @@ export default function EditableListItem({ content, i, updateList }) {
         />
         <button className={`hover:text-blue-300 ${iconVisibility[i] ? '' : 'hidden'}`}>
           {isEditing[i] ? (
-            <Check onClick={() => handleIsEditing(false, i)} />
+            <MdCheck onClick={() => handleIsEditing(false, i)} />
           ) : (
-            <Delete
+            <MdDelete
               aria-label="delete"
               onClick={() => {
                 handleIsEditing(false, i, 'force');

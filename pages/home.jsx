@@ -1,38 +1,39 @@
 import Head from 'next/head';
 import { useAuthUser, withAuthUser, withAuthUserTokenSSR, AuthAction } from 'next-firebase-auth';
 import { Layout } from '@/components/Layout';
-import { auth } from '@/firebase/FirebaseApp';
 import { Loader } from '@/components/Loader';
-import { PrimaryButton } from '@/components/PrimaryButton';
+import { getProjects } from '@/firebase/DbQueries';
 
-const Profile = () => {
+const Home = ({ projects }) => {
   const AuthUser = useAuthUser();
-
-  const logOut = async () => {
-    auth.signOut();
-  };
 
   return (
     <Layout>
       <Head>
         <title>Project-tracker | Profile</title>
       </Head>
+      HOME PAGE
+      {console.log(projects)}
       <div className="flex flex-col space-y-2 mb-2">
         <p>Your email is: {AuthUser.email ? AuthUser.email : 'unknown'}</p>
         <p>Your id is: {AuthUser.id ? AuthUser.id : 'unknown'}</p>
-      </div>
-      <div className="flex flex-row space-x-4">
-        <PrimaryButton content="Sign out" onClick={logOut} />
       </div>
     </Layout>
   );
 };
 
-export const getServerSideProps = withAuthUserTokenSSR()();
-
-export default withAuthUser({
+export const getServerSideProps = withAuthUserTokenSSR({
   whenUnauthedBeforeInit: AuthAction.SHOW_LOADER,
-  whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
+  whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
   whenAuthed: AuthAction.RENDER,
   LoaderComponent: Loader,
-})(Profile);
+})(async ({ AuthUser }) => {
+  const data = await getProjects(AuthUser.id);
+  return {
+    props: {
+      projects: data,
+    },
+  };
+});
+
+export default withAuthUser()(Home);

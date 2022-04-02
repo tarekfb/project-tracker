@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowDropDown } from '@mui/icons-material';
+import { MdArrowDropDown } from 'react-icons/md';
 import { ClipLoader } from 'react-spinners';
 
 export function DropDownMenu({ projects }) {
@@ -18,7 +18,7 @@ export function DropDownMenu({ projects }) {
     >
       <span className="">
         Projects
-        <ArrowDropDown />
+        <MdArrowDropDown />
       </span>
       <ul className={`absolute pt-3 pl-2.5 pr-8 rounded-md bg-black ${isOpen ? '' : 'hidden'}`}>
         {projects ? (

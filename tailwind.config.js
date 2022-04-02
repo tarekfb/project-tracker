@@ -5,19 +5,15 @@ module.exports = {
     extend: {
       colors: {
         // coolors palette
+        // https://coolors.co/d7c9aa-7b2d26-006992-27476e-001d4a
         transparent: 'transparent',
         current: 'currentColor',
-        charcoal: '#85d7ff',
-        persianGreen: '#1fb6ff',
-        orangeYellowCrayola: '#009eeb',
-        sandyBrown: '#ff7ce5',
-        burntSienna: '#ff49db',
-        // coolors palette
-        imperialRed: '#1d3557',
-        honeyDew: '#F1FAEE',
-        powderBlue: '#A8DADC',
-        celadonBlue: '#457B9D',
-        prussianBlue: '#1D3557',
+        whiteBeige: '#d7c9aaff',
+        redLight: '#F14fF47',
+        redDark: '#7b2d26ff',
+        blueLight: '#006992ff',
+        blueDarker: '#27476eff',
+        blueDarkest: '#001d4aff',
       },
     },
   },

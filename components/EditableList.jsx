@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import EditableListItem from '@/components/EditableListItem';
-import { Check, Add } from '@mui/icons-material';
+import { EditableListItem } from '@/components/EditableListItem';
+import { MdCheck, MdAdd } from 'react-icons/md';
 
 const newListItemFieldStyle = 'border-solid border-black border-b focus:outline-none focus:border-b focus:border-blue-300';
 const newListItemButtonStyle = 'hover:text-blue-300';
@@ -109,11 +109,11 @@ export function EditableList({ content, setContent }) {
               setIsAdding(false);
             }}
           >
-            <Check />
+            <MdCheck />
           </button>
         ) : (
           <button className={newListItemButtonStyle} onClick={() => setIsAdding(true)}>
-            <Add />
+            <MdAdd />
           </button>
         )}
       </div>
