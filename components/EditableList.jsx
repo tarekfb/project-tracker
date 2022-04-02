@@ -74,7 +74,7 @@ export function EditableList({ content, setContent }) {
     <>
       {/* Task list section */}
       <ul>
-        { }
+        {}
         {tasks?.map((task, i) => (
           <EditableListItem key={task + i} content={task} setList={setTasks} i={i} updateList={updateList} />
         ))}

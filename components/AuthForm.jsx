@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { InputAdornment, TextField } from '@mui/material';
-import { MdAccountCircle, MdLock } from 'react-icons/md'
-import {PrimaryButton } from '@/components/PrimaryButton'
+import { MdAccountCircle, MdLock } from 'react-icons/md';
+import { PrimaryButton } from '@/components/PrimaryButton';
 
 export const AuthForm = ({ register, signIn }) => {
   const [email, setEmail] = useState('');
@@ -54,20 +54,26 @@ export const AuthForm = ({ register, signIn }) => {
               WebkitBoxShadow: '0 0 0 1000px white inset',
             },
           }}
-        // InputProps (capital i) provides props for material Input componenet
-        // inputProps provides props for html input element
-        // webkitboxshadow removes blue bg on autofill
+          // InputProps (capital i) provides props for material Input componenet
+          // inputProps provides props for html input element
+          // webkitboxshadow removes blue bg on autofill
         />
       </div>
       <div className="flex flex-row space-x-2">
-        <PrimaryButton content="Sign in" onClick={() => {
-          signIn(email, password);
-          clearFields();
-        }} />
-        <PrimaryButton content="Register" onClick={() => {
-          register(email, password);
-          clearFields();
-        }} />
+        <PrimaryButton
+          content="Sign in"
+          onClick={() => {
+            signIn(email, password);
+            clearFields();
+          }}
+        />
+        <PrimaryButton
+          content="Register"
+          onClick={() => {
+            register(email, password);
+            clearFields();
+          }}
+        />
       </div>
     </div>
   );

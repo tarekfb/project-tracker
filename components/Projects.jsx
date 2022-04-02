@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAuthUser } from 'next-firebase-auth';
 import { useSavingContext } from '@/contexts/SavingContext';
@@ -13,7 +13,6 @@ export function Projects({ projects }) {
   const [input, setInput] = useState('');
   const { toggleIsSaving } = useSavingContext();
   const { toggleBlur } = useBlurContext();
-  const inputRef = useRef(null);
   const router = useRouter();
   const authUser = useAuthUser();
 
@@ -33,7 +32,7 @@ export function Projects({ projects }) {
     newProject.name = input;
     let date = new Date();
     const dateArray = [date.getDay(), date.getMonth(), date.getFullYear()];
-    date = dateArray.join("/");
+    date = dateArray.join('/');
     newProject.startDate = date.toString();
 
     // send to db
@@ -68,20 +67,10 @@ export function Projects({ projects }) {
     }
   };
 
-  // add project on pressing enter
-  const enterPressed = (event) => {
-    // const code = event.keyCode || event.which;
-    // if (code === 13) {
-    //   inputRef.current.blur();
-    //   // 13 is the enter keycode
-    //   addProjectWrapper(event);
-    // }
-  };
-
   return (
     <>
       {projectsState.length > 0 ? (
-        <ul className='flex flex-row space-x-4 space-y-4 flex-wrap'>
+        <ul className="flex flex-row space-x-4 space-y-4 flex-wrap">
           {projectsState.map((project) => (
             <ProjectListItem
               key={project.id}
@@ -93,8 +82,8 @@ export function Projects({ projects }) {
           ))}
         </ul>
       ) : null}
-      <form className='flex space-x-2 mt-4' onSubmit={addProjectWrapper}>
-        <input value={input} ref={inputRef} onInput={(e) => setInput(e.target.value)} onKeyPress={(e) => enterPressed(e)} className="border-b border-highlight" />
+      <form className="flex space-x-2 mt-4" onSubmit={addProjectWrapper}>
+        <input value={input} onInput={(e) => setInput(e.target.value)} className="border-b border-highlight" />
         <PrimaryButton onClick={addProjectWrapper} content="Add" />
       </form>
     </>

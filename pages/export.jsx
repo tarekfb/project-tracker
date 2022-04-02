@@ -5,7 +5,7 @@ import { Layout } from '@/components/Layout';
 import { Loader } from '@/components/Loader';
 import { server } from '@/config/server';
 import { createApiKey, getApiKey } from '@/firebase/DbQueries';
-import { MdCopyAll, MdVisibility } from 'react-icons/md'
+import { MdCopyAll, MdVisibility } from 'react-icons/md';
 import { PrimaryButton } from '@/components/PrimaryButton';
 
 const Export = () => {
@@ -15,6 +15,15 @@ const Export = () => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    const handleGetApiKey = async () => {
+      setLoading(true);
+      const apiKey = await getApiKey(AuthUser.id);
+      if (apiKey) {
+        setApiKey(apiKey);
+      }
+      setLoading(false);
+    };
+
     handleGetApiKey();
   }, []);
 
@@ -30,15 +39,6 @@ const Export = () => {
 
   const handleGenerateApiKey = () => {
     createApiKey(AuthUser.id);
-  };
-
-  const handleGetApiKey = async () => {
-    setLoading(true);
-    const apiKey = await getApiKey(AuthUser.id);
-    if (apiKey) {
-      setApiKey(apiKey);
-    }
-    setLoading(false);
   };
 
   // https://stackoverflow.com/questions/400212/how-do-i-copy-to-the-clipboard-in-javascript

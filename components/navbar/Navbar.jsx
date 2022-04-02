@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { MdAccountCircle, MdCloudDone } from 'react-icons/md'
+import { MdAccountCircle, MdCloudDone } from 'react-icons/md';
 import { Tooltip } from '@mui/material';
 import SyncLoader from 'react-spinners/SyncLoader';
 import { useAuthUser } from 'next-firebase-auth';

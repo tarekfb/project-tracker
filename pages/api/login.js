@@ -15,21 +15,19 @@ const handler = async (req, res) => {
 
 export default handler;
 
+// console.log(JSON.stringify(req.headers.authorization));
 
-    // console.log(JSON.stringify(req.headers.authorization));
+// const auth = getAuth();
+// const user = auth.currentUser;
+// console.log('before usercheck');
+// console.log(user);
+// if (user) {
+//   console.log('reached currentuser check');
 
-
-    // const auth = getAuth();
-    // const user = auth.currentUser;
-    // console.log('before usercheck');
-    // console.log(user);
-    // if (user) {
-    //   console.log('reached currentuser check');
-
-    //   let id = user.uid;
-    //   let email = user.email;
-    //   addUserCollection(id, email);
-    // }
+//   let id = user.uid;
+//   let email = user.email;
+//   addUserCollection(id, email);
+// }
 
 // const db = firebase.firestore();
 
