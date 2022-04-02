@@ -83,7 +83,7 @@ export function Projects({ projects }) {
         </ul>
       ) : null}
       <form className="flex space-x-2 mt-4" onSubmit={addProjectWrapper}>
-        <input value={input} onInput={(e) => setInput(e.target.value)} className="border-b border-highlight" />
+        <input value={input} onChange={(e) => setInput(e.target.value)} className="border-b border-highlight" />
         <PrimaryButton onClick={addProjectWrapper} content="Add" />
       </form>
     </>
