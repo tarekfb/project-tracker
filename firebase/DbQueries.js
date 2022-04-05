@@ -118,13 +118,3 @@ export const getApiKey = async (userId) => {
     return null;
   }
 };
-
-// const checkItemsNotNull = (items) => {
-//   let bool = true;
-//   items.forEach((item) => {
-//     if (!item) {
-//       bool = false;
-//     }
-//   });
-//   return bool;
-// };

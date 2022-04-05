@@ -3,18 +3,33 @@ import { useRouter } from 'next/router';
 import { useAuthUser } from 'next-firebase-auth';
 import { useSavingContext } from '@/contexts/SavingContext';
 import { useBlurContext } from '@/contexts/BlurContext';
-import { ProjectListItem } from '@/components/ProjectListItem';
-import { addProject, removeProject } from '@/firebase/DbQueries';
+import { ProjectCard } from '@/components/ProjectCard';
+import { addProject, getProjects, removeProject } from '@/firebase/DbQueries';
 import { findIndex } from '@/util/util';
 import { PrimaryButton } from '@/components/PrimaryButton';
+import { MdRefresh } from 'react-icons/md';
 
-export function Projects({ projects }) {
-  const [projectsState, setProjectsState] = useState(projects);
+const sortProjects = (projects) => {
+  const sortedProjects = [...projects];
+  sortedProjects.sort((a, b) => {
+    if ((a.isFavourite && b.isFavourite) || (!a.isFavourite && !b.isFavourite)) {
+      return 0;
+    } else if (a.isFavourite && !b.isFavourite) {
+      return -1;
+    } else if (!a.isFavourite && b.isFavourite) {
+      return 1;
+    }
+  });
+  return sortedProjects;
+};
+
+export const Projects = ({ projects }) => {
+  const [projectsState, setProjectsState] = useState(sortProjects(projects));
   const [input, setInput] = useState('');
   const { toggleIsSaving } = useSavingContext();
   const { toggleBlur } = useBlurContext();
   const router = useRouter();
-  const authUser = useAuthUser();
+  const AuthUser = useAuthUser();
 
   useEffect(() => {
     router.events.on('routeChangeComplete', () => {
@@ -36,16 +51,16 @@ export function Projects({ projects }) {
     newProject.startDate = date.toString();
 
     // send to db
-    newProject = await addProject(authUser.id, newProject);
+    newProject = await addProject(AuthUser.id, newProject);
 
     // add to state
-    const projectsList = [...projectsState];
+    const projectsList = projectsState;
     projectsList.push(newProject);
-    setProjectsState(projectsList);
+    const sortedProjects = sortProjects(projectsList); // new reference. copies array with spread
+    setProjectsState(sortedProjects);
 
     setInput('');
 
-    // open new proj
     router.push('/' + newProject.id);
     toggleIsSaving(false);
   };
@@ -55,7 +70,7 @@ export function Projects({ projects }) {
     if (answer) {
       toggleIsSaving(true);
 
-      await removeProject(authUser.id, project.id);
+      await removeProject(AuthUser.id, project.id);
 
       // remove from state
       const projectsList = [...projectsState];
@@ -67,12 +82,23 @@ export function Projects({ projects }) {
     }
   };
 
+  const refresh = async () => {
+    toggleIsSaving(true);
+    const updatedProjects = await getProjects(AuthUser.id);
+    const sortedProjects = sortProjects(updatedProjects);
+    setProjectsState(sortedProjects);
+    toggleIsSaving(false);
+  };
+
   return (
     <>
-      {projectsState.length > 0 ? (
-        <ul className="flex flex-row space-x-4 space-y-4 flex-wrap">
+      <button onClick={refresh} className="absolute top-5 right-5">
+        <MdRefresh size={50} />
+      </button>
+      {projectsState.length > 0 && (
+        <ul className="flex flex-row flex-wrap">
           {projectsState.map((project) => (
-            <ProjectListItem
+            <ProjectCard
               key={project.id}
               project={project}
               removeProject={() => {
@@ -81,11 +107,11 @@ export function Projects({ projects }) {
             />
           ))}
         </ul>
-      ) : null}
+      )}
       <form className="flex space-x-2 mt-4" onSubmit={addProjectWrapper}>
-        <input value={input} onChange={(e) => setInput(e.target.value)} className="border-b border-highlight" />
+        <input value={input} onChange={(e) => setInput(e.target.value)} className="border-b border-highlight px-2" placeholder="My new project" />
         <PrimaryButton onClick={addProjectWrapper} content="Add" />
       </form>
     </>
   );
-}
+};

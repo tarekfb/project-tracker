@@ -32,9 +32,9 @@ const Project = ({ project }) => {
   const updateContentWrapper = async (contentId, content) => {
     // If both the property (contentId) and the new content (content) are null
     // no need to change anything
-    // In this case attempting to set an empty field to empty --> cancle
+    // In this case attempting to set an empty field to empty --> cancel
 
-    // if not both of these are null, update in db
+    // if both of these are not null, update in db
     if (!(!project[contentId] && !content)) {
       toggleIsSaving(true);
 
@@ -69,7 +69,7 @@ const Project = ({ project }) => {
             <div className="flex flex-col space-y-1">
               <div className="flex flex-row space-x-1 items-center">
                 <MdCalendarToday size={20} />
-                <span className="text-sm">{' ' + project.startDate}</span>
+                <EditableField placeholder="01/01/1970" id="startDate" content={project.startDate} setContent={updateContentWrapper} />
               </div>
               <div className="flex flex-row space-x-1">
                 <span>Completion:</span>

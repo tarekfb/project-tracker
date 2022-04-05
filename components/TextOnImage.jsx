@@ -4,11 +4,11 @@ import Image from 'next/image';
 // const flexColTopCenter = "flex flex-col justify-center items-start space-y-2";
 // const flexColCenter = "flex flex-col justify-center items-center space-y-2";
 
-export const ImageOverlay = ({ src, children, styling, positioning }) => {
+export const ImageOverlay = ({ src, children, styling, positioning, alt }) => {
   return (
     <div className="relative overflow-hidden">
       <div className="max-h-screen">
-        <Image src={src} layout="responsive" objectFit="contain" />
+        <Image src={src} layout="responsive" objectFit="contain" alt={alt && alt} />
       </div>
       <div
         className={`${styling && styling} ${
