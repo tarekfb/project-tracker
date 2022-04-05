@@ -61,7 +61,7 @@ export function EditableField({ placeholder, id, content, setContent }) {
 
   return (
     <div onMouseEnter={() => handleEditVisibility(true)} onMouseLeave={() => handleEditVisibility(false)}>
-      <div className={`${isEditing ? '' : 'hover:text-blue-300'} inline`}>
+      <div className={`${isEditing ? '' : 'hover:text-blue-300'} inline-flex space-x-1 items-center`}>
         <input
           ref={inputRef}
           className="focus:outline-none focus:border-b focus:border-blue-300 "

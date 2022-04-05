@@ -69,7 +69,7 @@ const Project = ({ project }) => {
             <div className="flex flex-col space-y-1">
               <div className="flex flex-row space-x-1 items-center">
                 <MdCalendarToday size={20} />
-                <span className="text-sm">{' ' + project.startDate}</span>
+                <EditableField placeholder="01/01/1970" id="startDate" content={project.startDate} setContent={updateContentWrapper} />
               </div>
               <div className="flex flex-row space-x-1">
                 <span>Completion:</span>

@@ -69,8 +69,8 @@ export function Projects({ projects }) {
 
   return (
     <>
-      {projectsState.length > 0 ? (
-        <ul className="flex flex-row space-x-4 space-y-4 flex-wrap">
+      {projectsState.length > 0 && (
+        <ul className="flex flex-row space-x-4 flex-wrap">
           {projectsState.map((project) => (
             <ProjectListItem
               key={project.id}
@@ -81,9 +81,9 @@ export function Projects({ projects }) {
             />
           ))}
         </ul>
-      ) : null}
+      )}
       <form className="flex space-x-2 mt-4" onSubmit={addProjectWrapper}>
-        <input value={input} onChange={(e) => setInput(e.target.value)} className="border-b border-highlight" />
+        <input value={input} onChange={(e) => setInput(e.target.value)} className="border-b border-highlight" placeholder='My new project' />
         <PrimaryButton onClick={addProjectWrapper} content="Add" />
       </form>
     </>

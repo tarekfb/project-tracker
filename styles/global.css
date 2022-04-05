@@ -31,3 +31,7 @@ html {
 .border-accent {
   @apply border-redLight hover:border-redDark;
 }
+
+.ellipsis {
+@apply whitespace-nowrap overflow-ellipsis overflow-hidden;
+}

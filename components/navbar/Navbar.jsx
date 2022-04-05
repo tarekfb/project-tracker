@@ -20,7 +20,8 @@ export function Navbar() {
         <a className="flex justify-center items-center space-x-2">
           {AuthUser.id ? (
             <div>
-              <MdAccountCircle size={30} />
+              {AuthUser.displayName && <p>{AuthUser.displayName}</p>}
+              <MdAccountCircle size={30} title={AuthUser.email} />
               {AuthUser.firebaseUser && AuthUser.firebaseUser.displayName}
             </div>
           ) : (
