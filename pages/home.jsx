@@ -20,12 +20,17 @@ const Home = ({ projects }) => {
         <p>Your email is: {AuthUser.email ? AuthUser.email : 'unknown'}</p>
         <p>Your id is: {AuthUser.id ? AuthUser.id : 'unknown'}</p>
       </div>
-      <div className='flex flex-col space-y-2'>
-        <Link href="/projects"><a>-projects</a></Link>
-        <Link href="/profile"><a>-profile</a></Link>
-        <Link href="/auth"><a>-auth</a></Link>
+      <div className="flex flex-col space-y-2">
+        <Link href="/projects">
+          <a>-projects</a>
+        </Link>
+        <Link href="/profile">
+          <a>-profile</a>
+        </Link>
+        <Link href="/auth">
+          <a>-auth</a>
+        </Link>
       </div>
-
     </Layout>
   );
 };

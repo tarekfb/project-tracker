@@ -21,7 +21,7 @@ const sortProjects = (projects) => {
     }
   });
   return sortedProjects;
-}
+};
 
 export const Projects = ({ projects }) => {
   const [projectsState, setProjectsState] = useState(sortProjects(projects));
@@ -36,7 +36,6 @@ export const Projects = ({ projects }) => {
       toggleBlur(false);
     });
   }, []);
-
 
   const addProjectWrapper = async (e) => {
     e.preventDefault();
@@ -89,11 +88,13 @@ export const Projects = ({ projects }) => {
     const sortedProjects = sortProjects(updatedProjects);
     setProjectsState(sortedProjects);
     toggleIsSaving(false);
-  }
+  };
 
   return (
     <>
-      <button onClick={refresh} className="absolute top-5 right-5"><MdRefresh size={50} /></button>
+      <button onClick={refresh} className="absolute top-5 right-5">
+        <MdRefresh size={50} />
+      </button>
       {projectsState.length > 0 && (
         <ul className="flex flex-row flex-wrap">
           {projectsState.map((project) => (
@@ -108,9 +109,9 @@ export const Projects = ({ projects }) => {
         </ul>
       )}
       <form className="flex space-x-2 mt-4" onSubmit={addProjectWrapper}>
-        <input value={input} onChange={(e) => setInput(e.target.value)} className="border-b border-highlight px-2" placeholder='My new project' />
+        <input value={input} onChange={(e) => setInput(e.target.value)} className="border-b border-highlight px-2" placeholder="My new project" />
         <PrimaryButton onClick={addProjectWrapper} content="Add" />
       </form>
     </>
   );
-}
+};

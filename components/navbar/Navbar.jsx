@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { MdAccountCircle, MdCloudDone } from 'react-icons/md';
-import { Tooltip } from '@mui/material';
 import SyncLoader from 'react-spinners/SyncLoader';
 import { useAuthUser } from 'next-firebase-auth';
 import { useSavingContext } from '@/contexts/SavingContext';
@@ -29,11 +28,7 @@ export function Navbar() {
         </a>
       </Link>
       <div className="w-1/12 flex-initial flex flex-row justify-center">
-        {isSaving ? (
-          <SyncLoader color="#ffffff" size={10} title="Saving to cloud" />
-        ) : (
-          <MdCloudDone size={30} title="Saved to cloud" />
-        )}
+        {isSaving ? <SyncLoader color="#ffffff" size={10} title="Saving to cloud" /> : <MdCloudDone size={30} title="Saved to cloud" />}
       </div>
     </div>
   );

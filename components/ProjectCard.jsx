@@ -27,9 +27,9 @@ export function ProjectCard({ project, removeProject }) {
         className={`absolute top-2 right-2 hover:text-blue-400 ${isHovering ? '' : 'hidden'}`}
         onClick={() => {
           removeProject(project.name);
-        }}>
-        <MdDelete size={25} className="text-highlight-accent" aria-label="delete"
-        />
+        }}
+      >
+        <MdDelete size={25} className="text-highlight-accent" aria-label="delete" />
       </button>
       <Link href={`/${encodeURIComponent(project.id)}`}>
         <a className="text-center">
@@ -40,7 +40,13 @@ export function ProjectCard({ project, removeProject }) {
       <div className="flex space-x-2 place-items-center mt-auto">
         {project.github && <AiFillGithub size={20} />}
         {project.hostedAt && <MdLink size={20} />}
-        <Favourite project={project} userId={AuthUser.id} updateContent={updateContent} toggleIsSaving={toggleIsSaving} favourite={project.isFavourite ? true : false} />
+        <Favourite
+          project={project}
+          userId={AuthUser.id}
+          updateContent={updateContent}
+          toggleIsSaving={toggleIsSaving}
+          favourite={project.isFavourite ? true : false}
+        />
       </div>
     </li>
   );

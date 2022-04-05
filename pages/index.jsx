@@ -49,7 +49,13 @@ export default function Home() {
       </div>
       <main className="flex flex-col space-y-2">
         <header>
-          <ImageOverlay src={student} title={siteTitle} subtitle="Like trello, but worse" positioning="top-28 lg:top-40 left-5 lg:left-10" alt="person with notepad and laptop at coffee shop">
+          <ImageOverlay
+            src={student}
+            title={siteTitle}
+            subtitle="Like trello, but worse"
+            positioning="top-28 lg:top-40 left-5 lg:left-10"
+            alt="person with notepad and laptop at coffee shop"
+          >
             {/* <h1 className="text-white py-1 px-2 bg-gray-700 text-3xl lg:text-7xl">{siteTitle}</h1> */}
             <h3 className="text-white py-1 px-2 bg-gray-700 text-2xl lg:text-5xl">{siteTitle}</h3>
             <h4 className="text-white py-1 px-2 bg-gray-700 text-xl lg:text-3xl">Like trello, but worse</h4>
