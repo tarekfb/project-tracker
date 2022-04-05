@@ -19,10 +19,9 @@ export function Navbar() {
       <Link href="/auth">
         <a className="flex justify-center items-center space-x-2">
           {AuthUser.id ? (
-            <div>
-              {AuthUser.displayName && <p>{AuthUser.displayName}</p>}
+            <div className="flex items-center space-x-2">
               <MdAccountCircle size={30} title={AuthUser.email} />
-              {AuthUser.firebaseUser && AuthUser.firebaseUser.displayName}
+              {AuthUser.displayName && <p>{AuthUser.displayName}</p>}
             </div>
           ) : (
             <div>Sign in</div>
@@ -31,11 +30,9 @@ export function Navbar() {
       </Link>
       <div className="w-1/12 flex-initial flex flex-row justify-center">
         {isSaving ? (
-          <SyncLoader color="#ffffff" size={10} />
+          <SyncLoader color="#ffffff" size={10} title="Saving to cloud" />
         ) : (
-          <Tooltip title="Saved to cloud">
-            <MdCloudDone size={30} />
-          </Tooltip>
+          <MdCloudDone size={30} title="Saved to cloud" />
         )}
       </div>
     </div>

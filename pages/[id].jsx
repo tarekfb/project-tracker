@@ -32,9 +32,9 @@ const Project = ({ project }) => {
   const updateContentWrapper = async (contentId, content) => {
     // If both the property (contentId) and the new content (content) are null
     // no need to change anything
-    // In this case attempting to set an empty field to empty --> cancle
+    // In this case attempting to set an empty field to empty --> cancel
 
-    // if not both of these are null, update in db
+    // if both of these are not null, update in db
     if (!(!project[contentId] && !content)) {
       toggleIsSaving(true);
 

@@ -24,6 +24,14 @@ html {
   @apply bg-redLight hover:bg-redDark;
 }
 
+.text-highlight-accent {
+  @apply text-redLight hover:text-redDark;
+}
+
+.text-highlight {
+  @apply text-blueLight hover:text-blueDarker;
+}
+
 .border-highlight {
   @apply border-blueLight hover:border-blueDarker;
 }
