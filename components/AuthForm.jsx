@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import { InputAdornment, TextField } from '@mui/material';
-import { MdAccountCircle, MdLock } from 'react-icons/md';
-import { PrimaryButton } from '@/components/PrimaryButton';
+import { useState } from "react";
+import { InputAdornment, TextField } from "@mui/material";
+import { MdAccountCircle, MdLock } from "react-icons/md";
+import { PrimaryButton } from "@/components/PrimaryButton";
 
 export const AuthForm = ({ register, signIn }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const clearFields = () => {
-    setEmail('');
-    setPassword('');
+    setEmail("");
+    setPassword("");
   };
 
   return (
@@ -31,7 +31,7 @@ export const AuthForm = ({ register, signIn }) => {
           }}
           inputProps={{
             style: {
-              WebkitBoxShadow: '0 0 0 1000px white inset',
+              WebkitBoxShadow: "0 0 0 1000px white inset",
             },
           }}
         />
@@ -51,7 +51,7 @@ export const AuthForm = ({ register, signIn }) => {
           }}
           inputProps={{
             style: {
-              WebkitBoxShadow: '0 0 0 1000px white inset',
+              WebkitBoxShadow: "0 0 0 1000px white inset",
             },
           }}
           // InputProps (capital i) provides props for material Input componenet

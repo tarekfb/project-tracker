@@ -1,13 +1,14 @@
-import { useState, useEffect, useRef } from 'react';
-import { EditableListItem } from '@/components/EditableListItem';
-import { MdCheck, MdAdd } from 'react-icons/md';
+import { useState, useEffect, useRef } from "react";
+import { EditableListItem } from "@/components/EditableListItem";
+import { MdCheck, MdAdd } from "react-icons/md";
 
-const newListItemFieldStyle = 'border-solid border-black border-b focus:outline-none focus:border-b focus:border-blue-300';
-const newListItemButtonStyle = 'hover:text-blue-300';
-const newListItemContainerStyle = 'flex flex-row';
+const newListItemFieldStyle =
+  "border-solid border-black border-b focus:outline-none focus:border-b focus:border-blue-300";
+const newListItemButtonStyle = "hover:text-blue-300";
+const newListItemContainerStyle = "flex flex-row";
 
 export function EditableList({ content, setContent }) {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [isAdding, setIsAdding] = useState(false);
   const [tasks, setTasks] = useState(content ? content : []);
   const [isMounted, setIsMounted] = useState(false);
@@ -26,7 +27,7 @@ export function EditableList({ content, setContent }) {
   useEffect(() => {
     if (!isMounted) return; // skip first render
     setIsMounted(true);
-    setContent('tasks', tasks);
+    setContent("tasks", tasks);
   }, [tasks]);
 
   // update the list: remove item or update item
@@ -46,9 +47,9 @@ export function EditableList({ content, setContent }) {
     // if value "", remove at index
     // if index -1, remove last
     // if index => 0 && value != "", update at index
-    if (value === '') {
+    if (value === "") {
       removeItem(index);
-    } else if (index >= 0 && value !== '') {
+    } else if (index >= 0 && value !== "") {
       updateItem(value, index);
     }
   };
@@ -58,7 +59,7 @@ export function EditableList({ content, setContent }) {
     if (input) {
       // state ? setTasks((state) => [...state, input]) : setTasks([input]);
       setTasks((state) => [...state, input]);
-      setInput('');
+      setInput("");
     }
   };
 
@@ -76,7 +77,13 @@ export function EditableList({ content, setContent }) {
       <ul>
         {}
         {tasks?.map((task, i) => (
-          <EditableListItem key={task + i} content={task} setList={setTasks} i={i} updateList={updateList} />
+          <EditableListItem
+            key={task + i}
+            content={task}
+            setList={setTasks}
+            i={i}
+            updateList={updateList}
+          />
         ))}
       </ul>
 
@@ -112,7 +119,10 @@ export function EditableList({ content, setContent }) {
             <MdCheck />
           </button>
         ) : (
-          <button className={newListItemButtonStyle} onClick={() => setIsAdding(true)}>
+          <button
+            className={newListItemButtonStyle}
+            onClick={() => setIsAdding(true)}
+          >
             <MdAdd />
           </button>
         )}

@@ -1,9 +1,9 @@
-import Head from 'next/head';
-import { ClipLoader } from 'react-spinners';
-import { useBlurContext } from '@/contexts/BlurContext';
-import { Navbar } from '@/components/navbar/Navbar';
+import Head from "next/head";
+import { ClipLoader } from "react-spinners";
+import { useBlurContext } from "@/contexts/BlurContext";
+import { Navbar } from "@/components/navbar/Navbar";
 
-export const siteTitle = 'Project tracker';
+export const siteTitle = "Project tracker";
 
 export const Layout = ({ children }) => {
   const { blur } = useBlurContext();
@@ -16,7 +16,7 @@ export const Layout = ({ children }) => {
         <meta
           property="og:image"
           content={`https://og-image.vercel.app/${encodeURI(
-            siteTitle,
+            siteTitle
           )}.png?theme=light&md=0&fontSize=75px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-black-logo.svg`}
         />
         <meta name="og:title" content={siteTitle} />

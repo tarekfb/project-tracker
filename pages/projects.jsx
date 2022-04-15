@@ -1,9 +1,13 @@
-import Head from 'next/head';
-import React from 'react';
-import { withAuthUser, AuthAction, withAuthUserTokenSSR } from 'next-firebase-auth';
-import { Layout, siteTitle } from '@/components/Layout';
-import { Projects } from '@/components/Projects';
-import { getProjects } from '@/firebase/DbQueries';
+import Head from "next/head";
+import React from "react";
+import {
+  withAuthUser,
+  AuthAction,
+  withAuthUserTokenSSR,
+} from "next-firebase-auth";
+import { Layout, siteTitle } from "@/components/Layout";
+import { Projects } from "@/components/Projects";
+import { getProjects } from "@/firebase/DbQueries";
 
 const ProjectsPage = ({ projects }) => (
   <Layout home>

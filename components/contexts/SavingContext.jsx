@@ -1,4 +1,4 @@
-import { useState, createContext, useContext } from 'react';
+import { useState, createContext, useContext } from "react";
 
 const SavingContext = createContext(false);
 
@@ -9,7 +9,11 @@ export function SavingContextProvider({ children }) {
     setIsSaving((prevState) => !prevState);
   };
 
-  return <SavingContext.Provider value={{ isSaving, toggleIsSaving }}>{children}</SavingContext.Provider>;
+  return (
+    <SavingContext.Provider value={{ isSaving, toggleIsSaving }}>
+      {children}
+    </SavingContext.Provider>
+  );
 }
 
 export function useSavingContext() {

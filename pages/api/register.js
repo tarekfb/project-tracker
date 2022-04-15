@@ -1,18 +1,18 @@
-import { initAuth } from '@/firebase/FirebaseAuth';
-import { db } from '@/firebase/FirebaseApp';
+import { initAuth } from "@/firebase/FirebaseAuth";
+import { db } from "@/firebase/FirebaseApp";
 
 initAuth();
 
 const addUserCollection = async (id, email) => {
-  let snapShot = await db.collection('users').doc(id).get();
+  let snapShot = await db.collection("users").doc(id).get();
 
   if (!snapShot.exists) {
     console.log("user doesn't exists yet. adding!");
     let data = {
       email: email,
-      apiKey: '',
+      apiKey: "",
     };
-    let setDoc = await db.collection('users').doc(id).set(data);
+    let setDoc = await db.collection("users").doc(id).set(data);
     console.log(setDoc);
   }
 };

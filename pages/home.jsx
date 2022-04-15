@@ -1,10 +1,15 @@
-import Head from 'next/head';
-import Link from 'next/link';
-import { useAuthUser, withAuthUser, withAuthUserTokenSSR, AuthAction } from 'next-firebase-auth';
-import { Layout } from '@/components/Layout';
-import { Loader } from '@/components/Loader';
-import { getProjects } from '@/firebase/DbQueries';
-import { PrimaryButton } from '@/components/PrimaryButton';
+import Head from "next/head";
+import Link from "next/link";
+import {
+  useAuthUser,
+  withAuthUser,
+  withAuthUserTokenSSR,
+  AuthAction,
+} from "next-firebase-auth";
+import { Layout } from "@/components/Layout";
+import { Loader } from "@/components/Loader";
+import { getProjects } from "@/firebase/DbQueries";
+import { PrimaryButton } from "@/components/PrimaryButton";
 
 const Home = ({ projects }) => {
   const AuthUser = useAuthUser();
@@ -15,10 +20,13 @@ const Home = ({ projects }) => {
         <title>Project-tracker | Home</title>
       </Head>
       HOME PAGE
-      <PrimaryButton content="Log projects" onClick={() => console.log(projects)} />
+      <PrimaryButton
+        content="Log projects"
+        onClick={() => console.log(projects)}
+      />
       <div className="flex flex-col space-y-2 mb-2">
-        <p>Your email is: {AuthUser.email ? AuthUser.email : 'unknown'}</p>
-        <p>Your id is: {AuthUser.id ? AuthUser.id : 'unknown'}</p>
+        <p>Your email is: {AuthUser.email ? AuthUser.email : "unknown"}</p>
+        <p>Your id is: {AuthUser.id ? AuthUser.id : "unknown"}</p>
       </div>
       <div className="flex flex-col space-y-2">
         <Link href="/projects">

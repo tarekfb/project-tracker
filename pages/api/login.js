@@ -1,5 +1,5 @@
-import { setAuthCookies } from 'next-firebase-auth';
-import { initAuth } from '@/firebase/FirebaseAuth';
+import { setAuthCookies } from "next-firebase-auth";
+import { initAuth } from "@/firebase/FirebaseAuth";
 
 initAuth();
 

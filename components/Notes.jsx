@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { TextareaAutosize } from '@mui/material';
+import { useState } from "react";
+import { TextareaAutosize } from "@mui/material";
 
 export function Notes({ content, setContent }) {
-  const [input, setInput] = useState(content ? content : '');
+  const [input, setInput] = useState(content ? content : "");
 
   // confirm edit and update state
   const confirmEdit = () => {
     // if they differ, update state
     if (input !== content) {
-      setContent('notes', input);
+      setContent("notes", input);
     }
   };
 

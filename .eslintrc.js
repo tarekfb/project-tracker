@@ -3,17 +3,21 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ['eslint:recommended', 'plugin:react/recommended', 'prettier', 'next'],
+  extends: [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "next",
+  ],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
     },
     ecmaVersion: 12,
-    sourceType: 'module',
+    sourceType: "module",
   },
-  plugins: ['react', 'prettier'],
+  plugins: ["react"],
   rules: {
-    'react/prop-types': 0,
-    'prettier/prettier': ['error', { endOfLine: 'auto' }, { usePrettierrc: true }],
+    indent: [1, 2],
+    "react/prop-types": 0,
   },
 };
