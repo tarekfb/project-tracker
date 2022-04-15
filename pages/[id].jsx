@@ -12,14 +12,18 @@ import { EditableList } from '@/components/EditableList';
 import { useSavingContext } from '@/components/contexts/SavingContext';
 import { Notes } from '@/components/Notes';
 
+const containerStyle = "flex flex-row space-x-1 items-center";
+
 export const getServerSideProps = withAuthUserTokenSSR({
   whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
 })(async ({ AuthUser, params }) => {
   const data = await getProject(AuthUser.id, params.id);
-  return {
+  return data ? {
     props: {
       project: data,
     },
+  } : {
+    notFound: true,
   };
 });
 
@@ -67,28 +71,28 @@ const Project = ({ project }) => {
           </span>
           <div className="flex flex-row justify-start space-x-5">
             <div className="flex flex-col space-y-1">
-              <div className="flex flex-row space-x-1 items-center">
+              <div className={containerStyle}>
                 <MdCalendarToday size={20} />
                 <EditableField placeholder="01/01/1970" id="startDate" content={project.startDate} setContent={updateContentWrapper} />
               </div>
-              <div className="flex flex-row space-x-1">
+              <div className={containerStyle}>
                 <span>Completion:</span>
                 <EditableField placeholder="completed?" id="completion" content={project.completion} setContent={updateContentWrapper} />
               </div>
             </div>
             <div className="flex flex-col space-y-1 text-m">
-              <span className="flex space-x-2 items-center">
+              <span className={containerStyle}>
                 <AiFillGithub size={20} />
                 <EditableField placeholder="github" id="github" content={project.github} setContent={updateContentWrapper} className="m-8" />
               </span>
-              <span className="flex space-x-2 items-center">
+              <span className={containerStyle}>
                 <MdLink size={20} />
                 <EditableField placeholder="www.example.com" id="hostedAt" content={project.hostedAt} setContent={updateContentWrapper} />
               </span>
             </div>
           </div>
           <Divider />
-          <div className="flex flex-col justify-start space-y-10 space-x-0 w-full sm:flex-row sm:space-y-0 sm:space-x-10">
+          <div className="flex flex-col justify-start space-y-10 w-full sm:flex-row sm:space-y-0 sm:space-x-10">
             <div className="w-full">
               <Notes content={project.notes} setContent={updateContentWrapper} />
             </div>

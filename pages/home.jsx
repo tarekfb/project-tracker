@@ -12,7 +12,7 @@ const Home = ({ projects }) => {
   return (
     <Layout>
       <Head>
-        <title>Project-tracker | Profile</title>
+        <title>Project-tracker | Home</title>
       </Head>
       HOME PAGE
       <PrimaryButton content="Log projects" onClick={() => console.log(projects)} />
