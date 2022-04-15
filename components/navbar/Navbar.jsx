@@ -1,35 +1,37 @@
 import Link from 'next/link';
-import { MdAccountCircle, MdCloudDone } from 'react-icons/md';
+import { MdAccountCircle, MdCloudDone, MdHome } from 'react-icons/md';
 import SyncLoader from 'react-spinners/SyncLoader';
 import { useAuthUser } from 'next-firebase-auth';
 import { useSavingContext } from '@/contexts/SavingContext';
+import { siteTitle } from '@/components/Layout';
+import { NavbarItem } from './NavbarItem';
 
 export function Navbar() {
   const AuthUser = useAuthUser();
   const { isSaving } = useSavingContext();
 
   return (
-    <div className="flex justify-end space-x-4 items-center text-white p-4 pr-4 bg-gradient-main">
-      <h1 className="text-4xl mr-auto">
-        <Link href="/">
-          <a>Project tracker</a>
-        </Link>
-      </h1>
-      <Link href="/auth">
-        <a className="flex justify-center items-center space-x-2">
-          {AuthUser.id ? (
-            <div className="flex items-center space-x-2">
-              <MdAccountCircle size={30} title={AuthUser.email} />
-              {AuthUser.displayName && <p>{AuthUser.displayName}</p>}
-            </div>
-          ) : (
-            <div>Sign in</div>
-          )}
-        </a>
-      </Link>
-      <div className="w-1/12 flex-initial flex flex-row justify-center">
+    <div className="flex justify-end space-x-5 items-center text-white p-4 pr-4 bg-gradient-main w-full">
+      <NavbarItem href="/" styling="mr-auto">
+        <h1 className="text-4xl hover:text-blue-300">{siteTitle}</h1>
+      </NavbarItem>
+      <NavbarItem href={AuthUser.id ? "/profile" : "/auth"}>
+        {AuthUser.id ?
+          (
+            <>
+              <MdAccountCircle size={30} title={AuthUser.email} className="hover:text-blue-300" />
+              {AuthUser.displayName && <p className="hover:text-blue-300">{AuthUser.displayName}</p>}
+            </>
+          ) :
+          <h2 className="text-2xl hover:text-blue-300">Login</h2>
+        }
+      </NavbarItem>
+      <NavbarItem href="/home">
+        <MdHome size={30} className="hover:text-blue-300" />
+      </NavbarItem>
+      <NavbarItem>
         {isSaving ? <SyncLoader color="#ffffff" size={10} title="Saving to cloud" /> : <MdCloudDone size={30} title="Saved to cloud" />}
-      </div>
+      </NavbarItem>
     </div>
   );
 }
