@@ -1,11 +1,11 @@
-import Head from 'next/head';
-import { withAuthUser, AuthAction, useAuthUser } from 'next-firebase-auth';
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { Layout } from '@/components/Layout';
-import { auth } from '@/firebase/FirebaseApp';
-import { Loader } from '@/components/Loader';
-import { AuthForm } from '@/components/AuthForm';
-import { server } from '@/config/server';
+import Head from "next/head";
+import { withAuthUser, AuthAction, useAuthUser } from "next-firebase-auth";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { Layout } from "@/components/Layout";
+import { auth } from "@/firebase/FirebaseApp";
+import { Loader } from "@/components/Loader";
+import { AuthForm } from "@/components/AuthForm";
+import { server } from "@/config/server";
 
 const LoginPage = () => {
   const authUser = useAuthUser();
@@ -21,12 +21,15 @@ const LoginPage = () => {
   };
 
   const register = async (email, password) => {
-    let pattern = '(?=.*[0-9a-zA-Z]).{6,}'; // min 6, any char allowed: https://stackoverflow.com/a/65641047
+    let pattern = "(?=.*[0-9a-zA-Z]).{6,}"; // min 6, any char allowed: https://stackoverflow.com/a/65641047
     if (!password.match(pattern)) {
-      alert('password needs a minimum of 6 in length');
+      alert("password needs a minimum of 6 in length");
     } else {
       try {
-        const response = await auth.createUserWithEmailAndPassword(email, password);
+        const response = await auth.createUserWithEmailAndPassword(
+          email,
+          password
+        );
         fetchRegister(response.user);
       } catch (e) {
         console.error(e);
@@ -43,11 +46,11 @@ const LoginPage = () => {
 
     // const response =
     await fetch(`${server}/api/register`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(userObj),
       headers: {
         Authorization: authUser.getIdToken(),
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     });
 

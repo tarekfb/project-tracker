@@ -1,26 +1,37 @@
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { withAuthUser, AuthAction, withAuthUserTokenSSR, useAuthUser } from 'next-firebase-auth';
-import { MdLink, MdCalendarToday } from 'react-icons/md';
-import { AiFillGithub } from 'react-icons/ai';
-import { Divider } from '@mui/material';
-import { getProject, updateContent } from '@/firebase/DbQueries';
-import { Layout } from '@/components/Layout';
-import { Loader } from '@/components/Loader';
-import { EditableField } from '@/components/EditableField';
-import { EditableList } from '@/components/EditableList';
-import { useSavingContext } from '@/components/contexts/SavingContext';
-import { Notes } from '@/components/Notes';
+import Head from "next/head";
+import { useRouter } from "next/router";
+import {
+  withAuthUser,
+  AuthAction,
+  withAuthUserTokenSSR,
+  useAuthUser,
+} from "next-firebase-auth";
+import { MdLink, MdCalendarToday } from "react-icons/md";
+import { AiFillGithub } from "react-icons/ai";
+import { Divider } from "@mui/material";
+import { getProject, updateContent } from "@/firebase/DbQueries";
+import { Layout } from "@/components/Layout";
+import { Loader } from "@/components/Loader";
+import { EditableField } from "@/components/EditableField";
+import { EditableList } from "@/components/EditableList";
+import { useSavingContext } from "@/components/contexts/SavingContext";
+import { Notes } from "@/components/Notes";
+
+const containerStyle = "flex flex-row space-x-1 items-center";
 
 export const getServerSideProps = withAuthUserTokenSSR({
   whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
 })(async ({ AuthUser, params }) => {
   const data = await getProject(AuthUser.id, params.id);
-  return {
-    props: {
-      project: data,
-    },
-  };
+  return data
+    ? {
+      props: {
+        project: data,
+      },
+    }
+    : {
+      notFound: true,
+    };
 });
 
 const Project = ({ project }) => {
@@ -63,37 +74,69 @@ const Project = ({ project }) => {
         </Head>
         <div className="flex flex-col justify-start space-y-5">
           <span className="text-3xl">
-            <EditableField placeholder="Example Project Name" id="name" content={project.name} setContent={updateContentWrapper} />
+            <EditableField
+              placeholder="Example Project Name"
+              id="name"
+              content={project.name}
+              setContent={updateContentWrapper}
+            />
           </span>
           <div className="flex flex-row justify-start space-x-5">
             <div className="flex flex-col space-y-1">
-              <div className="flex flex-row space-x-1 items-center">
+              <div className={containerStyle}>
                 <MdCalendarToday size={20} />
-                <EditableField placeholder="01/01/1970" id="startDate" content={project.startDate} setContent={updateContentWrapper} />
+                <EditableField
+                  placeholder="01/01/1970"
+                  id="startDate"
+                  content={project.startDate}
+                  setContent={updateContentWrapper}
+                />
               </div>
-              <div className="flex flex-row space-x-1">
+              <div className={containerStyle}>
                 <span>Completion:</span>
-                <EditableField placeholder="completed?" id="completion" content={project.completion} setContent={updateContentWrapper} />
+                <EditableField
+                  placeholder="completed?"
+                  id="completion"
+                  content={project.completion}
+                  setContent={updateContentWrapper}
+                />
               </div>
             </div>
             <div className="flex flex-col space-y-1 text-m">
-              <span className="flex space-x-2 items-center">
+              <span className={containerStyle}>
                 <AiFillGithub size={20} />
-                <EditableField placeholder="github" id="github" content={project.github} setContent={updateContentWrapper} className="m-8" />
+                <EditableField
+                  placeholder="github"
+                  id="github"
+                  content={project.github}
+                  setContent={updateContentWrapper}
+                  className="m-8"
+                />
               </span>
-              <span className="flex space-x-2 items-center">
+              <span className={containerStyle}>
                 <MdLink size={20} />
-                <EditableField placeholder="www.example.com" id="hostedAt" content={project.hostedAt} setContent={updateContentWrapper} />
+                <EditableField
+                  placeholder="www.example.com"
+                  id="hostedAt"
+                  content={project.hostedAt}
+                  setContent={updateContentWrapper}
+                />
               </span>
             </div>
           </div>
           <Divider />
-          <div className="flex flex-col justify-start space-y-10 space-x-0 w-full sm:flex-row sm:space-y-0 sm:space-x-10">
+          <div className="flex flex-col justify-start space-y-10 w-full sm:flex-row sm:space-y-0 sm:space-x-10">
             <div className="w-full">
-              <Notes content={project.notes} setContent={updateContentWrapper} />
+              <Notes
+                content={project.notes}
+                setContent={updateContentWrapper}
+              />
             </div>
             <div className="w-full">
-              <EditableList content={project.tasks} setContent={updateContentWrapper} />
+              <EditableList
+                content={project.tasks}
+                setContent={updateContentWrapper}
+              />
             </div>
           </div>
         </div>

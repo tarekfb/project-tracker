@@ -1,11 +1,11 @@
-import React from 'react';
-import Head from 'next/head';
-import Link from 'next/link';
-import { siteTitle } from '@/components/Layout';
-import { PrimaryButton } from '@/components/PrimaryButton';
-import { StartItem } from '@/components/StartItem';
-import student from '../public/student-849822.jpg';
-import { ImageOverlay } from '@/components/TextOnImage';
+import React from "react";
+import Head from "next/head";
+import Link from "next/link";
+import { siteTitle } from "@/components/Layout";
+import { PrimaryButton } from "@/components/PrimaryButton";
+import { StartItem } from "@/components/StartItem";
+import student from "../public/student-849822.jpg";
+import { ImageOverlay } from "@/components/TextOnImage";
 
 export default function Home() {
   return (
@@ -16,7 +16,7 @@ export default function Home() {
         <meta
           property="og:image"
           content={`https://og-image.vercel.app/${encodeURI(
-            siteTitle,
+            siteTitle
           )}.png?theme=light&md=0&fontSize=75px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-black-logo.svg`}
         />
         <meta name="og:title" content={siteTitle} />
@@ -43,7 +43,9 @@ export default function Home() {
         </Link>
         <Link href="/auth">
           <a>
-            <h2 className="text-2xl border-2 group-hover:border-black px-2 py-1">Sign up</h2>
+            <h2 className="text-2xl border-2 group-hover:border-black px-2 py-1">
+              Sign up
+            </h2>
           </a>
         </Link>
       </div>
@@ -57,8 +59,12 @@ export default function Home() {
             alt="person with notepad and laptop at coffee shop"
           >
             {/* <h1 className="text-white py-1 px-2 bg-gray-700 text-3xl lg:text-7xl">{siteTitle}</h1> */}
-            <h3 className="text-white py-1 px-2 bg-gray-700 text-2xl lg:text-5xl">{siteTitle}</h3>
-            <h4 className="text-white py-1 px-2 bg-gray-700 text-xl lg:text-3xl">Like trello, but worse</h4>
+            <h3 className="text-white py-1 px-2 bg-gray-700 text-2xl lg:text-5xl">
+              {siteTitle}
+            </h3>
+            <h4 className="text-white py-1 px-2 bg-gray-700 text-xl lg:text-3xl">
+              Like trello, but worse
+            </h4>
           </ImageOverlay>
         </header>
         <div className="flex flex-col items-center space-y-2 p-4">

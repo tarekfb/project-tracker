@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import Link from 'next/link';
-import { MdArrowDropDown } from 'react-icons/md';
-import { ClipLoader } from 'react-spinners';
+import { useState } from "react";
+import Link from "next/link";
+import { MdArrowDropDown } from "react-icons/md";
+import { ClipLoader } from "react-spinners";
 
 export function DropDownMenu({ projects }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,18 +20,27 @@ export function DropDownMenu({ projects }) {
         Projects
         <MdArrowDropDown />
       </span>
-      <ul className={`absolute pt-3 pl-2.5 pr-8 rounded-md bg-black ${isOpen ? '' : 'hidden'}`}>
+      <ul
+        className={`absolute pt-3 pl-2.5 pr-8 rounded-md bg-black ${
+          isOpen ? "" : "hidden"
+        }`}
+      >
         {projects ? (
           projects.length > 0 ? (
             projects.map((project) => (
-              <li key={project.id} className="pb-2 hover:text-blue-300 rounded-md whitespace-nowrap">
-                <Link href={'/' + project.id}>
+              <li
+                key={project.id}
+                className="pb-2 hover:text-blue-300 rounded-md whitespace-nowrap"
+              >
+                <Link href={"/" + project.id}>
                   <a>{project.name}</a>
                 </Link>
               </li>
             ))
           ) : (
-            <li className="pr-4 pl-4 pb-2 bg-prussianBlue whitespace-nowrap">No projects</li>
+            <li className="pr-4 pl-4 pb-2 bg-prussianBlue whitespace-nowrap">
+              No projects
+            </li>
           )
         ) : (
           <ClipLoader />

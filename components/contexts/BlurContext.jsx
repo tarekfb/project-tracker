@@ -1,4 +1,4 @@
-import { useState, createContext, useContext } from 'react';
+import { useState, createContext, useContext } from "react";
 
 const BlurContext = createContext(false);
 
@@ -9,7 +9,11 @@ export function BlurContextProvider({ children }) {
     setBlur(bool);
   };
 
-  return <BlurContext.Provider value={{ blur, toggleBlur }}>{children}</BlurContext.Provider>;
+  return (
+    <BlurContext.Provider value={{ blur, toggleBlur }}>
+      {children}
+    </BlurContext.Provider>
+  );
 }
 
 export function useBlurContext() {

@@ -1,9 +1,14 @@
-import Head from 'next/head';
-import { useAuthUser, withAuthUser, withAuthUserTokenSSR, AuthAction } from 'next-firebase-auth';
-import { Layout } from '@/components/Layout';
-import { auth } from '@/firebase/FirebaseApp';
-import { Loader } from '@/components/Loader';
-import { PrimaryButton } from '@/components/PrimaryButton';
+import Head from "next/head";
+import {
+  useAuthUser,
+  withAuthUser,
+  withAuthUserTokenSSR,
+  AuthAction,
+} from "next-firebase-auth";
+import { Layout } from "@/components/Layout";
+import { auth } from "@/firebase/FirebaseApp";
+import { Loader } from "@/components/Loader";
+import { PrimaryButton } from "@/components/PrimaryButton";
 
 const Profile = () => {
   const AuthUser = useAuthUser();
@@ -18,8 +23,8 @@ const Profile = () => {
         <title>Project-tracker | Profile</title>
       </Head>
       <div className="flex flex-col space-y-2 mb-2">
-        <p>Your email is: {AuthUser.email ? AuthUser.email : 'unknown'}</p>
-        <p>Your id is: {AuthUser.id ? AuthUser.id : 'unknown'}</p>
+        <p>Your email is: {AuthUser.email ? AuthUser.email : "unknown"}</p>
+        <p>Your id is: {AuthUser.id ? AuthUser.id : "unknown"}</p>
       </div>
       <div className="flex flex-row space-x-4">
         <PrimaryButton content="Sign out" onClick={logOut} />

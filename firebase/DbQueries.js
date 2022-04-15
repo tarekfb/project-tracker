@@ -1,6 +1,6 @@
-import { db } from '@/firebase/FirebaseApp';
+import { db } from "@/firebase/FirebaseApp";
 // import generateApiKey from 'generate-api-key';
-import Cryptr from 'cryptr';
+import Cryptr from "cryptr";
 
 export const getProject = async (userId, projectId) => {
   try {
@@ -80,7 +80,7 @@ export const createApiKey = async (userId) => {
     let data = docRefGet.data();
     if (!data.apiKey) {
       // create key
-      const cryptr = new Cryptr('asd'); // use key from env: CRYPTR_SECRET
+      const cryptr = new Cryptr("asd"); // use key from env: CRYPTR_SECRET
       const encryptedKey = cryptr.encrypt(userId);
       console.log(encryptedKey);
       let key = {
@@ -109,7 +109,7 @@ export const getApiKey = async (userId) => {
     let docRefGet = await docRef.get();
     let data = docRefGet.data();
     if (!data.apiKey) {
-      return '';
+      return "";
     } else {
       return data.apiKey;
     }

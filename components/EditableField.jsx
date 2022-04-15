@@ -1,10 +1,10 @@
-import { useState, useRef } from 'react';
-import { MdCheck } from 'react-icons/md';
+import { useState, useRef } from "react";
+import { MdCheck } from "react-icons/md";
 
 export function EditableField({ placeholder, id, content, setContent }) {
   const [editVisibility, setEditVisibility] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [input, setInput] = useState(content ? content : '');
+  const [input, setInput] = useState(content ? content : "");
   const inputRef = useRef(null);
 
   // handle if the field is currently being edited or not
@@ -60,14 +60,21 @@ export function EditableField({ placeholder, id, content, setContent }) {
   };
 
   return (
-    <div onMouseEnter={() => handleEditVisibility(true)} onMouseLeave={() => handleEditVisibility(false)}>
-      <div className={`${isEditing ? '' : 'hover:text-blue-300'} inline-flex space-x-1 items-center`}>
+    <div
+      onMouseEnter={() => handleEditVisibility(true)}
+      onMouseLeave={() => handleEditVisibility(false)}
+    >
+      <div
+        className={`${
+          isEditing ? "" : "hover:text-blue-300"
+        } inline-flex space-x-1 items-center`}
+      >
         <input
           ref={inputRef}
           className="focus:outline-none focus:border-b focus:border-blue-300 "
           type="text"
           value={input}
-          placeholder={placeholder ? placeholder : ''}
+          placeholder={placeholder ? placeholder : ""}
           onKeyPress={(e) => triggerClickForButtonRef(e)}
           onBlur={() => {
             confirmEdit();
@@ -80,7 +87,11 @@ export function EditableField({ placeholder, id, content, setContent }) {
           }}
         />
       </div>
-      <button className={`inline-block hover:text-blue-300 ${editVisibility ? '' : 'hidden'}`}>
+      <button
+        className={`inline-block hover:text-blue-300 ${
+          editVisibility ? "" : "hidden"
+        }`}
+      >
         {isEditing ? (
           <MdCheck
             onClick={() => {

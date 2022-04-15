@@ -1,7 +1,7 @@
-import '../styles/global.css';
-import { SavingContextProvider } from 'components/contexts/SavingContext';
-import { BlurContextProvider } from 'components/contexts/BlurContext';
-import { initAuth } from '@/firebase/FirebaseAuth';
+import "../styles/global.css";
+import { SavingContextProvider } from "components/contexts/SavingContext";
+import { BlurContextProvider } from "components/contexts/BlurContext";
+import { initAuth } from "@/firebase/FirebaseAuth";
 
 initAuth();
 

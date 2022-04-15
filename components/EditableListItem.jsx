@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react';
-import { MdCheck, MdDelete } from 'react-icons/md';
+import { useState, useRef } from "react";
+import { MdCheck, MdDelete } from "react-icons/md";
 
 export function EditableListItem({ content, i, updateList }) {
   const [iconVisibility, setIconVisibility] = useState([false, false, false]);
@@ -19,7 +19,7 @@ export function EditableListItem({ content, i, updateList }) {
   const handleIconVisibility = (bool, i, forceable) => {
     // this means the property is currently being edited
     // do nothing
-    if (isEditing[i] && forceable !== 'force') {
+    if (isEditing[i] && forceable !== "force") {
       return null;
     }
 
@@ -40,7 +40,7 @@ export function EditableListItem({ content, i, updateList }) {
       updateList(input, i);
     }
     handleIsEditing(false, i);
-    handleIconVisibility(false, i, 'force');
+    handleIconVisibility(false, i, "force");
     // force to override setIsEditing async issue
     // setState hook is async
     // handleIconVisibility() executes when setState in handleIsEditing() hasnt finished setting state
@@ -82,15 +82,17 @@ export function EditableListItem({ content, i, updateList }) {
           onFocus={() => handleIsEditing(true, i)}
           placeholder="implement this feature"
         />
-        <button className={`hover:text-blue-300 ${iconVisibility[i] ? '' : 'hidden'}`}>
+        <button
+          className={`hover:text-blue-300 ${iconVisibility[i] ? "" : "hidden"}`}
+        >
           {isEditing[i] ? (
             <MdCheck onClick={() => handleIsEditing(false, i)} />
           ) : (
             <MdDelete
               aria-label="delete"
               onClick={() => {
-                handleIsEditing(false, i, 'force');
-                updateList('', i);
+                handleIsEditing(false, i, "force");
+                updateList("", i);
               }}
             />
           )}

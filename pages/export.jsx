@@ -1,16 +1,21 @@
-import { useEffect, useState } from 'react';
-import Head from 'next/head';
-import { useAuthUser, withAuthUser, withAuthUserTokenSSR, AuthAction } from 'next-firebase-auth';
-import { Layout } from '@/components/Layout';
-import { Loader } from '@/components/Loader';
-import { server } from '@/config/server';
-import { createApiKey, getApiKey } from '@/firebase/DbQueries';
-import { MdCopyAll, MdVisibility } from 'react-icons/md';
-import { PrimaryButton } from '@/components/PrimaryButton';
+import { useEffect, useState } from "react";
+import Head from "next/head";
+import {
+  useAuthUser,
+  withAuthUser,
+  withAuthUserTokenSSR,
+  AuthAction,
+} from "next-firebase-auth";
+import { Layout } from "@/components/Layout";
+import { Loader } from "@/components/Loader";
+import { server } from "@/config/server";
+import { createApiKey, getApiKey } from "@/firebase/DbQueries";
+import { MdCopyAll, MdVisibility } from "react-icons/md";
+import { PrimaryButton } from "@/components/PrimaryButton";
 
 const Export = () => {
   const AuthUser = useAuthUser();
-  const [apiKey, setApiKey] = useState('');
+  const [apiKey, setApiKey] = useState("");
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
 
@@ -53,9 +58,14 @@ const Export = () => {
       ) : apiKey ? (
         <>
           <div className="p-4 mb-2 bg-gray-200 flex flex-col">
-            <p className={`break-all ${!visible && 'filter blur-sm'}`}>{apiKey}</p>
+            <p className={`break-all ${!visible && "filter blur-sm"}`}>
+              {apiKey}
+            </p>
             <div className="self-end flex flex-row space-x-2">
-              <button title="Toggle visibility" onClick={() => setVisible((visible) => !visible)}>
+              <button
+                title="Toggle visibility"
+                onClick={() => setVisible((visible) => !visible)}
+              >
                 <MdVisibility />
               </button>
               <button
@@ -72,8 +82,13 @@ const Export = () => {
         </>
       ) : (
         <>
-          <p className="mb-2">You can generate an api key using the button below</p>
-          <PrimaryButton content="Generate api key" onClick={handleGenerateApiKey} />
+          <p className="mb-2">
+            You can generate an api key using the button below
+          </p>
+          <PrimaryButton
+            content="Generate api key"
+            onClick={handleGenerateApiKey}
+          />
         </>
       )}
     </Layout>
